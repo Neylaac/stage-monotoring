@@ -27,7 +27,7 @@ if (aanvraagForm) {
         };
 
         localStorage.setItem("stageaanvraag", JSON.stringify(aanvraagData));
-        window.location.href = "stageaanvraag-overzicht.html";
+        window.location.href = "stageaanvraagoverzicht.html";
     });
 }
 

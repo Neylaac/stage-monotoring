@@ -307,3 +307,97 @@ body{
     background:#9d6969;
 }
 
+/* AANVRAAG OVERZICHT */
+
+.progress-card{
+    width:100%;
+    max-width:980px;
+    border:1px solid #dddddd;
+    border-radius:6px;
+    padding:28px 35px;
+    margin-bottom:35px;
+}
+
+.progress-card h2{
+    font-size:20px;
+    margin-bottom:35px;
+}
+
+.progress-steps{
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    margin-bottom:28px;
+}
+
+.progress-step{
+    width:150px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    color:#a0a0a0;
+    font-weight:bold;
+}
+
+.progress-dot{
+    width:44px;
+    height:40px;
+    border-radius:50%;
+    background:#d9d9d9;
+    margin-bottom:12px;
+    transition: 0,3s;
+}
+
+.progress-line{
+    width:115px;
+    height:2px;
+    background:#999999;
+    margin-top:14px;
+}
+
+.progress-step.done .progress-dot,
+.progress-step.active .progress-dot{
+    background:#d8f8df;
+}
+
+.progress-line.done{
+    background:#76c98b;
+}
+
+.status-message{
+    background:#f3e6e6;
+    padding:22px;
+    border-radius:5px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.details-card{
+    width:380px;
+    border:1px solid #dddddd;
+    border-radius:6px;
+    padding:28px;
+    margin:0 auto;
+}
+
+.details-card h2{
+    font-size:20px;
+    margin-bottom:28px;
+}
+
+.detail-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:24px;
+}
+
+.detail-row span{
+    font-weight:bold;
+}
+
+.detail-row p{
+    margin:0;
+}
