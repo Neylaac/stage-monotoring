@@ -139,3 +139,126 @@ if (adminFormulier) {
         });
     }
 }
+
+// Stagecommissie overzicht: alle aanvragen tonen
+const commissieAanvragenBody = document.querySelector("#commissieAanvragenBody");
+
+if (commissieAanvragenBody) {
+    const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+
+    if (aanvragen.length > 0) {
+        commissieAanvragenBody.innerHTML = "";
+
+        aanvragen.forEach(function(aanvraag, index) {
+            const commissieStatus = aanvraag.commissieStatus || "in_afwachting";
+
+            let statusTekst = "In afwachting";
+            let statusClass = "in_afwachting";
+
+            if (commissieStatus === "goedgekeurd") {
+                statusTekst = "Goedgekeurd";
+                statusClass = "goedgekeurd";
+            }
+
+            if (commissieStatus === "afgekeurd") {
+                statusTekst = "Afgekeurd";
+                statusClass = "afgekeurd";
+            }
+
+            if (commissieStatus === "aanpassing") {
+                statusTekst = "Aanpassing";
+                statusClass = "aanpassing";
+            }
+
+            commissieAanvragenBody.innerHTML += `
+                <tr>
+                    <td>
+                        <strong>${aanvraag.naam} ${aanvraag.achternaam}</strong>
+                        <span>${aanvraag.opleiding}</span>
+                    </td>
+                    <td>${aanvraag.bedrijfsnaam}</td>
+                    <td>${aanvraag.opdracht}</td>
+                    <td>${aanvraag.startdatum} -<br>${aanvraag.einddatum}</td>
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${statusTekst}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="stageaanvraagoverzichtstagecomissie.html?index=${index}" class="view-btn">
+                            Bekijken
+                        </a>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+}
+
+// Stagecommissie detailpagina: juiste aanvraag tonen via index in URL
+const commissieDetailFormulier = document.querySelector(".commissie-formulier");
+
+if (commissieDetailFormulier) {
+    const params = new URLSearchParams(window.location.search);
+    const aanvraagIndex = params.get("index");
+
+    const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+    const aanvraag = aanvragen[aanvraagIndex];
+
+    if (aanvraag) {
+        const velden = document.querySelectorAll("[data-commissie-aanvraag]");
+
+        velden.forEach(function(veld) {
+            const key = veld.dataset.commissieAanvraag;
+            veld.value = aanvraag[key] || "";
+        });
+    }
+}
+
+const btnAanpassing = document.querySelector("#btnAanpassing");
+const btnAfkeuren = document.querySelector("#btnAfkeuren");
+const btnGoedkeuren = document.querySelector("#btnGoedkeuren");
+
+if (btnAanpassing || btnAfkeuren || btnGoedkeuren) {
+    const params = new URLSearchParams(window.location.search);
+    const aanvraagIndex = params.get("index");
+
+    if (btnAanpassing) {
+        btnAanpassing.addEventListener("click", function() {
+            window.location.href = `stageaanvraagaangepaststagecommissie.html?index=${aanvraagIndex}`;
+        });
+    }
+
+    if (btnAfkeuren) {
+        btnAfkeuren.addEventListener("click", function() {
+            window.location.href = `stageaanvraagafgekeurdstagecommissie.html?index=${aanvraagIndex}`;
+        });
+    }
+
+    if (btnGoedkeuren) {
+        btnGoedkeuren.addEventListener("click", function() {
+            window.location.href = `stageaanvraaggoedgekeurdstagecommissie.html?index=${aanvraagIndex}`;
+        });
+    }
+}
+
+// Stagecommissie feedback: status opslaan wanneer je op Terug klikt
+const feedbackTerugKnop = document.querySelector(".feedback-terug-btn");
+
+if (feedbackTerugKnop) {
+    feedbackTerugKnop.addEventListener("click", function() {
+        const params = new URLSearchParams(window.location.search);
+        const aanvraagIndex = params.get("index");
+
+        const nieuweStatus = feedbackTerugKnop.dataset.status;
+
+        const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+
+        if (aanvragen[aanvraagIndex]) {
+            aanvragen[aanvraagIndex].commissieStatus = nieuweStatus;
+            localStorage.setItem("stageaanvragen", JSON.stringify(aanvragen));
+        }
+
+        window.location.href = "stageaanvraagstagecommissie.html";
+    });
+}

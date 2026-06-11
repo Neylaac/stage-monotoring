@@ -587,3 +587,110 @@ body{
     background:#e5e5e5 !important;
     color:#555555 !important;
 }
+
+.status.in_afwachting{
+    background:#eeeeee;
+    color:#999999;
+}
+
+/* KNOPPEN STAGECOMMISSIE */
+
+.commissie-actions{
+    justify-content:center;
+}
+
+.btn-aanpassing,
+.btn-afkeuren,
+.btn-goedkeuren{
+    background:white;
+    padding:14px 35px;
+    border-radius:4px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-aanpassing{
+    border:1px solid #6B4EFF;
+    color:#6B4EFF;
+}
+
+.btn-afkeuren{
+    border:1px solid #E53935;
+    color:#E53935;
+}
+
+.btn-goedkeuren{
+    border:1px solid #2E9E49;
+    color:#2E9E49;
+}
+
+
+/* STAGECOMMISSIE FEEDBACKPAGINA */
+
+.stagecommissie-feedback-page{
+    padding:60px 70px;
+}
+
+.stagecommissie-feedback-page h1{
+    color:#832D2C;
+    font-size:42px;
+    margin-bottom:35px;
+}
+
+.feedback-result{
+    max-width:850px;
+}
+
+.feedback-result h2{
+    color:#832D2C;
+    font-size:30px;
+    margin-bottom:0;
+}
+
+.feedback-green{
+    color:#168a2f;
+    font-size:22px;
+    margin-bottom:35px;
+}
+
+.feedback-red{
+    color:red;
+    font-size:22px;
+    margin-bottom:35px;
+}
+
+.feedback-yellow{
+    color:#e6b800;
+    font-size:22px;
+    margin-bottom:35px;
+}
+
+.feedback-box{
+    width:100%;
+    min-height:150px;
+    border:1px solid #dddddd;
+    border-radius:8px;
+    padding:28px 35px;
+    background:white;
+    margin-bottom:100px;
+}
+
+.feedback-box strong{
+    font-size:18px;
+}
+
+.feedback-box ul{
+    margin-top:25px;
+    padding-left:25px;
+    font-size:16px;
+}
+
+.feedback-terug-btn{
+    background:#832D2C;
+    color:white;
+    border:none;
+    border-radius:4px;
+    padding:14px 70px;
+    font-weight:bold;
+    cursor:pointer;
+}
