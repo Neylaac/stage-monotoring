@@ -341,8 +341,8 @@ body{
 }
 
 .progress-dot{
-    width:44px;
-    height:40px;
+    width:42px;
+    height:42px;
     border-radius:50%;
     background:#d9d9d9;
     margin-bottom:12px;
@@ -403,14 +403,187 @@ body{
 }
 
 
-.cirkel{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    background:#d9d9d9;
-    display:block;
+/* ADMINISTRATIE OVERZICHT */
+
+.admin-topbar{
+    justify-content:space-between;
+    padding:0 35px;
 }
 
-.stap.actief .cirkel{
-    background:#d9f0dd;
+.page-label{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.topbar-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.topbar-right p{
+    margin:0;
+    color:#777;
+}
+
+.admin-content{
+    padding:25px 35px;
+}
+
+.admin-content h1{
+    font-size:24px;
+    color:#111;
+    margin-bottom:2px;
+}
+
+.subtitle{
+    color:#aaa;
+    margin-bottom:10px;
+}
+
+.stats-row{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    border:1px solid #333;
+    border-radius:5px;
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.stat-box{
+    padding:18px;
+    text-align:center;
+    border-right:1px solid #333;
+}
+
+.stat-box:last-child{
+    border-right:none;
+}
+
+.stat-box span{
+    display:block;
+    margin-bottom:8px;
+}
+
+.stat-box strong{
+    font-size:20px;
+}
+
+.filter-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:35px;
+}
+
+.filter-row input,
+.filter-row select,
+.filter-row button{
+    height:42px;
+    border:1px solid #999;
+    border-radius:8px;
+    padding:0 14px;
+    background:white;
+}
+
+.filter-row input{
+    width:260px;
+}
+
+.filter-row button{
+    cursor:pointer;
+    color:#999;
+}
+
+.aanvragen-table{
+    border:1px solid #eeeeee;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.aanvragen-table table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.aanvragen-table th{
+    text-align:left;
+    padding:16px;
+    font-size:14px;
+    color:#555;
+    background:#fafafa;
+}
+
+.aanvragen-table td{
+    padding:16px;
+    border-top:1px solid #eeeeee;
+    font-size:14px;
+}
+
+.aanvragen-table td span{
+    display:block;
+    color:#999;
+    margin-top:4px;
+}
+
+.empty-table{
+    text-align:center;
+    color:#999;
+    padding:35px !important;
+    font-style:italic;
+}
+
+.status{
+    display:inline-block !important;
+    padding:7px 14px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.status.administratie,
+.status.ingediend{
+    background:#fff0d8;
+    color:#c47a00;
+}
+
+.status.behandeling{
+    background:#e5e5e5;
+    color:#555555;
+}
+
+.status.afgekeurd{
+    background:#ffdede;
+    color:#c62828;
+}
+
+.status.aanpassing{
+    background:#e2efff;
+    color:#276fc2;
+}
+
+.status.goedgekeurd{
+    background:#d8f8df;
+    color:#26803b;
+}
+
+.view-btn{
+    border:1px solid #832D2C;
+    color:#832D2C;
+    text-decoration:none;
+    padding:8px 16px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.status.aangekomen-bij-administratie{
+    background:#fff0d8;
+    color:#c47a00;
+}
+
+.status.behandeling{
+    background:#e5e5e5 !important;
+    color:#555555 !important;
 }
