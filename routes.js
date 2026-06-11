@@ -77,7 +77,15 @@ stuur de gebruiker terug naar login.*/
 // ---------------------------------Voorlopige test-homeroutes---------------------------
 
 router.get('/student/stageaanvraag', (req, res)=>{
-    res.send('Welkom student');
+     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraag.html'));
+});
+
+router.get('/student/stageaanvraagformulier.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagformulier.html'));
+});
+
+router.get('/student/stageaanvraagoverzicht.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagoverzicht.html'));
 });
 
 router.get('/docent/home', (req, res)=>{
