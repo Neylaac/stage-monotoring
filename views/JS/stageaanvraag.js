@@ -92,7 +92,7 @@ if (adminAanvragenBody) {
     if (aanvragen.length > 0) {
         adminAanvragenBody.innerHTML = "";
 
-        aanvragen.forEach(function(aanvraag) {
+        aanvragen.forEach(function(aanvraag, index) {
             adminAanvragenBody.innerHTML += `
                 <tr>
                     <td>
@@ -109,7 +109,7 @@ if (adminAanvragenBody) {
                     </td>
                     <td>Nog geen feedback</td>
                     <td>
-                        <a href="#" class="view-btn">Bekijken</a>
+                        <a href="stageaanvraagformulieradministratie.html?index=${index}" class="view-btn">Bekijken</a>
                     </td>
                 </tr>
             `;
@@ -117,5 +117,25 @@ if (adminAanvragenBody) {
 
         document.querySelector("#countNieuwe").textContent = aanvragen.length;
         document.querySelector("#countBehandeling").textContent = aanvragen.length;
+    }
+}
+
+// Admin detailpagina: juiste aanvraag tonen via index in de URL
+const adminFormulier = document.querySelector(".admin-formulier");
+
+if (adminFormulier) {
+    const params = new URLSearchParams(window.location.search);
+    const aanvraagIndex = params.get("index");
+
+    const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+    const aanvraag = aanvragen[aanvraagIndex];
+
+    if (aanvraag) {
+        const velden = document.querySelectorAll("[data-admin-aanvraag]");
+
+        velden.forEach(function(veld) {
+            const key = veld.dataset.adminAanvraag;
+            veld.value = aanvraag[key] || "";
+        });
     }
 }
