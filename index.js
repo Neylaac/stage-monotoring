@@ -19,6 +19,12 @@ app.get("/stageovereenkomst-detail", (req, res) => {
     );
 });
 
+app.get("/itsme", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "views/html/itsme.html")
+    );
+});
+
 app.listen(port, () => {
     console.log(`App Listing on Port ${port}`);
 });
