@@ -12,6 +12,7 @@ app.get("/", (req, res) => {
     );
 });
 
+
 app.get("/stageovereenkomst-detail", (req, res) => {
     res.sendFile(
         path.join(__dirname, "views/html/stageovereenkomst-detail.html")

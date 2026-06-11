@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stageovereenkomst Detail</title>
 
-<link rel="stylesheet" href="../CSS/stageovereenkomst-detail.css">
+    <link rel="stylesheet" href="../CSS/stageovereenkomst-detail.css">
 </head>
 
 <body>
+
+    <!-- SIDEBAR -->
 
     <div class="sidebar">
 
@@ -25,9 +28,11 @@
 
     </div>
 
+    <!-- CONTENT -->
+
     <div class="content">
 
-        <!-- Topbar -->
+        <!-- TOPBAR -->
 
         <div class="topbar">
 
@@ -35,8 +40,8 @@
 
                 <div class="notification-icon">🔔</div>
 
-                <div class="user-profile">
-                    <div class="user-avatar-top">IM</div>
+                <div class="user-avatar-top">
+                    IM
                 </div>
 
                 <div class="logo">
@@ -47,35 +52,34 @@
 
         </div>
 
-        <!-- Studentinfo -->
+        <!-- STUDENTINFO -->
 
         <div class="student-overview">
 
             <div class="student-header">
 
-    <div class="student-avatar">
-        ST
-    </div>
+                <div class="student-avatar">
+                    ST
+                </div>
 
-    <div class="student-details">
+                <div class="student-details">
 
-        <h2>[Studentnaam]</h2>
+                    <h2>[Studentnaam]</h2>
 
-        <p>[Opleiding]</p>
+                    <p>[Opleiding]</p>
 
-        <p>
-            Stageperiode:
-            [Startdatum] - [Einddatum]
-        </p>
+                    <p>
+                        Stageperiode:
+                        [Startdatum] - [Einddatum]
+                    </p>
 
-    </div>
+                </div>
 
-</div>
             </div>
 
         </div>
 
-        <!-- Ondertekenstatus -->
+        <!-- ONDERTEKENSTATUS -->
 
         <div class="status-box">
 
@@ -83,22 +87,22 @@
 
             <div class="status-row">
                 <span>Student</span>
-                <span>[Status student]</span>
+                <span class="status signed">Ondertekend</span>
             </div>
 
             <div class="status-row">
                 <span>Bedrijf</span>
-                <span>[Status bedrijf]</span>
+                <span class="status signed">Ondertekend</span>
             </div>
 
             <div class="status-row">
                 <span>School</span>
-                <span>[Status school]</span>
+                <span class="status waiting">In afwachting</span>
             </div>
 
         </div>
 
-        <!-- Contract -->
+        <!-- CONTRACT -->
 
         <div class="contract-container">
 
@@ -115,36 +119,78 @@
             <p><strong>Opdracht:</strong> [Stageopdracht]</p>
 
             <div class="article">
+
                 <h3>Artikel 1 - Doel van de stage</h3>
-                <p>[Artikeltekst]</p>
+
+                <p>
+                    De student voert een stage uit bij het vermelde bedrijf
+                    met als doel praktijkervaring op te doen binnen de opleiding
+                    en professionele competenties verder te ontwikkelen.
+                </p>
+
             </div>
 
             <div class="article">
+
                 <h3>Artikel 2 - Stageperiode</h3>
-                <p>[Artikeltekst]</p>
+
+                <p>
+                    De stage loopt gedurende de afgesproken periode zoals vermeld
+                    in deze overeenkomst. Wijzigingen aan de stageperiode moeten
+                    door alle partijen worden goedgekeurd.
+                </p>
+
             </div>
 
             <div class="article">
+
                 <h3>Artikel 3 - Verantwoordelijkheden student</h3>
-                <p>[Artikeltekst]</p>
+
+                <p>
+                    De student engageert zich om de stageopdracht zorgvuldig uit
+                    te voeren, de bedrijfsregels na te leven en vertrouwelijke
+                    informatie niet te verspreiden.
+                </p>
+
             </div>
 
             <div class="article">
+
                 <h3>Artikel 4 - Verantwoordelijkheden bedrijf</h3>
-                <p>[Artikeltekst]</p>
+
+                <p>
+                    Het bedrijf voorziet een geschikte werkplek, begeleiding
+                    tijdens de stage en een contactpersoon die de voortgang van
+                    de student opvolgt.
+                </p>
+
             </div>
 
             <div class="article">
+
                 <h3>Artikel 5 - Verantwoordelijkheden school</h3>
-                <p>[Artikeltekst]</p>
+
+                <p>
+                    De onderwijsinstelling volgt het stageproces op, ondersteunt
+                    de student waar nodig en evalueert de stage in samenwerking
+                    met het bedrijf.
+                </p>
+
             </div>
 
             <div class="article">
+
                 <h3>Artikel 6 - Evaluatie</h3>
-                <p>[Artikeltekst]</p>
+
+                <p>
+                    De stage wordt geëvalueerd op basis van de uitgevoerde
+                    opdrachten, feedback van het bedrijf, het logboek en de
+                    behaalde leerdoelen.
+                </p>
+
             </div>
 
-            <!-- Handtekeningen -->
+            <!-- HANDTEKENINGEN -->
 
             <div class="signature-section">
 
@@ -153,7 +199,7 @@
                     <h4>Handtekening student</h4>
 
                     <div class="signature-placeholder">
-                        [Handtekening student]
+                        Nog niet ondertekend
                     </div>
 
                 </div>
@@ -163,7 +209,7 @@
                     <h4>Handtekening bedrijf</h4>
 
                     <div class="signature-placeholder">
-                        [Handtekening bedrijf]
+                        Nog niet ondertekend
                     </div>
 
                 </div>
@@ -173,7 +219,7 @@
                     <h4>Handtekening school</h4>
 
                     <div class="signature-placeholder">
-                        [Handtekening school]
+                        Nog niet ondertekend
                     </div>
 
                 </div>
@@ -182,7 +228,7 @@
 
         </div>
 
-        <!-- Ondertekenen -->
+        <!-- BUTTON -->
 
         <div class="sign-button-container">
 
@@ -195,4 +241,5 @@
     </div>
 
 </body>
+
 </html>
