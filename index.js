@@ -8,14 +8,15 @@ app.use(express.static(path.join(__dirname, "views")));
 
 app.get("/", (req, res) => {
     res.sendFile(
-        path.join(__dirname, "views/html/stageovereenkomst-overzicht.html")
+        path.join(__dirname,
+        "views/html/docent-stageovereenkomst-overzicht.html")
     );
 });
 
-
 app.get("/stageovereenkomst-detail", (req, res) => {
     res.sendFile(
-        path.join(__dirname, "views/html/stageovereenkomst-detail.html")
+        path.join(__dirname,
+        "views/html/docent-stageovereenkomst-detail.html")
     );
 });
 
