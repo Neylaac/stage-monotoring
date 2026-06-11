@@ -2,40 +2,197 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Stageovereenkomst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stageovereenkomst Detail</title>
+
+<link rel="stylesheet" href="../CSS/stageovereenkomst-detail.css">
 </head>
+
 <body>
 
-    <h1>Stageovereenkomst</h1>
+    <div class="sidebar">
 
-    <h2>Studentgegevens</h2>
+        <ul>
+            <li>Home</li>
+            <li class="active">Stageovereenkomst</li>
+            <li>Studenten</li>
+            <li>Profiel</li>
+        </ul>
 
-    <p>Naam: Lana Segers</p>
-    <p>Opleiding: Toegepaste Informatica</p>
+        <div class="logout">
+            Uitloggen
+        </div>
 
-    <h2>Bedrijfsgegevens</h2>
+    </div>
 
-    <p>Bedrijf: Tech Solutions</p>
-    <p>Mentor: Samuel De Vis</p>
+    <div class="content">
 
-    <h2>Stageperiode</h2>
+        <!-- Topbar -->
 
-    <p>01/02/2026 - 31/05/2026</p>
+        <div class="topbar">
 
-    <h2>Stageopdracht</h2>
+            <div class="topbar-right">
 
-    <p>
-        Ontwikkelen van webapplicaties
-        en ondersteunen van softwareprojecten.
-    </p>
+                <div class="notification-icon">🔔</div>
 
-    <h2>Ondertekeningen</h2>
+                <div class="user-profile">
+                    <div class="user-avatar-top">IM</div>
+                </div>
 
-    <p>✓ Student ondertekend</p>
-    <p>✓ Mentor ondertekend</p>
-    <p>⏳ Docent wacht op ondertekening</p>
+                <div class="logo">
+                    EBSC
+                </div>
 
-    <button>Digitaal ondertekenen</button>
+            </div>
+
+        </div>
+
+        <!-- Studentinfo -->
+
+        <div class="student-overview">
+
+            <div class="student-header">
+
+    <div class="student-avatar">
+        ST
+    </div>
+
+    <div class="student-details">
+
+        <h2>[Studentnaam]</h2>
+
+        <p>[Opleiding]</p>
+
+        <p>
+            Stageperiode:
+            [Startdatum] - [Einddatum]
+        </p>
+
+    </div>
+
+</div>
+            </div>
+
+        </div>
+
+        <!-- Ondertekenstatus -->
+
+        <div class="status-box">
+
+            <h2>Ondertekenstatus</h2>
+
+            <div class="status-row">
+                <span>Student</span>
+                <span>[Status student]</span>
+            </div>
+
+            <div class="status-row">
+                <span>Bedrijf</span>
+                <span>[Status bedrijf]</span>
+            </div>
+
+            <div class="status-row">
+                <span>School</span>
+                <span>[Status school]</span>
+            </div>
+
+        </div>
+
+        <!-- Contract -->
+
+        <div class="contract-container">
+
+            <h1>STAGEOVEREENKOMST</h1>
+
+            <p><strong>Student:</strong> [Studentnaam]</p>
+
+            <p><strong>Opleiding:</strong> [Opleiding]</p>
+
+            <p><strong>Bedrijf:</strong> [Bedrijfsnaam]</p>
+
+            <p><strong>Stageperiode:</strong> [Startdatum] - [Einddatum]</p>
+
+            <p><strong>Opdracht:</strong> [Stageopdracht]</p>
+
+            <div class="article">
+                <h3>Artikel 1 - Doel van de stage</h3>
+                <p>[Artikeltekst]</p>
+            </div>
+
+            <div class="article">
+                <h3>Artikel 2 - Stageperiode</h3>
+                <p>[Artikeltekst]</p>
+            </div>
+
+            <div class="article">
+                <h3>Artikel 3 - Verantwoordelijkheden student</h3>
+                <p>[Artikeltekst]</p>
+            </div>
+
+            <div class="article">
+                <h3>Artikel 4 - Verantwoordelijkheden bedrijf</h3>
+                <p>[Artikeltekst]</p>
+            </div>
+
+            <div class="article">
+                <h3>Artikel 5 - Verantwoordelijkheden school</h3>
+                <p>[Artikeltekst]</p>
+            </div>
+
+            <div class="article">
+                <h3>Artikel 6 - Evaluatie</h3>
+                <p>[Artikeltekst]</p>
+            </div>
+
+            <!-- Handtekeningen -->
+
+            <div class="signature-section">
+
+                <div class="signature-block">
+
+                    <h4>Handtekening student</h4>
+
+                    <div class="signature-placeholder">
+                        [Handtekening student]
+                    </div>
+
+                </div>
+
+                <div class="signature-block">
+
+                    <h4>Handtekening bedrijf</h4>
+
+                    <div class="signature-placeholder">
+                        [Handtekening bedrijf]
+                    </div>
+
+                </div>
+
+                <div class="signature-block">
+
+                    <h4>Handtekening school</h4>
+
+                    <div class="signature-placeholder">
+                        [Handtekening school]
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Ondertekenen -->
+
+        <div class="sign-button-container">
+
+            <button class="sign-button">
+                Digitaal ondertekenen
+            </button>
+
+        </div>
+
+    </div>
 
 </body>
 </html>
