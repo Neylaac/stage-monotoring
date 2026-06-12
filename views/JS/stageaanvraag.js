@@ -300,19 +300,98 @@ if (btnAanpassing || btnAfkeuren || btnGoedkeuren) {
 }
 
 // Stagecommissie feedback: status opslaan wanneer je op Terug klikt
+
+
 const feedbackTerugKnop = document.querySelector(".feedback-terug-btn");
 
 if (feedbackTerugKnop) {
     feedbackTerugKnop.addEventListener("click", function () {
+
+        const params = new URLSearchParams(window.location.search);
+        const aanvraagIndex = params.get("index");
+let feedbackTekst = "";
+
+if (document.querySelector("#commissieFeedback")) {
+    feedbackTekst =
+        document.querySelector("#commissieFeedback").value;
+}
+else {
+    feedbackTekst =
+        "Je stageaanvraag is helemaal in orde!";
+}
+        const nieuweStatus =
+            feedbackTerugKnop.dataset.status;
+
+        const aanvragen =
+            JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+
+        if (aanvragen[aanvraagIndex]) {
+
+            aanvragen[aanvraagIndex].commissieStatus =
+                nieuweStatus;
+
+            aanvragen[aanvraagIndex].commissieFeedback =
+                feedbackTekst;
+
+            localStorage.setItem(
+                "stageaanvragen",
+                JSON.stringify(aanvragen)
+            );
+        }
+
+        window.location.href =
+            "stageaanvraagstagecommissie.html";
+    });
+}
+
+// Student overzicht: extra scherm tonen na beslissing stagecommissie
+const studentStatusExtra = document.querySelector("#studentStatusExtra");
+
+if (studentStatusExtra) {
+    const laatsteAanvraag = JSON.parse(localStorage.getItem("stageaanvraag"));
+    const alleAanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+
+    const aanvraag = alleAanvragen.find(function(item) {
+        return item.studentnummer === laatsteAanvraag.studentnummer;
+    });
+
+    if (aanvraag && aanvraag.commissieStatus === "goedgekeurd") {
+        updateProgressStatus("goedgekeurd");
+
+        document.querySelector("#statusMessage").textContent =
+            "Je aanvraag werd geaccepteerd.";
+
+        document.querySelector(".details-card").style.display = "none";
+
+        studentStatusExtra.innerHTML = `
+            <div class="stage-contract-card">
+                <h2>Stageovereenkomst</h2>
+
+                <button class="submit-btn">
+                    Ondertekenen
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Stagecommissie: feedback indienen naar student
+const feedbackIndienenKnop = document.querySelector(".feedback-indienen-btn");
+
+if (feedbackIndienenKnop) {
+    feedbackIndienenKnop.addEventListener("click", function() {
         const params = new URLSearchParams(window.location.search);
         const aanvraagIndex = params.get("index");
 
-        const nieuweStatus = feedbackTerugKnop.dataset.status;
+        const nieuweStatus = feedbackIndienenKnop.dataset.status;
+        const feedbackTekst = document.querySelector("#commissieFeedback").value;
 
         const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
 
         if (aanvragen[aanvraagIndex]) {
             aanvragen[aanvraagIndex].commissieStatus = nieuweStatus;
+            aanvragen[aanvraagIndex].commissieFeedback = feedbackTekst;
+
             localStorage.setItem("stageaanvragen", JSON.stringify(aanvragen));
         }
 

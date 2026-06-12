@@ -33,13 +33,19 @@
             <h2>Feedback</h2>
             <h3 class="feedback-red">Afgekeurd!</h3>
 
-            <div class="feedback-box">
-                <strong>Feedback van de stagecommissie</strong>
-                <ul>
-                    <li>De stage sluit onvoldoende aan bij de leerdoelen van je opleiding.</li>
-                    <li>De werkzaamheden zijn niet passend bij de stage.</li>
-                </ul>
-            </div>
+     <div class="feedback-box">
+    <strong>Feedback van de stagecommissie</strong>
+
+    <textarea
+        id="commissieFeedback"
+        class="feedback-textarea"
+        placeholder="Schrijf hier waarom de aanvraag werd afgekeurd..."
+    ></textarea>
+</div>
+
+<button class="feedback-indienen-btn" data-status="afgekeurd">
+    Indienen
+</button>
 
             <button class="submit-btn feedback-terug" data-status="afgekeurd">
                 Terug
