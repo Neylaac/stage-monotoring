@@ -33,16 +33,19 @@
             <h2>Feedback</h2>
             <h3 class="feedback-yellow">Aanpassing vereist</h3>
 
-            <div class="feedback-box">
-                <strong>Feedback van de stagecommissie</strong>
-                <ul>
-                    <li>De opdrachtomschrijving kan concreter.</li>
-                    <li>Beschrijf duidelijker wat je gaat doen en wat het doel is.</li>
-                    <li>Verduidelijk welke taken en verantwoordelijkheden bij jou liggen.</li>
-                    <li>De werkzaamheden zijn niet passend bij een leerzame stage.</li>
-                    <li>Voeg meer informatie toe over hoe je begeleiding is geregeld.</li>
-                </ul>
-            </div>
+        <div class="feedback-box">
+    <strong>Feedback van de stagecommissie</strong>
+
+    <textarea
+        id="commissieFeedback"
+        class="feedback-textarea"
+        placeholder="Schrijf hier wat de student moet aanpassen..."
+    ></textarea>
+</div>
+
+<button class="feedback-indienen-btn" data-status="afgekeurd">
+    Indienen
+</button>
 
             <button class="submit-btn feedback-terug" data-status="aanpassing">
                 Terug
