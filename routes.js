@@ -5,6 +5,8 @@ const path = require('path');// dit helpt om coorecte bestandspaden te maken.
 
 const { loginGebruiker } = require('./controllers/authController');
 const { registreerGebruiker } = require('./controllers/registerController');
+const requireAuth = require('./middleware/requireAuth');
+const { getStudentProfile } = require('./controllers/studentController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -29,6 +31,8 @@ router.get('/login', (req, res) => { //expliciete loginpagina
 
 router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
+router.get('/api/student/profile', requireAuth, getStudentProfile);
+
 
 //hiet gaan we de functies importeren uit de controllers
 // aangezien we zowel authController en registerConroller exporteren.
