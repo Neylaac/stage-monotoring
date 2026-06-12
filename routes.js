@@ -7,7 +7,7 @@ const { loginGebruiker } = require('./controllers/authController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const requireAuth = require('./middleware/requireAuth');
 const { getStudentProfile } = require('./controllers/studentController');
-const { maakStageaanvraag } = require('./controllers/stageAanvraagController');
+const {maakStageaanvraag,getMijnStageaanvragen} = require('./controllers/stageAanvraagController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -34,6 +34,7 @@ router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
 router.get('/api/student/profile', requireAuth, getStudentProfile);
 router.post('/api/stageaanvragen',requireAuth,maakStageaanvraag);
+router.get('/api/stageaanvragen/mijn',requireAuth,getMijnStageaanvragen);
 
 
 //hiet gaan we de functies importeren uit de controllers
