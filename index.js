@@ -6,6 +6,12 @@ const port = 3000;
 
 app.use(express.static(path.join(__dirname, "views")));
 
+app.get("/student-stageovereenkomst-detail", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "views/html/student-stageovereenkomst-detail.html")
+    );
+});
+
 app.get("/", (req, res) => {
     res.sendFile(
         path.join(__dirname,
