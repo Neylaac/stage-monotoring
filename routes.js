@@ -7,6 +7,7 @@ const { loginGebruiker } = require('./controllers/authController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const requireAuth = require('./middleware/requireAuth');
 const { getStudentProfile } = require('./controllers/studentController');
+const { maakStageaanvraag } = require('./controllers/stageAanvraagController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -27,15 +28,16 @@ router.get('/login', (req, res) => { //expliciete loginpagina
 //__dirname = de map waarin dit bestand staat
 
 
-//---------------------login en registratie----------------------------------
+//---------------------login en registratie en API----------------------------------
 
 router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
 router.get('/api/student/profile', requireAuth, getStudentProfile);
+router.post('/api/stageaanvragen',requireAuth,maakStageaanvraag);
 
 
 //hiet gaan we de functies importeren uit de controllers
-// aangezien we zowel authController en registerConroller exporteren.
+
 
 //-------------------------Token en role opslaan in session---------------------------
 

@@ -1,6 +1,6 @@
 async function laadStudentProfile() {
     try {
-        const response = await fetch('api/student/profile');
+        const response = await fetch('/api/student/profile');
         const data = await response.json();
 
         if (data.status !== 'success') {
@@ -31,13 +31,13 @@ async function laadStudentProfile() {
             opleidingInput.value = student.opleiding;
         }
 
-    }catch (error){
+    } catch (error) {
         console.error("Fout bij ophalen studentgegevens:", error);
 
     }
 }
 
-if(document.querySelector("#aanvraagForm")){
+if (document.querySelector("#aanvraagForm")) {
     laadStudentProfile();
 }
 
@@ -47,14 +47,10 @@ if(document.querySelector("#aanvraagForm")){
 const aanvraagForm = document.querySelector("#aanvraagForm");
 
 if (aanvraagForm) {
-    aanvraagForm.addEventListener("submit", function (event) {
+    aanvraagForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
         const aanvraagData = {
-            naam: document.querySelector("#naam").value,
-            achternaam: document.querySelector("#achternaam").value,
-            studentnummer: document.querySelector("#studentnummer").value,
-            opleiding: document.querySelector("#opleiding").value,
             startdatum: document.querySelector("#startdatum").value,
             einddatum: document.querySelector("#einddatum").value,
             functie: document.querySelector("#functie").value,
@@ -67,19 +63,34 @@ if (aanvraagForm) {
             docentEmail: document.querySelector("#docentEmail").value,
             opdracht: document.querySelector("#opdracht").value,
             omschrijving: document.querySelector("#omschrijving").value,
-            status: "administratie"
         };
 
-        // Laatste aanvraag bewaren voor student overzicht
-        localStorage.setItem("stageaanvraag", JSON.stringify(aanvraagData));
-        localStorage.setItem("stageaanvraagStatus", "administratie");
+        try {
+            const response = await fetch('/api/stageaanvragen', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(aanvraagData)
+            });
 
-        // Alle aanvragen bewaren voor administratie overzicht
-        const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
-        aanvragen.push(aanvraagData);
-        localStorage.setItem("stageaanvragen", JSON.stringify(aanvragen));
+            const data = await response.json();
 
-        window.location.href = "stageaanvraagoverzicht.html";
+            if (!response.ok) {
+                alert(data.message);
+                return;
+            }
+
+            alert(data.message);
+
+            window.location.href = '/student/stageaanvraagoverzicht.html';
+        } catch (error) {
+            console.error(
+                'Fout bij indienen stageaanvraag:',
+                error
+            );
+        }
+
     });
 }
 

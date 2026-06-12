@@ -57,8 +57,11 @@ CREATE TABLE stageaanvragen (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
     student_id INT NOT NULL,
-    docent_id INT NOT NULL,
+    docent_id INT  NULL,
     bedrijf_id INT NULL,
+
+    docent_naam VARCHAR(200) NOT NULL,
+    docent_email VARCHAR(255) NOT NULL,
 
     startdatum DATE NOT NULL,
     einddatum DATE NOT NULL,
@@ -89,4 +92,5 @@ CREATE TABLE stageaanvragen (
     FOREIGN KEY (docent_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (bedrijf_id) REFERENCES bedrijf_profiles(id) ON DELETE SET NULL
 ); 
+
 
