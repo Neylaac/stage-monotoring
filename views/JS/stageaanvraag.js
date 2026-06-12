@@ -94,16 +94,6 @@ if (aanvraagForm) {
     });
 }
 
-const opgeslagenAanvraag = JSON.parse(localStorage.getItem("stageaanvraag"));
-
-if (opgeslagenAanvraag) {
-    const velden = document.querySelectorAll("[data-aanvraag]");
-
-    velden.forEach(function (veld) {
-        const key = veld.dataset.aanvraag;
-        veld.textContent = opgeslagenAanvraag[key] || "-";
-    });
-}
 
 function updateProgressStatus(status) {
     const volgorde = ["ingediend", "administratie", "behandeling", "goedgekeurd"];
@@ -137,8 +127,84 @@ function updateProgressStatus(status) {
     }
 }
 
+function formatteerDatum(datum) {
+    if (!datum) {
+        return "-";
+    }
+
+    const datumObject = new Date(datum);
+
+    return datumObject.toLocaleDateString("nl-BE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    });
+}
+
+async function laadMijnStageaanvraag() {
+    try {
+        const response = await fetch('/api/stageaanvragen/mijn');
+        const data = await response.json();
+
+        if(!response.ok){
+            console.error(data.message);
+            return;
+        }
+
+        if(data.aanvragen.length === 0){
+            console.log('Geen stageaanvraag gevonden');
+            return;
+        }
+
+        const aanvraag = data.aanvragen[0]; //de backend sorteert nieuwste aanvragen eerst
+
+        const gegevensVoorPagina = {
+            bedrijfsnaam: aanvraag.bedrijfsnaam,
+            naam: `${aanvraag.voornaam} ${aanvraag.achternaam}`,
+            student: `${aanvraag.voornaam} ${aanvraag.achternaam}`,
+            functie: aanvraag.functie,
+            startdatum: formatteerDatum(aanvraag.startdatum),
+            einddatum: formatteerDatum(aanvraag.einddatum),
+            opleiding: aanvraag.opleiding,
+            opdracht: aanvraag.opdracht,
+            omschrijving: aanvraag.omschrijving,
+            status: aanvraag.status,
+            feedback: aanvraag.feedback
+        };
+
+        const velden = document.querySelectorAll("[data-aanvraag]");
+
+        velden.forEach(function(veld){
+            const key = veld.dataset.aanvraag;
+
+            veld.textContent = gegevensVoorPagina[key] || "-";
+        })
+
+
+        if (aanvraag.status === "INGEDIEND") {
+            updateProgressStatus("administratie");
+        }
+
+        if (aanvraag.status === "GOEDGEKEURD") {
+            updateProgressStatus("goedgekeurd");
+        }
+
+        if (aanvraag.status === "AANPASSING_GEVRAAGD") {
+            updateProgressStatus("behandeling");
+        }
+
+        if (aanvraag.status === "AFGEKEURD") {
+            updateProgressStatus("behandeling");
+        }
+
+    }catch(error){
+        console.error("Fout bij ophalen van de stageaanvraag", error);
+
+    }
+}
+
 if (document.querySelector(".progress-card")) {
-    updateProgressStatus("administratie");
+    laadMijnStageaanvraag();
 }
 
 const adminAanvragenBody = document.querySelector("#adminAanvragenBody");
@@ -309,16 +375,16 @@ if (feedbackTerugKnop) {
 
         const params = new URLSearchParams(window.location.search);
         const aanvraagIndex = params.get("index");
-let feedbackTekst = "";
+        let feedbackTekst = "";
 
-if (document.querySelector("#commissieFeedback")) {
-    feedbackTekst =
-        document.querySelector("#commissieFeedback").value;
-}
-else {
-    feedbackTekst =
-        "Je stageaanvraag is helemaal in orde!";
-}
+        if (document.querySelector("#commissieFeedback")) {
+            feedbackTekst =
+                document.querySelector("#commissieFeedback").value;
+        }
+        else {
+            feedbackTekst =
+                "Je stageaanvraag is helemaal in orde!";
+        }
         const nieuweStatus =
             feedbackTerugKnop.dataset.status;
 
@@ -351,7 +417,7 @@ if (studentStatusExtra) {
     const laatsteAanvraag = JSON.parse(localStorage.getItem("stageaanvraag"));
     const alleAanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
 
-    const aanvraag = alleAanvragen.find(function(item) {
+    const aanvraag = alleAanvragen.find(function (item) {
         return item.studentnummer === laatsteAanvraag.studentnummer;
     });
 
@@ -375,12 +441,12 @@ if (studentStatusExtra) {
     }
 
     if (aanvraag && aanvraag.commissieStatus === "aanpassing") {
-    document.querySelector("#statusMessage").textContent =
-        "Je aanvraag moet aangepast worden.";
+        document.querySelector("#statusMessage").textContent =
+            "Je aanvraag moet aangepast worden.";
 
-    document.querySelector(".details-card").style.display = "none";
+        document.querySelector(".details-card").style.display = "none";
 
-    studentStatusExtra.innerHTML = `
+        studentStatusExtra.innerHTML = `
         <div class="feedback-box">
             <strong>Feedback van de stagecommissie</strong>
             <ul>
@@ -392,15 +458,15 @@ if (studentStatusExtra) {
             Aanvraag aanpassen
         </button>
     `;
-}
+    }
 
-if (aanvraag && aanvraag.commissieStatus === "afgekeurd") {
-    document.querySelector("#statusMessage").textContent =
-        "Je aanvraag werd afgekeurd.";
+    if (aanvraag && aanvraag.commissieStatus === "afgekeurd") {
+        document.querySelector("#statusMessage").textContent =
+            "Je aanvraag werd afgekeurd.";
 
-    document.querySelector(".details-card").style.display = "none";
+        document.querySelector(".details-card").style.display = "none";
 
-    studentStatusExtra.innerHTML = `
+        studentStatusExtra.innerHTML = `
         <div class="feedback-box">
             <strong>Feedback van de stagecommissie</strong>
             <ul>
@@ -412,14 +478,14 @@ if (aanvraag && aanvraag.commissieStatus === "afgekeurd") {
             Nieuw aanvraag starten
         </button>
     `;
-}
+    }
 }
 
 // Stagecommissie: feedback indienen naar student
 const feedbackIndienenKnop = document.querySelector(".feedback-indienen-btn");
 
 if (feedbackIndienenKnop) {
-    feedbackIndienenKnop.addEventListener("click", function() {
+    feedbackIndienenKnop.addEventListener("click", function () {
         const params = new URLSearchParams(window.location.search);
         const aanvraagIndex = params.get("index");
 

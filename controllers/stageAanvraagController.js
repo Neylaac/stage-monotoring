@@ -122,4 +122,64 @@ const maakStageaanvraag = async(req,res) => { // we maken een nieuwe functie, wo
     }
 };
 
-module.exports = {maakStageaanvraag}; // andere besantden mogen deze functie ook importeren.
+
+const getMijnStageaanvragen = async(req, res) =>{
+    try{
+        const studentId = req.user.id //neem ingelogde student
+
+        const query = `
+            SELECT
+                stageaanvragen.id,
+                stageaanvragen.startdatum,
+                stageaanvragen.einddatum,
+                stageaanvragen.functie,
+                stageaanvragen.bedrijfsnaam,
+                stageaanvragen.telefoonnummer,
+                stageaanvragen.contactpersoon,
+                stageaanvragen.adres,
+                stageaanvragen.email_bedrijf,
+                stageaanvragen.docent_naam,
+                stageaanvragen.docent_email,
+                stageaanvragen.opdracht,
+                stageaanvragen.omschrijving,
+                stageaanvragen.status,
+                stageaanvragen.feedback,
+                stageaanvragen.created_at,
+
+                users.voornaam,
+                users.achternaam,
+                users.email AS student_email,
+
+                student_profiles.studentnummer,
+                student_profiles.opleiding
+
+            FROM stageaanvragen
+
+            JOIN users
+                ON stageaanvragen.student_id = users.id
+
+            JOIN student_profiles
+                ON student_profiles.user_id = users.id
+
+            WHERE stageaanvragen.student_id = ? 
+
+            ORDER BY stageaanvragen.created_at DESC
+        `;
+        
+        const [rows] = await connection.promise().query(query,[studentId]);
+
+        return res.status(200).json({
+            status: "sucess",
+            aanvragen: rows
+        });
+    }catch (error){
+        console.error('Fout bij ophalen stageaanvragen va studeent', error);
+
+        return res.status(500).json({
+            status: 'error', 
+            message: 'Stageaanvragen konden niet worden opgehaald'
+        });
+    }
+}
+
+module.exports = {maakStageaanvraag, getMijnStageaanvragen}; // andere besantden mogen deze functie ook importeren.
