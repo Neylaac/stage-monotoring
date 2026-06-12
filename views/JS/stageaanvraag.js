@@ -71,6 +71,8 @@ if (aanvraagForm) {
         };
 
         // Laatste aanvraag bewaren voor student overzicht
+
+        
         localStorage.setItem("stageaanvraag", JSON.stringify(aanvraagData));
         localStorage.setItem("stageaanvraagStatus", "administratie");
 
@@ -362,6 +364,46 @@ if (studentStatusExtra) {
             </div>
         `;
     }
+
+    if (aanvraag && aanvraag.commissieStatus === "aanpassing") {
+    document.querySelector("#statusMessage").textContent =
+        "Je aanvraag moet aangepast worden.";
+
+    document.querySelector(".details-card").style.display = "none";
+
+    studentStatusExtra.innerHTML = `
+        <div class="feedback-box">
+            <strong>Feedback van de stagecommissie</strong>
+            <ul>
+                <li>${aanvraag.commissieFeedback}</li>
+            </ul>
+        </div>
+
+        <button class="submit-btn">
+            Aanvraag aanpassen
+        </button>
+    `;
+}
+
+if (aanvraag && aanvraag.commissieStatus === "afgekeurd") {
+    document.querySelector("#statusMessage").textContent =
+        "Je aanvraag werd afgekeurd.";
+
+    document.querySelector(".details-card").style.display = "none";
+
+    studentStatusExtra.innerHTML = `
+        <div class="feedback-box">
+            <strong>Feedback van de stagecommissie</strong>
+            <ul>
+                <li>${aanvraag.commissieFeedback}</li>
+            </ul>
+        </div>
+
+        <button class="submit-btn">
+            Nieuw aanvraag starten
+        </button>
+    `;
+}
 }
 
 // Stagecommissie: feedback indienen naar student

@@ -766,5 +766,30 @@ body{
     padding:14px 70px;
     font-weight:bold;
     cursor:pointer;
-    margin-right:20px;
+   
+}
+
+.feedback-buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:40px;
+}
+
+.feedback-indienen-btn:focus,
+.feedback-terug:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.feedback-buttons .submit-btn{
+    border:none;
+    outline:none;
+    box-shadow:none;
+}
+
+.feedback-buttons .submit-btn:focus{
+    border:none;
+    outline:none;
+    box-shadow:none;
 }
