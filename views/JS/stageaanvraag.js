@@ -1,7 +1,53 @@
+async function laadStudentProfile() {
+    try {
+        const response = await fetch('api/student/profile');
+        const data = await response.json();
+
+        if (data.status !== 'success') {
+            console.log(data.message);
+            return;
+        }
+
+        const student = data.student;
+
+        const naamInput = document.querySelector("#naam");
+        const achternaamInput = document.querySelector("#achternaam");
+        const studentnummerInput = document.querySelector("#studentnummer");
+        const opleidingInput = document.querySelector("#opleiding");
+
+        if (naamInput) {
+            naamInput.value = student.voornaam;
+        }
+
+        if (achternaamInput) {
+            achternaamInput.value = student.achternaam;
+        }
+
+        if (studentnummerInput) {
+            studentnummerInput.value = student.studentnummer;
+        }
+
+        if (opleidingInput) {
+            opleidingInput.value = student.opleiding;
+        }
+
+    }catch (error){
+        console.error("Fout bij ophalen studentgegevens:", error);
+
+    }
+}
+
+if(document.querySelector("#aanvraagForm")){
+    laadStudentProfile();
+}
+
+
+
+
 const aanvraagForm = document.querySelector("#aanvraagForm");
 
 if (aanvraagForm) {
-    aanvraagForm.addEventListener("submit", function(event) {
+    aanvraagForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
         const aanvraagData = {
@@ -42,7 +88,7 @@ const opgeslagenAanvraag = JSON.parse(localStorage.getItem("stageaanvraag"));
 if (opgeslagenAanvraag) {
     const velden = document.querySelectorAll("[data-aanvraag]");
 
-    velden.forEach(function(veld) {
+    velden.forEach(function (veld) {
         const key = veld.dataset.aanvraag;
         veld.textContent = opgeslagenAanvraag[key] || "-";
     });
@@ -56,13 +102,13 @@ function updateProgressStatus(status) {
     const lijnen = document.querySelectorAll(".progress-line");
     const statusMessage = document.querySelector("#statusMessage");
 
-    stappen.forEach(function(stap, index) {
+    stappen.forEach(function (stap, index) {
         if (index <= statusIndex) {
             stap.classList.add("done");
         }
     });
 
-    lijnen.forEach(function(lijn, index) {
+    lijnen.forEach(function (lijn, index) {
         if (index < statusIndex) {
             lijn.classList.add("done");
         }
@@ -92,7 +138,7 @@ if (adminAanvragenBody) {
     if (aanvragen.length > 0) {
         adminAanvragenBody.innerHTML = "";
 
-        aanvragen.forEach(function(aanvraag, index) {
+        aanvragen.forEach(function (aanvraag, index) {
             adminAanvragenBody.innerHTML += `
                 <tr>
                     <td>
@@ -133,7 +179,7 @@ if (adminFormulier) {
     if (aanvraag) {
         const velden = document.querySelectorAll("[data-admin-aanvraag]");
 
-        velden.forEach(function(veld) {
+        velden.forEach(function (veld) {
             const key = veld.dataset.adminAanvraag;
             veld.value = aanvraag[key] || "";
         });
@@ -149,7 +195,7 @@ if (commissieAanvragenBody) {
     if (aanvragen.length > 0) {
         commissieAanvragenBody.innerHTML = "";
 
-        aanvragen.forEach(function(aanvraag, index) {
+        aanvragen.forEach(function (aanvraag, index) {
             const commissieStatus = aanvraag.commissieStatus || "in_afwachting";
 
             let statusTekst = "In afwachting";
@@ -208,7 +254,7 @@ if (commissieDetailFormulier) {
     if (aanvraag) {
         const velden = document.querySelectorAll("[data-commissie-aanvraag]");
 
-        velden.forEach(function(veld) {
+        velden.forEach(function (veld) {
             const key = veld.dataset.commissieAanvraag;
             veld.value = aanvraag[key] || "";
         });
@@ -224,19 +270,19 @@ if (btnAanpassing || btnAfkeuren || btnGoedkeuren) {
     const aanvraagIndex = params.get("index");
 
     if (btnAanpassing) {
-        btnAanpassing.addEventListener("click", function() {
+        btnAanpassing.addEventListener("click", function () {
             window.location.href = `stageaanvraagaangepaststagecommissie.html?index=${aanvraagIndex}`;
         });
     }
 
     if (btnAfkeuren) {
-        btnAfkeuren.addEventListener("click", function() {
+        btnAfkeuren.addEventListener("click", function () {
             window.location.href = `stageaanvraagafgekeurdstagecommissie.html?index=${aanvraagIndex}`;
         });
     }
 
     if (btnGoedkeuren) {
-        btnGoedkeuren.addEventListener("click", function() {
+        btnGoedkeuren.addEventListener("click", function () {
             window.location.href = `stageaanvraaggoedgekeurdstagecommissie.html?index=${aanvraagIndex}`;
         });
     }
@@ -248,7 +294,7 @@ if (btnAanpassing || btnAfkeuren || btnGoedkeuren) {
 const feedbackTerugKnop = document.querySelector(".feedback-terug-btn");
 
 if (feedbackTerugKnop) {
-    feedbackTerugKnop.addEventListener("click", function() {
+    feedbackTerugKnop.addEventListener("click", function () {
 
         const params = new URLSearchParams(window.location.search);
         const aanvraagIndex = params.get("index");

@@ -5,6 +5,8 @@ const path = require('path');// dit helpt om coorecte bestandspaden te maken.
 
 const { loginGebruiker } = require('./controllers/authController');
 const { registreerGebruiker } = require('./controllers/registerController');
+const requireAuth = require('./middleware/requireAuth');
+const { getStudentProfile } = require('./controllers/studentController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -29,6 +31,8 @@ router.get('/login', (req, res) => { //expliciete loginpagina
 
 router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
+router.get('/api/student/profile', requireAuth, getStudentProfile);
+
 
 //hiet gaan we de functies importeren uit de controllers
 // aangezien we zowel authController en registerConroller exporteren.
@@ -77,7 +81,15 @@ stuur de gebruiker terug naar login.*/
 // ---------------------------------Voorlopige test-homeroutes---------------------------
 
 router.get('/student/stageaanvraag', (req, res)=>{
-    res.send('Welkom student');
+     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraag.html'));
+});
+
+router.get('/student/stageaanvraagformulier.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagformulier.html'));
+});
+
+router.get('/student/stageaanvraagoverzicht.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagoverzicht.html'));
 });
 
 router.get('/docent/home', (req, res)=>{
