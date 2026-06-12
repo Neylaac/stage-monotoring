@@ -86,6 +86,24 @@ app.get("/bedrijf-stageovereenkomst-detail", (req, res) => {
     );
 });
 
+app.get("/stagecommissie-stageovereenkomst-overzicht", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views/html/stagecommissie-stageovereenkomst-overzicht.html"
+        )
+    );
+});
+
+app.get("/stagecommissie-stageovereenkomst-detail", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views/html/stagecommissie-stageovereenkomst-detail.html"
+        )
+    );
+});
+
 app.listen(port, () => {
     console.log(`App Listening on Port ${port}`);
 });
