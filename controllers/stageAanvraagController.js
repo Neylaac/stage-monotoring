@@ -305,4 +305,67 @@ const getStageaanvraagOpId = async(req, res) =>{
     }
 }
 
-module.exports = {maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId}; // andere besantden mogen deze functie ook importeren.
+
+
+
+const updateStageaanvraagStatus = async(req, res) =>{
+    try{
+        const aanvraagId = req.params.id;
+
+        const {status, feedback} = req.body;
+
+        const geldigeStatussen = ["GOEDGEKEURD", "AFGEKEURD", "AANPASSING_GEVRAAGD" ];
+
+        if(!geldigeStatussen.includes(status)){
+            return res.status(400).json({
+                status: 'error',
+                message: "Ongeldige status"
+            });
+        }
+
+        if(status !== "GOEDGEKEURD" && !feedback){
+            return res.status(400).json({
+                status: "error",
+                message: "Feedback is verplicht"
+            });
+        }
+
+        const feedbackTekst = feedback || "Je stageaanvraag is goedgekeurd.";
+
+        const query =  `
+            UPDATE stageaanvragen
+            SET
+                status = ?,
+                feedback = ?
+            WHERE id = ?
+        `;
+
+        const [result] = await connection.promise().query(query, [status, feedbackTekst, aanvraagId]);
+
+        if(result.affectedRows ===0){
+            return res.status(404).json({
+                status: 'error',
+                message: 'Stageaanvraag is niet gevonden'
+            });
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            message: 'Status en feedback succesvol bijgewerkt'
+        })
+
+    }catch(error){
+        console.error("Fout bij bijwerken van stageaanvraag", error);
+
+        return res.status(500).json({
+            status: 'error',
+            message: 'Stageaanvraag kon niet worden bijgewerkt'
+        })
+    }
+
+
+}
+
+
+
+module.exports = {maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraagStatus}; // andere besantden mogen deze functie ook importeren.

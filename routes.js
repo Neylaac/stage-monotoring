@@ -7,7 +7,7 @@ const { loginGebruiker } = require('./controllers/authController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const requireAuth = require('./middleware/requireAuth');
 const { getStudentProfile } = require('./controllers/studentController');
-const {maakStageaanvraag,getMijnStageaanvragen,getAlleStageaanvragen, getStageaanvraagOpId} = require('./controllers/stageAanvraagController');
+const {maakStageaanvraag,getMijnStageaanvragen,getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraagStatus} = require('./controllers/stageAanvraagController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -30,6 +30,12 @@ router.get('/login', (req, res) => { //expliciete loginpagina
 
 //---------------------login en registratie en API----------------------------------
 
+
+/* GET    = gegevens ophalen
+POST   = nieuwe gegevens toevoegen
+PATCH  = een deel van bestaande gegevens aanpassen
+DELETE = gegevens verwijderen */
+
 router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
 router.get('/api/student/profile', requireAuth, getStudentProfile);
@@ -37,6 +43,7 @@ router.post('/api/stageaanvragen',requireAuth,maakStageaanvraag);
 router.get('/api/stageaanvragen/mijn',requireAuth,getMijnStageaanvragen);
 router.get('/api/stagecommissie/stageaanvragen', requireAuth, getAlleStageaanvragen);
 router.get('/api/stageaanvragen/:id', requireAuth, getStageaanvraagOpId);
+router.patch('/api/stageaanvragen/:id/status', requireAuth, updateStageaanvraagStatus);
 
 
 //hiet gaan we de functies importeren uit de controllers
