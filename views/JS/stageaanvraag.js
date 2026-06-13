@@ -146,12 +146,12 @@ async function laadMijnStageaanvraag() {
         const response = await fetch('/api/stageaanvragen/mijn');
         const data = await response.json();
 
-        if(!response.ok){
+        if (!response.ok) {
             console.error(data.message);
             return;
         }
 
-        if(data.aanvragen.length === 0){
+        if (data.aanvragen.length === 0) {
             console.log('Geen stageaanvraag gevonden');
             return;
         }
@@ -174,7 +174,7 @@ async function laadMijnStageaanvraag() {
 
         const velden = document.querySelectorAll("[data-aanvraag]");
 
-        velden.forEach(function(veld){
+        velden.forEach(function (veld) {
             const key = veld.dataset.aanvraag;
 
             veld.textContent = gegevensVoorPagina[key] || "-";
@@ -197,7 +197,7 @@ async function laadMijnStageaanvraag() {
             updateProgressStatus("behandeling");
         }
 
-    }catch(error){
+    } catch (error) {
         console.error("Fout bij ophalen van de stageaanvraag", error);
 
     }
@@ -264,79 +264,165 @@ if (adminFormulier) {
 }
 
 // Stagecommissie overzicht: alle aanvragen tonen
-const commissieAanvragenBody = document.querySelector("#commissieAanvragenBody");
+async function laadStagecommissieAanvragen() {
+    try {
+        const response = await fetch('/api/stagecommissie/stageaanvragen');
 
-if (commissieAanvragenBody) {
-    const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+        const data = await response.json();
 
-    if (aanvragen.length > 0) {
-        commissieAanvragenBody.innerHTML = "";
+        if (!response.ok) {
+            console.error(data.message);
+            return;
+        }
 
-        aanvragen.forEach(function (aanvraag, index) {
-            const commissieStatus = aanvraag.commissieStatus || "in_afwachting";
+        const commissieAanvragenBody = document.querySelector("#commissieAanvragenBody");
 
-            let statusTekst = "In afwachting";
+
+        if (!commissieAanvragenBody) {
+            return;
+        }
+
+         commissieAanvragenBody.innerHTML = "";
+
+        if (data.aanvragen.length === 0) {
+            commissieAanvragenBody.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        Geen stageaanvragen gevonden.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+        data.aanvragen.forEach(function (aanvraag) {
+            let statusTekst = "Ingediend";
             let statusClass = "in_afwachting";
 
-            if (commissieStatus === "goedgekeurd") {
+            if (aanvraag.status === "GOEDGEKEURD") {
                 statusTekst = "Goedgekeurd";
                 statusClass = "goedgekeurd";
             }
 
-            if (commissieStatus === "afgekeurd") {
+            if (aanvraag.status === "AFGEKEURD") {
                 statusTekst = "Afgekeurd";
                 statusClass = "afgekeurd";
             }
 
-            if (commissieStatus === "aanpassing") {
-                statusTekst = "Aanpassing";
+            if (aanvraag.status === "AANPASSING_GEVRAAGD") {
+                statusTekst = "Aanpassing gevraagd";
                 statusClass = "aanpassing";
             }
 
             commissieAanvragenBody.innerHTML += `
                 <tr>
                     <td>
-                        <strong>${aanvraag.naam} ${aanvraag.achternaam}</strong>
+                        <strong>
+                            ${aanvraag.voornaam}
+                            ${aanvraag.achternaam}
+                        </strong>
                         <span>${aanvraag.opleiding}</span>
                     </td>
+
                     <td>${aanvraag.bedrijfsnaam}</td>
+
                     <td>${aanvraag.opdracht}</td>
-                    <td>${aanvraag.startdatum} -<br>${aanvraag.einddatum}</td>
+
+                    <td>
+                        ${formatteerDatum(aanvraag.startdatum)}
+                        -<br>
+                        ${formatteerDatum(aanvraag.einddatum)}
+                    </td>
+
                     <td>
                         <span class="status ${statusClass}">
                             ${statusTekst}
                         </span>
                     </td>
+
                     <td>
-                        <a href="stageaanvraagoverzichtstagecomissie.html?index=${index}" class="view-btn">
+                        <a
+                            href="stageaanvraagoverzichtstagecomissie.html?id=${aanvraag.id}"
+                            class="view-btn"
+                        >
                             Bekijken
                         </a>
                     </td>
                 </tr>
             `;
         });
+        
+
+    }catch(error){
+        console.error(
+            "Fout bij ophalen stagecommissie-aanvragen",
+            error
+        );
     }
 }
 
-// Stagecommissie detailpagina: juiste aanvraag tonen via index in URL
-const commissieDetailFormulier = document.querySelector(".commissie-formulier");
+if (document.querySelector("#commissieAanvragenBody")) {
+    laadStagecommissieAanvragen();
+}
 
-if (commissieDetailFormulier) {
-    const params = new URLSearchParams(window.location.search);
-    const aanvraagIndex = params.get("index");
+// Stagecommissie detailpagina
 
-    const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
-    const aanvraag = aanvragen[aanvraagIndex];
+async function laadStageaanvraagDetail() {
+    try{
+        const params = new URLSearchParams(window.location.search);
+        const aanvraagId = params.get("id");
 
-    if (aanvraag) {
+        if(!aanvraagId){
+            console.log("Geen aanvraag-id gevonden")
+            return; 
+        }
+
+        const response = await fetch(`/api/stageaanvragen/${aanvraagId}`);
+
+        const data = await response.json();
+
+        if(!response.ok){
+            console.log(data.message);
+            return;
+        }
+
+        const aanvraag = data.aanvraag;
+
         const velden = document.querySelectorAll("[data-commissie-aanvraag]");
 
-        velden.forEach(function (veld) {
+        velden.forEach(function(veld){
             const key = veld.dataset.commissieAanvraag;
-            veld.value = aanvraag[key] || "";
-        });
+
+            if (key === "naam") {
+                veld.value = aanvraag.voornaam || "";
+            }
+            else if (key === "achternaam") {
+                veld.value = aanvraag.achternaam || "";
+            }
+            else if (key === "startdatum") {
+                veld.value = formatteerDatum(aanvraag.startdatum);
+            }
+            else if (key === "einddatum") {
+                veld.value = formatteerDatum(aanvraag.einddatum);
+            }
+            else {
+                veld.value = aanvraag[key] || "";
+            }
+        })
+
+    }catch(error){
+        console.error("Fout bij ophalen va, stageaanvraag:", error);
     }
+    
 }
+
+if(document.querySelector(".commissie-formulier")){
+    laadStageaanvraagDetail();
+}
+
+
+
+
 
 const btnAanpassing = document.querySelector("#btnAanpassing");
 const btnAfkeuren = document.querySelector("#btnAfkeuren");

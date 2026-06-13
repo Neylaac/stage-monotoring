@@ -169,7 +169,7 @@ const getMijnStageaanvragen = async(req, res) =>{
         const [rows] = await connection.promise().query(query,[studentId]);
 
         return res.status(200).json({
-            status: "sucess",
+            status: "success",
             aanvragen: rows
         });
     }catch (error){
@@ -182,4 +182,127 @@ const getMijnStageaanvragen = async(req, res) =>{
     }
 }
 
-module.exports = {maakStageaanvraag, getMijnStageaanvragen}; // andere besantden mogen deze functie ook importeren.
+
+
+const getAlleStageaanvragen = async(req, res) =>{
+    try{
+        const query =  `
+            SELECT
+                stageaanvragen.id,
+                stageaanvragen.startdatum,
+                stageaanvragen.einddatum,
+                stageaanvragen.functie,
+                stageaanvragen.bedrijfsnaam,
+                stageaanvragen.telefoonnummer,
+                stageaanvragen.contactpersoon,
+                stageaanvragen.adres,
+                stageaanvragen.email_bedrijf,
+                stageaanvragen.docent_naam,
+                stageaanvragen.docent_email,
+                stageaanvragen.opdracht,
+                stageaanvragen.omschrijving,
+                stageaanvragen.status,
+                stageaanvragen.feedback,
+                stageaanvragen.created_at,
+
+                users.voornaam,
+                users.achternaam,
+                users.email AS student_email,
+
+                student_profiles.studentnummer,
+                student_profiles.opleiding
+
+            FROM stageaanvragen
+
+            JOIN users
+                ON stageaanvragen.student_id = users.id
+
+            JOIN student_profiles
+                ON student_profiles.user_id = users.id
+
+            ORDER BY stageaanvragen.created_at DESC
+        `;
+
+const [rows] = await connection.promise().query(query);
+
+        return res.status(200).json({
+            status: 'success',
+            aanvragen: rows
+        });
+
+} catch (error) {
+    console.error('Fout bij ophalen van alle stageaanvragen:', error);
+
+    return res.status(500).json({
+        status: 'error',
+        message: 'Stageaanvragen konden niet worden opgehaald'
+    });
+}
+};
+
+const getStageaanvraagOpId = async(req, res) =>{
+    try{
+        const aanvraagId = req.params.id;
+
+        const query =  `
+            SELECT
+                stageaanvragen.id,
+                stageaanvragen.startdatum,
+                stageaanvragen.einddatum,
+                stageaanvragen.functie,
+                stageaanvragen.bedrijfsnaam,
+                stageaanvragen.telefoonnummer,
+                stageaanvragen.contactpersoon,
+                stageaanvragen.adres,
+                stageaanvragen.email_bedrijf,
+                stageaanvragen.docent_naam,
+                stageaanvragen.docent_email,
+                stageaanvragen.opdracht,
+                stageaanvragen.omschrijving,
+                stageaanvragen.status,
+                stageaanvragen.feedback,
+                stageaanvragen.created_at,
+
+                users.voornaam,
+                users.achternaam,
+                users.email AS student_email,
+
+                student_profiles.studentnummer,
+                student_profiles.opleiding
+
+            FROM stageaanvragen
+
+            JOIN users
+                ON stageaanvragen.student_id = users.id
+
+            JOIN student_profiles
+                ON student_profiles.user_id = users.id
+
+            WHERE stageaanvragen.id = ?
+        `;
+
+        const [rows] = await connection.promise().query(query, [aanvraagId]);
+
+        if(rows.length === 0){
+            return res.status(404).json({
+                status: 'error', 
+                message: 'Stageaanvraag niet gevonden'
+            });
+        }
+
+        return res.status(200).json({
+            status: 'success',
+            aanvraag: rows[0]
+        });
+    }catch (error){
+        console.error('Fout bij het ophalen van stageaanvraag:', error);
+
+        return res.status(500).json({
+            status: 'error', 
+            message: 'Stageaanvraag kan niet worden opgehaald'
+        })
+
+    }
+}
+
+module.exports = {maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId}; // andere besantden mogen deze functie ook importeren.
