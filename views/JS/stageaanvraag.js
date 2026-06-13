@@ -51,18 +51,26 @@ if (aanvraagForm) {
         event.preventDefault();
 
         const aanvraagData = {
+
+            naam: document.querySelector("#naam").value,
+achternaam: document.querySelector("#achternaam").value,
+studentnummer: document.querySelector("#studentnummer").value,
+opleiding: document.querySelector("#opleiding").value,
             startdatum: document.querySelector("#startdatum").value,
             einddatum: document.querySelector("#einddatum").value,
             functie: document.querySelector("#functie").value,
             bedrijfsnaam: document.querySelector("#bedrijfsnaam").value,
             telefoonnummer: document.querySelector("#telefoonnummer").value,
-            contactpersoon: document.querySelector("#contactpersoon").value,
-            adres: document.querySelector("#adres").value,
             emailBedrijf: document.querySelector("#emailBedrijf").value,
-            docentNaam: document.querySelector("#docentNaam").value,
-            docentEmail: document.querySelector("#docentEmail").value,
+            gemeente: document.querySelector("#gemeente").value,
+            postcode: document.querySelector("#postcode").value,
+            straat: document.querySelector("#straat").value,
+            straatnummer: document.querySelector("#straatnummer").value,
+            contactVoornaam: document.querySelector("#contactVoornaam").value,
+            contactNaam: document.querySelector("#contactNaam").value,
+
             opdracht: document.querySelector("#opdracht").value,
-            omschrijving: document.querySelector("#omschrijving").value,
+omschrijving: document.querySelector("#omschrijving").value,
         };
 
         try {
