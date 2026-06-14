@@ -113,7 +113,11 @@ router.get('/bedrijf/home', (req, res)=>{
 });
 
 router.get('/stagecommissie/home', (req, res)=>{
-    res.send('Welkom stagecommissiee');
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stagecommissiehome.html'));
+});
+
+router.get('/stagecommissie/stageaanvragen', (req, res)=>{
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagstagecommissie.html'));
 });
 
 router.get('/admin/home', (req, res)=>{

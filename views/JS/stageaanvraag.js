@@ -53,9 +53,9 @@ if (aanvraagForm) {
         const aanvraagData = {
 
             naam: document.querySelector("#naam").value,
-achternaam: document.querySelector("#achternaam").value,
-studentnummer: document.querySelector("#studentnummer").value,
-opleiding: document.querySelector("#opleiding").value,
+            achternaam: document.querySelector("#achternaam").value,
+            studentnummer: document.querySelector("#studentnummer").value,
+            opleiding: document.querySelector("#opleiding").value,
             startdatum: document.querySelector("#startdatum").value,
             einddatum: document.querySelector("#einddatum").value,
             functie: document.querySelector("#functie").value,
@@ -70,7 +70,7 @@ opleiding: document.querySelector("#opleiding").value,
             contactNaam: document.querySelector("#contactNaam").value,
 
             opdracht: document.querySelector("#opdracht").value,
-omschrijving: document.querySelector("#omschrijving").value,
+            omschrijving: document.querySelector("#omschrijving").value,
         };
 
         try {
@@ -290,7 +290,7 @@ async function laadStagecommissieAanvragen() {
             return;
         }
 
-         commissieAanvragenBody.innerHTML = "";
+        commissieAanvragenBody.innerHTML = "";
 
         if (data.aanvragen.length === 0) {
             commissieAanvragenBody.innerHTML = `
@@ -359,9 +359,9 @@ async function laadStagecommissieAanvragen() {
                 </tr>
             `;
         });
-        
 
-    }catch(error){
+
+    } catch (error) {
         console.error(
             "Fout bij ophalen stagecommissie-aanvragen",
             error
@@ -376,20 +376,20 @@ if (document.querySelector("#commissieAanvragenBody")) {
 // Stagecommissie detailpagina
 
 async function laadStageaanvraagDetail() {
-    try{
+    try {
         const params = new URLSearchParams(window.location.search);
         const aanvraagId = params.get("id");
 
-        if(!aanvraagId){
+        if (!aanvraagId) {
             console.log("Geen aanvraag-id gevonden")
-            return; 
+            return;
         }
 
         const response = await fetch(`/api/stageaanvragen/${aanvraagId}`);
 
         const data = await response.json();
 
-        if(!response.ok){
+        if (!response.ok) {
             console.log(data.message);
             return;
         }
@@ -398,7 +398,7 @@ async function laadStageaanvraagDetail() {
 
         const velden = document.querySelectorAll("[data-commissie-aanvraag]");
 
-        velden.forEach(function(veld){
+        velden.forEach(function (veld) {
             const key = veld.dataset.commissieAanvraag;
 
             if (key === "naam") {
@@ -418,46 +418,44 @@ async function laadStageaanvraagDetail() {
             }
         })
 
-    }catch(error){
+    } catch (error) {
         console.error("Fout bij ophalen va, stageaanvraag:", error);
     }
-    
+
 }
 
-if(document.querySelector(".commissie-formulier")){
+if (document.querySelector(".commissie-formulier")) {
     laadStageaanvraagDetail();
 }
 
 
 
 
-
 const btnAanpassing = document.querySelector("#btnAanpassing");
 const btnAfkeuren = document.querySelector("#btnAfkeuren");
-const btnGoedkeuren = document.querySelector("#btnGoedkeuren");
+const btnGoedkeuren = document.querySelector('#btnGoedkeuren');
 
-if (btnAanpassing || btnAfkeuren || btnGoedkeuren) {
-    const params = new URLSearchParams(window.location.search);
-    const aanvraagIndex = params.get("index");
+const params = new URLSearchParams(window.location.search);
+const aanvraagId = params.get("id");
 
-    if (btnAanpassing) {
-        btnAanpassing.addEventListener("click", function () {
-            window.location.href = `stageaanvraagaangepaststagecommissie.html?index=${aanvraagIndex}`;
-        });
-    }
-
+if (btnAanpassing) {
+    btnAanpassing.addEventListener("click", function () {
+        window.location.href = `stageaanvraagaangepaststagecommissie.html?id=${aanvraagId}`;
+    });
+}
     if (btnAfkeuren) {
         btnAfkeuren.addEventListener("click", function () {
-            window.location.href = `stageaanvraagafgekeurdstagecommissie.html?index=${aanvraagIndex}`;
+            window.location.href = `stageaanvraagafgekeurdstagecommissie.html?id=${aanvraagId}`;
         });
+
     }
 
-    if (btnGoedkeuren) {
-        btnGoedkeuren.addEventListener("click", function () {
-            window.location.href = `stageaanvraaggoedgekeurdstagecommissie.html?index=${aanvraagIndex}`;
-        });
+    if(btnGoedkeuren){
+        btnGoedkeuren.addEventListener("click", function(){
+            window.location.href =  `stageaanvraaggoedgekeurdstagecommissie.html?id=${aanvraagId}`;
+        })
     }
-}
+
 
 // Stagecommissie feedback: status opslaan wanneer je op Terug klikt
 
