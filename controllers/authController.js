@@ -57,7 +57,8 @@ const loginGebruiker = async (req,res) =>{ // maken een functie met de naam logi
 
         res.status(500).json({
             status: 'error',
-            message: 'Internal server error'
+            message: 'Internal server error',
+            
         });
     }
 };

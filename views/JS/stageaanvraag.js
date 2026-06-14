@@ -160,7 +160,7 @@ async function laadMijnStageaanvraag() {
         }
 
         if (data.aanvragen.length === 0) {
-            console.log('Geen stageaanvraag gevonden');
+            window.location.href = "/student/stageaanvraagformulier.html";
             return;
         }
 
@@ -293,6 +293,7 @@ async function laadStagecommissieAanvragen() {
         commissieAanvragenBody.innerHTML = "";
 
         if (data.aanvragen.length === 0) {
+
             commissieAanvragenBody.innerHTML = `
                 <tr>
                     <td colspan="6">
@@ -320,6 +321,25 @@ async function laadStagecommissieAanvragen() {
             if (aanvraag.status === "AANPASSING_GEVRAAGD") {
                 statusTekst = "Aanpassing gevraagd";
                 statusClass = "aanpassing";
+            }
+
+
+            let bekijkenLink =
+                `stageaanvraagoverzichtstagecomissie.html?id=${aanvraag.id}`;
+
+            if (aanvraag.status === "GOEDGEKEURD") {
+                bekijkenLink =
+                    `stageaanvraaggoedgekeurdstagecommissie.html?id=${aanvraag.id}&mode=bekijken`;
+            }
+
+            if (aanvraag.status === "AFGEKEURD") {
+                bekijkenLink =
+                    `stageaanvraagafgekeurdstagecommissie.html?id=${aanvraag.id}&mode=bekijken`;
+            }
+
+            if (aanvraag.status === "AANPASSING_GEVRAAGD") {
+                bekijkenLink =
+                    `stageaanvraagaangepaststagecommissie.html?id=${aanvraag.id}&mode=bekijken`;
             }
 
             commissieAanvragenBody.innerHTML += `
@@ -350,8 +370,8 @@ async function laadStagecommissieAanvragen() {
 
                     <td>
                         <a
-                            href="stageaanvraagoverzichtstagecomissie.html?id=${aanvraag.id}"
-                            class="view-btn"
+                          href="${bekijkenLink}"
+                          class="view-btn"
                         >
                             Bekijken
                         </a>
@@ -443,64 +463,157 @@ if (btnAanpassing) {
         window.location.href = `stageaanvraagaangepaststagecommissie.html?id=${aanvraagId}`;
     });
 }
-    if (btnAfkeuren) {
-        btnAfkeuren.addEventListener("click", function () {
-            window.location.href = `stageaanvraagafgekeurdstagecommissie.html?id=${aanvraagId}`;
-        });
+if (btnAfkeuren) {
+    btnAfkeuren.addEventListener("click", function () {
+        window.location.href = `stageaanvraagafgekeurdstagecommissie.html?id=${aanvraagId}`;
+    });
 
-    }
+}
 
-    if(btnGoedkeuren){
-        btnGoedkeuren.addEventListener("click", function(){
-            window.location.href =  `stageaanvraaggoedgekeurdstagecommissie.html?id=${aanvraagId}`;
-        })
-    }
+if (btnGoedkeuren) {
+    btnGoedkeuren.addEventListener("click", function () {
+        window.location.href = `stageaanvraaggoedgekeurdstagecommissie.html?id=${aanvraagId}`;
+    })
+}
 
 
 // Stagecommissie feedback: status opslaan wanneer je op Terug klikt
 
+const beslissingKnop = document.querySelector(".feedback-terug-btn, .feedback-indienen-btn");
 
-const feedbackTerugKnop = document.querySelector(".feedback-terug-btn");
-
-if (feedbackTerugKnop) {
-    feedbackTerugKnop.addEventListener("click", function () {
+if (beslissingKnop) {
+    beslissingKnop.addEventListener("click", async function (event) {
+        event.preventDefault();
 
         const params = new URLSearchParams(window.location.search);
-        const aanvraagIndex = params.get("index");
+        const aanvraagId = params.get("id");
+        const mode = params.get("mode");
+
+        if (mode === "bekijken") {
+            window.location.href =
+                "/stagecommissie/stageaanvragen";
+            return;
+        }
+        const gekozenStatus = beslissingKnop.dataset.status;
+        let statusVoorDatabase = "";
+
+        if (gekozenStatus === "goedgekeurd") {
+            statusVoorDatabase = "GOEDGEKEURD";
+        }
+
+        if (gekozenStatus === "afgekeurd") {
+            statusVoorDatabase = "AFGEKEURD";
+        }
+
+        if (gekozenStatus === "aanpassing") {
+            statusVoorDatabase = "AANPASSING_GEVRAAGD";
+        }
+
+        const feedbackVeld =
+            document.querySelector("#commissieFeedback");
+
         let feedbackTekst = "";
 
-        if (document.querySelector("#commissieFeedback")) {
+        if (feedbackVeld) {
+            feedbackTekst = feedbackVeld.value.trim();
+        }
+
+        if (statusVoorDatabase === "GOEDGEKEURD") {
             feedbackTekst =
-                document.querySelector("#commissieFeedback").value;
-        }
-        else {
-            feedbackTekst =
-                "Je stageaanvraag is helemaal in orde!";
-        }
-        const nieuweStatus =
-            feedbackTerugKnop.dataset.status;
-
-        const aanvragen =
-            JSON.parse(localStorage.getItem("stageaanvragen")) || [];
-
-        if (aanvragen[aanvraagIndex]) {
-
-            aanvragen[aanvraagIndex].commissieStatus =
-                nieuweStatus;
-
-            aanvragen[aanvraagIndex].commissieFeedback =
-                feedbackTekst;
-
-            localStorage.setItem(
-                "stageaanvragen",
-                JSON.stringify(aanvragen)
-            );
+                "Je stageaanvraag is goedgekeurd.";
         }
 
+        if (
+            statusVoorDatabase !== "GOEDGEKEURD" &&
+            feedbackTekst === ""
+        ) {
+            alert("Vul eerst feedback in.");
+            return;
+        }
+
+
+        try {
+            const response = await fetch(`/api/stageaanvragen/${aanvraagId}/status`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    status: statusVoorDatabase,
+                    feedback: feedbackTekst
+                })
+            })
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert(data.message);
+                return
+            }
+
+            window.location.href = "/stagecommissie/stageaanvragen"
+
+        } catch (error) {
+            console.error("Fout bij opslaan van de beslissing:", error);
+
+        }
+    })
+}
+
+
+async function laadBestaandeFeedback() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const aanvraagId = params.get("id");
+        const mode = params.get("mode");
+
+        if (mode !== "bekijken" || !aanvraagId) {
+            return;
+        }
+
+        const response = await fetch(`/api/stageaanvragen/${aanvraagId}`);
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.log(data.message);
+            return;
+        }
+
+        const aanvraag = data.aanvraag;
+
+        const feedbackVeld =
+            document.querySelector("#commissieFeedback");
+
+        if (feedbackVeld) {
+            feedbackVeld.value =
+                aanvraag.feedback || "Geen feedback beschikbaar.";
+
+            feedbackVeld.readOnly = true;
+        }
+
+        const indienenKnop =
+            document.querySelector(".feedback-indienen-btn");
+
+        if (indienenKnop) {
+            indienenKnop.style.display = "none";
+        }
+    } catch (error) {
+        console.error("Fout bij ophalen van bestaande feedback", error);
+    }
+}
+
+laadBestaandeFeedback();
+
+const terugKnop = document.querySelector("#terugKnop");
+
+if (terugKnop) {
+    terugKnop.addEventListener("click", function () {
         window.location.href =
-            "stageaanvraagstagecommissie.html";
+            "/stagecommissie/stageaanvragen";
     });
 }
+
 
 // Student overzicht: extra scherm tonen na beslissing stagecommissie
 const studentStatusExtra = document.querySelector("#studentStatusExtra");
@@ -573,26 +686,3 @@ if (studentStatusExtra) {
     }
 }
 
-// Stagecommissie: feedback indienen naar student
-const feedbackIndienenKnop = document.querySelector(".feedback-indienen-btn");
-
-if (feedbackIndienenKnop) {
-    feedbackIndienenKnop.addEventListener("click", function () {
-        const params = new URLSearchParams(window.location.search);
-        const aanvraagIndex = params.get("index");
-
-        const nieuweStatus = feedbackIndienenKnop.dataset.status;
-        const feedbackTekst = document.querySelector("#commissieFeedback").value;
-
-        const aanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
-
-        if (aanvragen[aanvraagIndex]) {
-            aanvragen[aanvraagIndex].commissieStatus = nieuweStatus;
-            aanvragen[aanvraagIndex].commissieFeedback = feedbackTekst;
-
-            localStorage.setItem("stageaanvragen", JSON.stringify(aanvragen));
-        }
-
-        window.location.href = "stageaanvraagstagecommissie.html";
-    });
-}
