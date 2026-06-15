@@ -630,7 +630,7 @@ function toonStudentBeslissing(aanvraag) {
 
     const laatsteBol = laatsteStap?.querySelector(".progress-dot");
 
-    const laatsteTekst = laatsteStap?.querySelector("span");
+    const laatsteTekst = laatsteStap?.querySelector("p");
 
     if (!studentStatusExtra) {
         return;
