@@ -74,10 +74,22 @@ if (aanvraagForm) {
         };
 
         try {
-            const response = await fetch('/api/stageaanvragen', {
-                method: 'POST',
+            const params = new URLSearchParams(window.location.search);
+            const aanvraagId = params.get("id");
+            const mode = params.get("mode");
+
+            let url = "/api/stageaanvragen";
+            let methode = "POST";
+
+            if (mode === "aanpassen" && aanvraagId) {
+                url = `/api/stageaanvragen/${aanvraagId}`;
+                methode = "PATCH";
+            }
+
+            const response = await fetch(url, {
+                method: methode,
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(aanvraagData)
             });
@@ -91,17 +103,18 @@ if (aanvraagForm) {
 
             alert(data.message);
 
-            window.location.href = '/student/stageaanvraagoverzicht.html';
+            window.location.href =
+                "/student/stageaanvraagoverzicht.html";
+
         } catch (error) {
             console.error(
-                'Fout bij indienen stageaanvraag:',
+                "Fout bij opslaan stageaanvraag:",
                 error
             );
         }
 
     });
 }
-
 
 function updateProgressStatus(status) {
     const volgorde = ["ingediend", "administratie", "behandeling", "goedgekeurd"];
@@ -193,17 +206,7 @@ async function laadMijnStageaanvraag() {
             updateProgressStatus("administratie");
         }
 
-        if (aanvraag.status === "GOEDGEKEURD") {
-            updateProgressStatus("goedgekeurd");
-        }
-
-        if (aanvraag.status === "AANPASSING_GEVRAAGD") {
-            updateProgressStatus("behandeling");
-        }
-
-        if (aanvraag.status === "AFGEKEURD") {
-            updateProgressStatus("behandeling");
-        }
+        toonStudentBeslissing(aanvraag);
 
     } catch (error) {
         console.error("Fout bij ophalen van de stageaanvraag", error);
@@ -616,23 +619,35 @@ if (terugKnop) {
 
 
 // Student overzicht: extra scherm tonen na beslissing stagecommissie
-const studentStatusExtra = document.querySelector("#studentStatusExtra");
+function toonStudentBeslissing(aanvraag) {
+    const studentStatusExtra = document.querySelector("#studentStatusExtra");
 
-if (studentStatusExtra) {
-    const laatsteAanvraag = JSON.parse(localStorage.getItem("stageaanvraag"));
-    const alleAanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+    const detailsCard = document.querySelector(".details-card");
 
-    const aanvraag = alleAanvragen.find(function (item) {
-        return item.studentnummer === laatsteAanvraag.studentnummer;
-    });
+    const statusMessage = document.querySelector("#statusMessage")
 
-    if (aanvraag && aanvraag.commissieStatus === "goedgekeurd") {
+    const laatsteStap = document.querySelectorAll(".progress-step")[3];
+
+    const laatsteBol = laatsteStap?.querySelector(".progress-dot");
+
+    const laatsteTekst = laatsteStap?.querySelector("span");
+
+    if (!studentStatusExtra) {
+        return;
+    }
+
+    studentStatusExtra.innerHTML = "";
+
+    if (aanvraag.status === "GOEDGEKEURD") {
         updateProgressStatus("goedgekeurd");
 
-        document.querySelector("#statusMessage").textContent =
-            "Je aanvraag werd geaccepteerd.";
+        if (statusMessage) {
+            statusMessage.textContent = "Je aanvraag werd geaccepteerd.";
+        }
 
-        document.querySelector(".details-card").style.display = "none";
+        if (detailsCard) {
+            detailsCard.style.display = "none";
+        }
 
         studentStatusExtra.innerHTML = `
             <div class="stage-contract-card">
@@ -645,44 +660,163 @@ if (studentStatusExtra) {
         `;
     }
 
-    if (aanvraag && aanvraag.commissieStatus === "aanpassing") {
-        document.querySelector("#statusMessage").textContent =
-            "Je aanvraag moet aangepast worden.";
+    if (aanvraag.status === "AANPASSING_GEVRAAGD") {
+        updateProgressStatus("behandeling");
 
-        document.querySelector(".details-card").style.display = "none";
+        if (statusMessage) {
+            statusMessage.textContent =
+                "Je aanvraag moet aangepast worden.";
+        }
+
+        if (detailsCard) {
+            detailsCard.style.display = "none";
+        }
+
+        if (laatsteTekst) {
+            laatsteTekst.textContent = "Aanpassing vereist";
+        }
+
+        if (laatsteBol) {
+            laatsteBol.classList.add("aanpassing-bol");
+        }
 
         studentStatusExtra.innerHTML = `
         <div class="feedback-box">
             <strong>Feedback van de stagecommissie</strong>
+
             <ul>
-                <li>${aanvraag.commissieFeedback}</li>
+                <li>
+                    ${aanvraag.feedback || "Geen feedback beschikbaar."}
+                </li>
             </ul>
         </div>
 
-        <button class="submit-btn">
+        <button
+            type="button"
+            class="submit-btn"
+            onclick="window.location.href='/student/stageaanvraagformulier.html?id=${aanvraag.id}&mode=aanpassen'"
+        >
             Aanvraag aanpassen
         </button>
     `;
     }
 
-    if (aanvraag && aanvraag.commissieStatus === "afgekeurd") {
-        document.querySelector("#statusMessage").textContent =
-            "Je aanvraag werd afgekeurd.";
+    if (aanvraag.status === "AFGEKEURD") {
+        updateProgressStatus("behandeling");
 
-        document.querySelector(".details-card").style.display = "none";
+        if (statusMessage) {
+            statusMessage.textContent =
+                "Je aanvraag werd afgekeurd.";
+        }
+
+        if (detailsCard) {
+            detailsCard.style.display = "none";
+        }
 
         studentStatusExtra.innerHTML = `
-        <div class="feedback-box">
-            <strong>Feedback van de stagecommissie</strong>
-            <ul>
-                <li>${aanvraag.commissieFeedback}</li>
-            </ul>
-        </div>
+    <div class="feedback-box">
+        <strong>Feedback van de stagecommissie</strong>
+        <ul>
+            <li>${aanvraag.feedback || "Geen feedback beschikbaar."}</li>
+        </ul>
+    </div>
 
-        <button class="submit-btn">
-            Nieuw aanvraag starten
-        </button>
-    `;
+    <button
+        class="submit-btn"
+        onclick="window.location.href='/student/stageaanvraagformulier.html'"
+    >
+        Nieuwe aanvraag starten
+    </button>
+`;
+
+        if (laatsteTekst) {
+            laatsteTekst.textContent = "Afgekeurd";
+        }
+
+        if (laatsteBol) {
+            laatsteBol.classList.add("afgekeurd-bol");
+        }
+    }
+
+}
+
+async function laadAanvraagOmAanTePassen() {
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const aanvraagId = params.get("id");
+        const mode = params.get("mode");
+
+        if (mode !== "aanpassen" || !aanvraagId) {
+            return;
+        }
+
+        const response = await fetch(
+            `/api/stageaanvragen/${aanvraagId}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error(data.message);
+            return;
+        }
+
+        const aanvraag = data.aanvraag;
+
+        document.querySelector("#startdatum").value =
+            aanvraag.startdatum
+                ? aanvraag.startdatum.substring(0, 10)
+                : "";
+
+        document.querySelector("#einddatum").value =
+            aanvraag.einddatum
+                ? aanvraag.einddatum.substring(0, 10)
+                : "";
+
+        document.querySelector("#functie").value =
+            aanvraag.functie || "";
+
+        document.querySelector("#bedrijfsnaam").value =
+            aanvraag.bedrijfsnaam || "";
+
+        document.querySelector("#telefoonnummer").value =
+            aanvraag.telefoonnummer || "";
+
+        document.querySelector("#emailBedrijf").value =
+            aanvraag.email_bedrijf || "";
+
+        document.querySelector("#gemeente").value =
+            aanvraag.gemeente || "";
+
+        document.querySelector("#postcode").value =
+            aanvraag.postcode || "";
+
+        document.querySelector("#straat").value =
+            aanvraag.straat || "";
+
+        document.querySelector("#straatnummer").value =
+            aanvraag.straatnummer || "";
+
+        document.querySelector("#contactVoornaam").value =
+            aanvraag.contact_voornaam || "";
+
+        document.querySelector("#contactNaam").value =
+            aanvraag.contact_naam || "";
+
+        document.querySelector("#opdracht").value =
+            aanvraag.opdracht || "";
+
+        document.querySelector("#omschrijving").value =
+            aanvraag.omschrijving || "";
+
+    } catch (error) {
+        console.error(
+            "Fout bij laden van stageaanvraag:",
+            error
+        );
     }
 }
 
+if (document.querySelector("#aanvraagForm")) {
+    laadAanvraagOmAanTePassen();
+}

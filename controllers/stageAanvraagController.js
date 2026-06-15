@@ -321,7 +321,117 @@ const getStageaanvraagOpId = async (req, res) => {
     }
 }
 
+const updateStageaanvraag = async (req, res) => {
+    try {
+        const aanvraagId = req.params.id;
+        const studentId = req.user.id;
 
+        const {
+            startdatum,
+            einddatum,
+            functie,
+            bedrijfsnaam,
+            telefoonnummer,
+            emailBedrijf,
+            gemeente,
+            postcode,
+            straat,
+            straatnummer,
+            contactVoornaam,
+            contactNaam,
+            opdracht,
+            omschrijving
+        } = req.body;
+
+        if (
+            !startdatum ||
+            !einddatum ||
+            !functie ||
+            !bedrijfsnaam ||
+            !telefoonnummer ||
+            !emailBedrijf ||
+            !gemeente ||
+            !postcode ||
+            !straat ||
+            !straatnummer ||
+            !contactVoornaam ||
+            !contactNaam ||
+            !opdracht ||
+            !omschrijving
+        ) {
+            return res.status(400).json({
+                status: "error",
+                message: "Vul alle verplichte velden in"
+            });
+        }
+
+        const query = `
+            UPDATE stageaanvragen
+            SET
+                startdatum = ?,
+                einddatum = ?,
+                functie = ?,
+                bedrijfsnaam = ?,
+                email_bedrijf = ?,
+                telefoonnummer = ?,
+                gemeente = ?,
+                postcode = ?,
+                straat = ?,
+                straatnummer = ?,
+                contact_voornaam = ?,
+                contact_naam = ?,
+                opdracht = ?,
+                omschrijving = ?,
+                status = 'INGEDIEND',
+                feedback = NULL
+            WHERE id = ?
+            AND student_id = ?
+        `;
+
+        const waarden = [
+            startdatum,
+            einddatum,
+            functie,
+            bedrijfsnaam,
+            emailBedrijf,
+            telefoonnummer,
+            gemeente,
+            postcode,
+            straat,
+            straatnummer,
+            contactVoornaam,
+            contactNaam,
+            opdracht,
+            omschrijving,
+            aanvraagId,
+            studentId
+        ];
+
+        const [result] = await connection
+            .promise()
+            .query(query, waarden);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                status: "error",
+                message: "Stageaanvraag niet gevonden"
+            });
+        }
+
+        return res.status(200).json({
+            status: "success",
+            message: "Stageaanvraag succesvol aangepast"
+        });
+
+    } catch (error) {
+        console.error("Fout bij aanpassen stageaanvraag:", error);
+
+        return res.status(500).json({
+            status: "error",
+            message: "Stageaanvraag kon niet worden aangepast"
+        });
+    }
+};
 
 
 const updateStageaanvraagStatus = async (req, res) => {
@@ -384,4 +494,4 @@ const updateStageaanvraagStatus = async (req, res) => {
 
 
 
-module.exports = { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraagStatus }; // andere besantden mogen deze functie ook importeren.
+module.exports = { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId,updateStageaanvraag, updateStageaanvraagStatus }; // andere besantden mogen deze functie ook importeren.

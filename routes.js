@@ -2,12 +2,13 @@ const express = require('express'); // we gaan eerst express importeren, je gebr
 
 const router = express.Router(); // hiermme maak je een router object
 const path = require('path');// dit helpt om coorecte bestandspaden te maken.
+const connection = require('./config/db_connection');
 
 const { loginGebruiker } = require('./controllers/authController');
 const { registreerGebruiker } = require('./controllers/registerController');
 const requireAuth = require('./middleware/requireAuth');
 const { getStudentProfile } = require('./controllers/studentController');
-const {maakStageaanvraag,getMijnStageaanvragen,getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraagStatus} = require('./controllers/stageAanvraagController');
+const { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraag, updateStageaanvraagStatus } = require('./controllers/stageAanvraagController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -39,10 +40,11 @@ DELETE = gegevens verwijderen */
 router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
 router.get('/api/student/profile', requireAuth, getStudentProfile);
-router.post('/api/stageaanvragen',requireAuth,maakStageaanvraag);
-router.get('/api/stageaanvragen/mijn',requireAuth,getMijnStageaanvragen);
+router.post('/api/stageaanvragen', requireAuth, maakStageaanvraag);
+router.get('/api/stageaanvragen/mijn', requireAuth, getMijnStageaanvragen);
 router.get('/api/stagecommissie/stageaanvragen', requireAuth, getAlleStageaanvragen);
 router.get('/api/stageaanvragen/:id', requireAuth, getStageaanvraagOpId);
+router.patch('/api/stageaanvragen/:id', requireAuth,updateStageaanvraag);
 router.patch('/api/stageaanvragen/:id/status', requireAuth, updateStageaanvraagStatus);
 
 
@@ -52,7 +54,7 @@ router.patch('/api/stageaanvragen/:id/status', requireAuth, updateStageaanvraagS
 //-------------------------Token en role opslaan in session---------------------------
 
 router.get('/set-token', (req, res) => { //Deze route wordt gebruikt na een succesvolle login.
-    const {token, role} = req.query;  
+    const { token, role } = req.query;
 
     req.session.token = token;
 
@@ -62,9 +64,7 @@ router.get('/set-token', (req, res) => { //Deze route wordt gebruikt na een succ
     });
 
     if (role === 'STUDENT') {
-        return res.redirect(
-            '/student/stageaanvraagoverzicht.html'
-        );
+        return res.redirect('/student/start');
     }
 
     if (role === 'DOCENT') {
@@ -89,8 +89,42 @@ router.get('/set-token', (req, res) => { //Deze route wordt gebruikt na een succ
 
 // ---------------------------------Voorlopige test-homeroutes---------------------------
 
-router.get('/student/stageaanvraag', (req, res)=>{
-     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraag.html'));
+router.get('/student/start', requireAuth, async (req, res) => {
+    try {
+        const studentId = req.user.id;
+
+        const query = `
+            SELECT id
+            FROM stageaanvragen
+            WHERE student_id = ?
+            LIMIT 1
+        `;
+
+        const [rows] = await connection
+            .promise()
+            .query(query, [studentId]);
+
+        if (rows.length > 0) {
+            return res.redirect(
+                '/student/stageaanvraagoverzicht.html'
+            );
+        }
+
+        return res.redirect('/student/stageaanvraag');
+
+    } catch (error) {
+        console.error(
+            'Fout bij controleren stageaanvraag:',
+            error
+        );
+
+        return res.redirect('/student/stageaanvraag');
+    }
+});
+
+
+router.get('/student/stageaanvraag', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraag.html'));
 });
 
 router.get('/student/stageaanvraagformulier.html', (req, res) => {
@@ -101,46 +135,46 @@ router.get('/student/stageaanvraagoverzicht.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagoverzicht.html'));
 });
 
-router.get('/docent/home', (req, res)=>{
+router.get('/docent/home', (req, res) => {
     res.send('Welkom docent');
 });
 
-router.get('/bedrijf/home', (req, res)=>{
+router.get('/bedrijf/home', (req, res) => {
     res.send('Welkom mentor');
 });
 
-router.get('/stagecommissie/home', (req, res)=>{
+router.get('/stagecommissie/home', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'stagecommissiehome.html'));
 });
 
-router.get('/stagecommissie/stageaanvragen', (req, res)=>{
+router.get('/stagecommissie/stageaanvragen', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagstagecommissie.html'));
 });
 
-router.get('/stagecommissie/stageaanvraagoverzichtstagecomissie.html', requireAuth, (req, res)=> {
+router.get('/stagecommissie/stageaanvraagoverzichtstagecomissie.html', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagoverzichtstagecomissie.html'));
 });
 
-router.get('/stagecommissie/stageaanvraaggoedgekeurdstagecommissie.html',requireAuth, (req, res) => {
-        res.sendFile(path.join(__dirname,'views','html','stageaanvraaggoedgekeurdstagecommissie.html'));
-    });
+router.get('/stagecommissie/stageaanvraaggoedgekeurdstagecommissie.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraaggoedgekeurdstagecommissie.html'));
+});
 
-router.get('/stagecommissie/stageaanvraagafgekeurdstagecommissie.html',requireAuth,(req, res) => {
-        res.sendFile(path.join(__dirname,'views','html','stageaanvraagafgekeurdstagecommissie.html'));
-    });
+router.get('/stagecommissie/stageaanvraagafgekeurdstagecommissie.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagafgekeurdstagecommissie.html'));
+});
 
-router.get('/stagecommissie/stageaanvraagaangepaststagecommissie.html',requireAuth,(req, res) => {
-        res.sendFile(path.join(__dirname,'views','html','stageaanvraagaangepaststagecommissie.html'));
-    });
+router.get('/stagecommissie/stageaanvraagaangepaststagecommissie.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagaangepaststagecommissie.html'));
+});
 
-router.get('/admin/home', (req, res)=>{
+router.get('/admin/home', (req, res) => {
     res.send('Welkom admin');
 });
 
 
-router.get('/logout', (req,res)=>{ // Deze route wordt gebruikt om uit te loggen.
-    req.session.destroy((err)=>{ //Verwijder de session van deze gebruiker.
-        if(err){ //Als de sessie niet verwijderd kan worden, stuur je een serverfout terug.
+router.get('/logout', (req, res) => { // Deze route wordt gebruikt om uit te loggen.
+    req.session.destroy((err) => { //Verwijder de session van deze gebruiker.
+        if (err) { //Als de sessie niet verwijderd kan worden, stuur je een serverfout terug.
             return res.status(500).json({
                 status: 'error',
                 message: 'Failed to end session'
