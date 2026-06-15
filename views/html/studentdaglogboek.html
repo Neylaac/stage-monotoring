@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagelijks logboek</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Student</div>
+
+        <a href="stageaanvraag.html" class="menu-item">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Stageaanvraag</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="studentlogboeken.html" class="menu-item active">
+            <i class="fa-solid fa-book"></i>
+            <span>Logboeken</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Evaluatie</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiel</span>
+        </a>
+    </div>
+
+    <a href="#" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Uitloggen
+    </a>
+</aside>
+
+<main class="main-content">
+
+    <header class="topbar">
+        <i class="fa-regular fa-bell"></i>
+        <div class="user-circle">NA</div>
+        <span class="ehb-logo">ehbc</span>
+    </header>
+
+    <section class="content daglogboek-page">
+
+        <h1>Dagelijks logboek</h1>
+
+        <div class="dag-form">
+
+            <div class="form-row">
+                <label>Datum</label>
+                <input type="date">
+            </div>
+
+            <div class="form-row">
+                <label>Aantal uren</label>
+                <input type="number">
+            </div>
+
+            <div class="form-row large">
+                <label>Taken van vandaag</label>
+                <textarea></textarea>
+            </div>
+
+            <div class="form-row large">
+                <label>Wat heb ik geleerd?</label>
+                <textarea></textarea>
+            </div>
+
+            <div class="form-row large">
+                <label>Problemen / moeilijkheden</label>
+                <textarea></textarea>
+            </div>
+
+        </div>
+
+        <div class="competenties-section">
+
+            <h2>Competenties</h2>
+            <p>Duid jouw competenties aan</p>
+
+            <div class="competenties-grid">
+
+                <button>Planning</button>
+                <button>Ontwerp</button>
+                <button>Implementatie</button>
+
+                <button>Integratie</button>
+                <button>Onderzoek</button>
+                <button>Communicatie</button>
+
+                <button>Probleemoplossing</button>
+                <button>Groei</button>
+                <button>Professionaliteit</button>
+
+                <button>Ondernemerschap</button>
+                <button>Ethiek</button>
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+            <button class="concept-btn">Opslaan als concept</button>
+            <button class="submit-btn">Opslaan</button>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
