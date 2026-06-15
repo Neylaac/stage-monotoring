@@ -45,7 +45,7 @@ CREATE TABLE stageaanvragen (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
     student_id INT NOT NULL,
-    docent_id INT NULL
+    docent_id INT NULL,
     bedrijf_id INT NULL,
 
     startdatum DATE NOT NULL,
@@ -83,3 +83,20 @@ CREATE TABLE stageaanvragen (
     FOREIGN KEY (bedrijf_id)REFERENCES bedrijf_profiles(id)ON DELETE SET NULL
 );
 
+CREATE TABLE stageovereenkomsten (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    stageaanvraag_id INT NOT NULL,
+
+    student_ondertekend BOOLEAN DEFAULT FALSE,
+    bedrijf_ondertekend BOOLEAN DEFAULT FALSE,
+    school_ondertekend BOOLEAN DEFAULT FALSE,
+
+    goedgekeurd BOOLEAN DEFAULT FALSE,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (stageaanvraag_id)
+    REFERENCES stageaanvragen(id)
+    ON DELETE CASCADE
+);

@@ -1,6 +1,7 @@
 const express = require('express'); // we gaan eerst express importeren, je gebruikt dus express in dit bestand
 
 const router = express.Router(); // hiermme maak je een router object
+
 const path = require('path');// dit helpt om coorecte bestandspaden te maken.
 const connection = require('./config/db_connection');
 
@@ -9,6 +10,10 @@ const { registreerGebruiker } = require('./controllers/registerController');
 const requireAuth = require('./middleware/requireAuth');
 const { getStudentProfile } = require('./controllers/studentController');
 const { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraag, updateStageaanvraagStatus } = require('./controllers/stageAanvraagController');
+const {
+    getAlleStageovereenkomsten,
+    getStageovereenkomstOpId
+} = require('./controllers/stageOvereenkomstController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -185,5 +190,136 @@ router.get('/logout', (req, res) => { // Deze route wordt gebruikt om uit te log
         res.redirect('/login')
     });
 });
+router.get('/api/test', (req, res) => {
+    res.send('TEST');
+});
 
-module.exports = router;  // Andere bestanden mogen deze router gebruiken.
+/* Docent */
+
+router.get("/", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "docent-stageovereenkomst-overzicht.html"
+        )
+    );
+});
+
+router.get("/stageovereenkomst-detail", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "docent-stageovereenkomst-detail.html"
+        )
+    );
+});
+
+/* Student */
+
+router.get("/student-stageovereenkomst-detail", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "student-stageovereenkomst-detail.html"
+        )
+    );
+});
+
+/* Itsme */
+
+router.get("/itsme", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "itsme.html"
+        )
+    );
+});
+
+/* Bedrijf */
+
+router.get("/bedrijf-stageovereenkomst-overzicht", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "bedrijf-stageovereenkomst-overzicht.html"
+        )
+    );
+});
+
+router.get("/bedrijf-student-overzicht", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "bedrijf-student-overzicht.html"
+        )
+    );
+});
+
+router.get("/bedrijf-stageovereenkomst-detail", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "bedrijf-stageovereenkomst-detail.html"
+        )
+    );
+});
+
+/* Stagecommissie */
+
+router.get("/stagecommissie-stageovereenkomst-overzicht", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "stagecommissie-stageovereenkomst-overzicht.html"
+        )
+    );
+});
+
+router.get("/stagecommissie-stageovereenkomst-detail", (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            "views",
+            "html",
+            "stagecommissie-stageovereenkomst-detail.html"
+        )
+    );
+});
+
+router.get(
+    '/api/stageovereenkomsten',
+    getAlleStageovereenkomsten
+);
+
+router.get(
+    '/api/stageovereenkomsten/:id',
+    getStageovereenkomstOpId
+);
+router.get('/student-stageovereenkomst-detail', (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'student-stageovereenkomst-detail.html'
+        )
+    );
+});
+module.exports = router;

@@ -1,3 +1,4 @@
+console.log("SERVER JS WORDT UITGEVOERD");
 const express = require('express');
 const session = require('express-session');
 const path = require('path');

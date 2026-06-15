@@ -653,9 +653,12 @@ function toonStudentBeslissing(aanvraag) {
             <div class="stage-contract-card">
                 <h2>Stageovereenkomst</h2>
 
-                <button class="submit-btn">
-                    Ondertekenen
-                </button>
+                <button
+    class="submit-btn"
+    onclick="window.location.href='/student-stageovereenkomst-detail'"
+>
+    Ondertekenen
+</button>
             </div>
         `;
     }
