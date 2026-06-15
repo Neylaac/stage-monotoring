@@ -2,11 +2,11 @@ const express = require('express'); // we gaan eerst express importeren, je gebr
 
 const router = express.Router(); // hiermme maak je een router object
 const path = require('path');// dit helpt om coorecte bestandspaden te maken.
-const connection = require('./config/db_connection');
+const connection = require('./config/db_connection');//importeert de databaseverbinding
 
-const { loginGebruiker } = require('./controllers/authController');
+const { loginGebruiker } = require('./controllers/authController');// haalt de functie logingebruiker uit authcontroller.js
 const { registreerGebruiker } = require('./controllers/registerController');
-const requireAuth = require('./middleware/requireAuth');
+const requireAuth = require('./middleware/requireAuth'); //importeert je middleware die controleert of iemand ingelogd is, requireAuth controleert de login.
 const { getStudentProfile } = require('./controllers/studentController');
 const { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraag, updateStageaanvraagStatus } = require('./controllers/stageAanvraagController');
 
@@ -15,7 +15,7 @@ const { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStag
 router.get('/', (req, res) => { //loginpagina
     res.sendFile(path.join(__dirname, 'views', 'html', 'login.html'));
     //met path.join maakt node.js direct een automatische correct pad
-    // als iemand naar de homepage gaat toon de login.html
+   
 
 
 });
@@ -100,9 +100,7 @@ router.get('/student/start', requireAuth, async (req, res) => {
             LIMIT 1
         `;
 
-        const [rows] = await connection
-            .promise()
-            .query(query, [studentId]);
+        const [rows] = await connection.promise().query(query, [studentId]);
 
         if (rows.length > 0) {
             return res.redirect(

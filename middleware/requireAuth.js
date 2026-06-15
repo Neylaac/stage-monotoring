@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
+//token = eeen soort digitaal bewijs van login
+require('dotenv').config(); //leest het env bestand
 
-require('dotenv').config();
-
-const requireAuth = (req, res, next) =>{
-    const token = req.session.token;
+const requireAuth = (req, res, next) =>{ //ga naar het volgende onderdeel van de route
+    const token = req.session.token; //token opgeslagen in de sessie
 
     if(!token){
-        return res.status(401).json({
+        return res.status(401).json({ //als geen token stuur dan dat
             status: 'error',
             message: 'Niet ingelogd'
         });
@@ -14,13 +14,13 @@ const requireAuth = (req, res, next) =>{
 
     try{
         const decodeUser = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        //jwt.verify controleert eigenlijk de functie 
+        req.user = decodeUser; //gebruiker opslaan in req.user
 
-        req.user = decodeUser;
-
-        next();
+        next();//naar het volgende
 
     }catch (error){
-        return res.status(403).json({
+        return res.status(403).json({ //403: toegang verboden
             status: 'error', 
             message: 'Ongeldig sessie'
         });

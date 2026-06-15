@@ -19,7 +19,7 @@ const loginGebruiker = async (req,res) =>{ // maken een functie met de naam logi
             });// als geen gebruiker sturen we dit
         }
 
-        const user = rows[0]; //als gebruiker bestaal, zit huj in rows
+        const user = rows[0]; //als gebruiker bestaat, zit hij in rows
 
         const isPasswordValid = await bcrypt.compare(wachtwoord, user.wachtwoord); 
         //(wachtwoord, user.wachtwoord) --> wachtwoord is wat de gebruiker net heeft getypt, user.wachtwoord is wat in de databse staat
