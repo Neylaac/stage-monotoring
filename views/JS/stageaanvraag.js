@@ -596,3 +596,54 @@ if (feedbackIndienenKnop) {
         window.location.href = "stageaanvraagstagecommissie.html";
     });
 }
+
+
+// Student homepagina aanpassen op basis van status
+
+const studentHomeCard = document.querySelector("#studentHomeCard");
+
+if (studentHomeCard) {
+
+    const laatsteAanvraag = JSON.parse(localStorage.getItem("stageaanvraag"));
+    const alleAanvragen = JSON.parse(localStorage.getItem("stageaanvragen")) || [];
+
+    if (laatsteAanvraag) {
+
+        const aanvraag = alleAanvragen.find(function(item) {
+            return item.studentnummer === laatsteAanvraag.studentnummer;
+        });
+
+        if (aanvraag && aanvraag.commissieStatus === "goedgekeurd") {
+
+            studentHomeCard.innerHTML = `
+                <h2>Stageovereenkomst</h2>
+
+                <a href="stageovereenkomststudent.html" class="btn">
+                    Stageovereenkomst openen
+                </a>
+            `;
+        }
+
+        if (aanvraag && aanvraag.commissieStatus === "aanpassing") {
+
+            studentHomeCard.innerHTML = `
+                <h2>Aanpassing vereist</h2>
+
+                <a href="stageaanvraagoverzicht.html" class="btn">
+                    Feedback bekijken
+                </a>
+            `;
+        }
+
+        if (aanvraag && aanvraag.commissieStatus === "afgekeurd") {
+
+            studentHomeCard.innerHTML = `
+                <h2>Aanvraag afgekeurd</h2>
+
+                <a href="stageaanvraagoverzicht.html" class="btn">
+                    Feedback bekijken
+                </a>
+            `;
+        }
+    }
+}
