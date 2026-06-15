@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,152 +12,160 @@
 
 <body>
 
-<aside class="sidebar">
-    <div>
-        <div class="sidebar-title">Stagecommissie</div>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Stagecommissie</div>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="stageaanvraagstagecommissie.html" class="menu-item active">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvragen</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
+        </div>
+
+        <a href="#" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Uitloggen
         </a>
+    </aside>
 
-        <a href="stageaanvraagstagecommissie.html" class="menu-item active">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Stageaanvragen</span>
-        </a>
+    <main class="main-content">
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <span>Stageovereenkomst</span>
-        </a>
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">SC</div>
+            <span class="ehb-logo">ehbc</span>
+        </header>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-    </div>
+        <section class="content form-page">
 
-    <a href="#" class="logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
-    </a>
-</aside>
+            <h1 class="form-title">Stageaanvraag bekijken</h1>
 
-<main class="main-content">
+            <form class="figma-form commissie-formulier">
 
-    <header class="topbar">
-        <i class="fa-regular fa-bell"></i>
-        <div class="user-circle">SC</div>
-        <span class="ehb-logo">ehbc</span>
-    </header>
+                <div class="form-grid">
 
-    <section class="content form-page">
+                    <div class="form-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-user"></i></div>
+                            <h2>Studentgegevens</h2>
+                        </div>
 
-        <h1 class="form-title">Stageaanvraag bekijken</h1>
+                        <label>Naam</label>
+                        <input type="text" data-commissie-aanvraag="naam" readonly>
 
-        <form class="figma-form commissie-formulier">
+                        <label>Achternaam</label>
+                        <input type="text" data-commissie-aanvraag="achternaam" readonly>
 
-            <div class="form-grid">
+                        <label>Studentnummer</label>
+                        <input type="text" data-commissie-aanvraag="studentnummer" readonly>
 
-                <div class="form-card">
-                    <div class="card-title">
-                        <div class="icon-circle"><i class="fa-solid fa-user"></i></div>
-                        <h2>Studentgegevens</h2>
+                        <label>Opleiding</label>
+                        <input type="text" data-commissie-aanvraag="opleiding" readonly>
                     </div>
 
-                    <label>Naam</label>
-                    <input type="text" data-commissie-aanvraag="naam" readonly>
+                    <div class="form-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-briefcase"></i></div>
+                            <h2>Stagegegevens</h2>
+                        </div>
 
-                    <label>Achternaam</label>
-                    <input type="text" data-commissie-aanvraag="achternaam" readonly>
+                        <label>Startdatum</label>
+                        <input type="text" data-commissie-aanvraag="startdatum" readonly>
 
-                    <label>Studentnummer</label>
-                    <input type="text" data-commissie-aanvraag="studentnummer" readonly>
+                        <label>Einddatum</label>
+                        <input type="text" data-commissie-aanvraag="einddatum" readonly>
 
-                    <label>Opleiding</label>
-                    <input type="text" data-commissie-aanvraag="opleiding" readonly>
-                </div>
-
-                <div class="form-card">
-                    <div class="card-title">
-                        <div class="icon-circle"><i class="fa-solid fa-briefcase"></i></div>
-                        <h2>Stagegegevens</h2>
+                        <label>Titel / Functie</label>
+                        <input type="text" data-commissie-aanvraag="functie" readonly>
                     </div>
 
-                    <label>Startdatum</label>
-                    <input type="text" data-commissie-aanvraag="startdatum" readonly>
+                    <div class="form-card bedrijf-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
+                            <h2>Bedrijfsgegevens</h2>
+                        </div>
 
-                    <label>Einddatum</label>
-                    <input type="text" data-commissie-aanvraag="einddatum" readonly>
+                        <label>Bedrijfsnaam</label>
+                        <input type="text" data-commissie-aanvraag="bedrijfsnaam" readonly>
 
-                    <label>Titel / Functie</label>
-                    <input type="text" data-commissie-aanvraag="functie" readonly>
-                </div>
+                        <label>Telefoonnummer</label>
+                        <input type="text" data-commissie-aanvraag="telefoonnummer" readonly>
 
-                <div class="form-card bedrijf-card">
-                    <div class="card-title">
-                        <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
-                        <h2>Bedrijfsgegevens</h2>
-            </div>
+                        <label>E-mail</label>
+                        <input type="text" data-commissie-aanvraag="email_bedrijf" readonly>
 
-                 <label>Bedrijfsnaam</label>
-                 <input type="text" data-commissie-aanvraag="bedrijfsnaam" readonly>
+                        <label>Gemeente</label>
+                        <input type="text" data-commissie-aanvraag="gemeente" readonly>
 
-                <label>Telefoonnummer</label>
-            <input type="text" data-commissie-aanvraag="telefoonnummer" readonly>
+                        <label>Postcode</label>
+                        <input type="text" data-commissie-aanvraag="postcode" readonly>
 
-                    <label>E-mail</label>
-                    <input type="text" data-commissie-aanvraag="email_bedrijf" readonly>
-                </div>
+                        <label>Straat</label>
+                        <input type="text" data-commissie-aanvraag="straat" readonly>
 
-                <div class="form-card docent-card">
-                    <div class="card-title">
-                        <div class="icon-circle"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <h2>Docentgegevens</h2>
+                        <label>Straatnummer</label>
+                        <input type="text" data-commissie-aanvraag="straatnummer" readonly>
+
+                        <label>Voornaam contactpersoon</label>
+                        <input type="text" data-commissie-aanvraag="contact_voornaam" readonly>
+
+                        <label>Naam contactpersoon</label>
+                        <input type="text" data-commissie-aanvraag="contact_naam" readonly>
                     </div>
 
-                    <label>Naam</label>
-                    <input type="text" data-commissie-aanvraag="docent_naam" readonly>
 
-                    <label>E-mail</label>
-                    <input type="text" data-commissie-aanvraag="docent_email" readonly>
-                </div>
 
-            </div>
 
-            <div class="form-card description-card">
-                <div class="card-title">
-                    <div class="icon-circle"><i class="fa-solid fa-clipboard-list"></i></div>
-                    <h2>Omschrijving</h2>
-                </div>
+                    <div class="form-card description-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-clipboard-list"></i></div>
+                            <h2>Omschrijving</h2>
+                        </div>
 
-                <label>Opdracht</label>
-                <input type="text" data-commissie-aanvraag="opdracht" readonly>
+                        <label>Opdracht</label>
+                        <input type="text" data-commissie-aanvraag="opdracht" readonly>
 
-                <label>Omschrijving</label>
-                <textarea data-commissie-aanvraag="omschrijving" readonly></textarea>
-            </div>
+                        <label>Omschrijving</label>
+                        <textarea data-commissie-aanvraag="omschrijving" readonly></textarea>
+                    </div>
 
-           <div class="form-actions commissie-actions">
-    <button type="button" id="btnAanpassing" class="btn-aanpassing">
-        Aanpassingen vereist
-    </button>
 
-    <button type="button" id="btnAfkeuren" class="btn-afkeuren">
-        Afkeuren
-    </button>
+                    <div class="form-actions commissie-actions">
+                        <button type="button" id="btnAanpassing" class="btn-aanpassing">
+                            Aanpassingen vereist
+                        </button>
 
-    <button type="button" id="btnGoedkeuren" class="btn-goedkeuren">
-        Goedkeuren
-    </button>
-</div>
+                        <button type="button" id="btnAfkeuren" class="btn-afkeuren">
+                            Afkeuren
+                        </button>
 
-        </form>
+                        <button type="button" id="btnGoedkeuren" class="btn-goedkeuren">
+                            Goedkeuren
+                        </button>
+                    </div>
 
-    </section>
+            </form>
 
-</main>
+        </section>
 
-<script src="../JS/stageaanvraag.js"></script>
+    </main>
+
+    <script src="../JS/stageaanvraag.js"></script>
 </body>
+
 </html>

@@ -1,81 +1,89 @@
 const connection = require('../config/db_connection'); // je gebruikt de verbindig, dus we halen de databaseverbinfing
 
-const maakStageaanvraag = async(req,res) => { // we maken een nieuwe functie, wordt gebruikt wanneer we de stageaanvraag gaan indienen.
-    try{
+const maakStageaanvraag = async (req, res) => { // we maken een nieuwe functie, wordt gebruikt wanneer we de stageaanvraag gaan indienen.
+    try {
         const studentId = req.user.id; //Welke student is ingelogd
-        
+
         const { // destructuring
-            startdatum, 
+            startdatum,
             einddatum,
-            functie, 
-            bedrijfsnaam, 
+            functie,
+            bedrijfsnaam,
             telefoonnummer,
-            contactpersoon, 
-            adres,
             emailBedrijf,
-            docentNaam,
-            docentEmail,
-            opdracht, 
+            gemeente,
+            postcode,
+            straat,
+            straatnummer,
+            contactVoornaam,
+            contactNaam,
+            opdracht,
             omschrijving
         } = req.body;
 
 
-        if(// controleren of alles is ingevuld
-            !startdatum || 
+        if (// controleren of alles is ingevuld
+            !startdatum ||
             !einddatum ||
             !functie ||
             !bedrijfsnaam ||
             !telefoonnummer ||
-            !contactpersoon ||
-            !adres ||
             !emailBedrijf ||
-            !docentNaam ||
-            !docentEmail ||
+            !gemeente ||
+            !postcode ||
+            !straat ||
+            !straatnummer ||
+            !contactVoornaam ||
+            !contactNaam ||
             !opdracht ||
             !omschrijving
-        ){// als 1 veld niet ingevuld is dan krijg je deze error bericht
+        ) {// als 1 veld niet ingevuld is dan krijg je deze error bericht
             return res.status(400).json({
                 status: 'error',
                 message: 'Vul alle verplichte velden in'
             }); //400 = De gegevens die de gebruiker stuurde zijn niet correct of onvolledig.
         }
 
-         const query = ` 
-            INSERT INTO stageaanvragen (
-                student_id,
-                docent_id,
-                bedrijf_id,
-                docent_naam,
-                docent_email,
-                startdatum,
-                einddatum,
-                functie,
-                bedrijfsnaam,
-                contactpersoon,
-                email_bedrijf,
-                telefoonnummer,
-                adres,
-                opdracht,
-                omschrijving,
-                status
+        const query = ` 
+    INSERT INTO stageaanvragen (
+        student_id,
+        docent_id,
+        bedrijf_id,
+        startdatum,
+        einddatum,
+        functie,
+        bedrijfsnaam,
+        email_bedrijf,
+        telefoonnummer,
+        gemeente,
+        postcode,
+        straat,
+        straatnummer,
+        contact_voornaam,
+        contact_naam,
+        opdracht,
+        omschrijving,
+        status
             )
-            VALUES (
-                ?,
-                NULL,
-                NULL,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                'INGEDIEND'
+        VALUES (
+            ?,
+            NULL,
+            NULL,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,  
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            'INGEDIEND'
             )
         `;
 
@@ -87,32 +95,34 @@ const maakStageaanvraag = async(req,res) => { // we maken een nieuwe functie, wo
 
         const waarden = [
             studentId,
-            docentNaam,
-            docentEmail,
             startdatum,
             einddatum,
             functie,
             bedrijfsnaam,
-            contactpersoon,
             emailBedrijf,
             telefoonnummer,
-            adres,
+            gemeente,
+            postcode,
+            straat,
+            straatnummer,
+            contactVoornaam,
+            contactNaam,
             opdracht,
             omschrijving
         ];
 
         const [result] = await connection.promise().query(query, waarden);
-         /* connection = databaseverbinding
-         promise() = maakt await mogelijk
-         query() = voert de SQL-query uit
-         result bevat informatie over de nieuwe rij */
-        
+        /* connection = databaseverbinding
+        promise() = maakt await mogelijk
+        query() = voert de SQL-query uit
+        result bevat informatie over de nieuwe rij */
+
         return res.status(201).json({ //antwoord wanneer het succesvol aangemaakt is
             status: 'success',
             message: 'stageaanvraag succesvol ingediend',
             aanvraagId: result.insertId
         });
-    }catch(error){ // technische fout
+    } catch (error) { // technische fout
         console.error('Fout bij maken stageaanvraag', error);
 
         return res.status(500).json({ // dat sturen we naar de brouwser. 
@@ -123,8 +133,8 @@ const maakStageaanvraag = async(req,res) => { // we maken een nieuwe functie, wo
 };
 
 
-const getMijnStageaanvragen = async(req, res) =>{
-    try{
+const getMijnStageaanvragen = async (req, res) => {
+    try {
         const studentId = req.user.id //neem ingelogde student
 
         const query = `
@@ -135,11 +145,13 @@ const getMijnStageaanvragen = async(req, res) =>{
                 stageaanvragen.functie,
                 stageaanvragen.bedrijfsnaam,
                 stageaanvragen.telefoonnummer,
-                stageaanvragen.contactpersoon,
-                stageaanvragen.adres,
                 stageaanvragen.email_bedrijf,
-                stageaanvragen.docent_naam,
-                stageaanvragen.docent_email,
+                stageaanvragen.gemeente,
+                stageaanvragen.postcode,
+                stageaanvragen.straat,
+                stageaanvragen.straatnummer,
+                stageaanvragen.contact_voornaam,
+                stageaanvragen.contact_naam,
                 stageaanvragen.opdracht,
                 stageaanvragen.omschrijving,
                 stageaanvragen.status,
@@ -165,18 +177,18 @@ const getMijnStageaanvragen = async(req, res) =>{
 
             ORDER BY stageaanvragen.created_at DESC
         `;
-        
-        const [rows] = await connection.promise().query(query,[studentId]);
+
+        const [rows] = await connection.promise().query(query, [studentId]);
 
         return res.status(200).json({
             status: "success",
             aanvragen: rows
         });
-    }catch (error){
+    } catch (error) {
         console.error('Fout bij ophalen stageaanvragen va studeent', error);
 
         return res.status(500).json({
-            status: 'error', 
+            status: 'error',
             message: 'Stageaanvragen konden niet worden opgehaald'
         });
     }
@@ -184,9 +196,9 @@ const getMijnStageaanvragen = async(req, res) =>{
 
 
 
-const getAlleStageaanvragen = async(req, res) =>{
-    try{
-        const query =  `
+const getAlleStageaanvragen = async (req, res) => {
+    try {
+        const query = `
             SELECT
                 stageaanvragen.id,
                 stageaanvragen.startdatum,
@@ -194,11 +206,13 @@ const getAlleStageaanvragen = async(req, res) =>{
                 stageaanvragen.functie,
                 stageaanvragen.bedrijfsnaam,
                 stageaanvragen.telefoonnummer,
-                stageaanvragen.contactpersoon,
-                stageaanvragen.adres,
                 stageaanvragen.email_bedrijf,
-                stageaanvragen.docent_naam,
-                stageaanvragen.docent_email,
+                stageaanvragen.gemeente,
+                stageaanvragen.postcode,
+                stageaanvragen.straat,
+                stageaanvragen.straatnummer,
+                stageaanvragen.contact_voornaam,
+                stageaanvragen.contact_naam,
                 stageaanvragen.opdracht,
                 stageaanvragen.omschrijving,
                 stageaanvragen.status,
@@ -223,28 +237,28 @@ const getAlleStageaanvragen = async(req, res) =>{
             ORDER BY stageaanvragen.created_at DESC
         `;
 
-const [rows] = await connection.promise().query(query);
+        const [rows] = await connection.promise().query(query);
 
         return res.status(200).json({
             status: 'success',
             aanvragen: rows
         });
 
-} catch (error) {
-    console.error('Fout bij ophalen van alle stageaanvragen:', error);
+    } catch (error) {
+        console.error('Fout bij ophalen van alle stageaanvragen:', error);
 
-    return res.status(500).json({
-        status: 'error',
-        message: 'Stageaanvragen konden niet worden opgehaald'
-    });
-}
+        return res.status(500).json({
+            status: 'error',
+            message: 'Stageaanvragen konden niet worden opgehaald'
+        });
+    }
 };
 
-const getStageaanvraagOpId = async(req, res) =>{
-    try{
+const getStageaanvraagOpId = async (req, res) => {
+    try {
         const aanvraagId = req.params.id;
 
-        const query =  `
+        const query = `
             SELECT
                 stageaanvragen.id,
                 stageaanvragen.startdatum,
@@ -252,11 +266,13 @@ const getStageaanvraagOpId = async(req, res) =>{
                 stageaanvragen.functie,
                 stageaanvragen.bedrijfsnaam,
                 stageaanvragen.telefoonnummer,
-                stageaanvragen.contactpersoon,
-                stageaanvragen.adres,
                 stageaanvragen.email_bedrijf,
-                stageaanvragen.docent_naam,
-                stageaanvragen.docent_email,
+                stageaanvragen.gemeente,
+                stageaanvragen.postcode,
+                stageaanvragen.straat,
+                stageaanvragen.straatnummer,
+                stageaanvragen.contact_voornaam,
+                stageaanvragen.contact_naam,
                 stageaanvragen.opdracht,
                 stageaanvragen.omschrijving,
                 stageaanvragen.status,
@@ -283,9 +299,9 @@ const getStageaanvraagOpId = async(req, res) =>{
 
         const [rows] = await connection.promise().query(query, [aanvraagId]);
 
-        if(rows.length === 0){
+        if (rows.length === 0) {
             return res.status(404).json({
-                status: 'error', 
+                status: 'error',
                 message: 'Stageaanvraag niet gevonden'
             });
         }
@@ -294,11 +310,11 @@ const getStageaanvraagOpId = async(req, res) =>{
             status: 'success',
             aanvraag: rows[0]
         });
-    }catch (error){
+    } catch (error) {
         console.error('Fout bij het ophalen van stageaanvraag:', error);
 
         return res.status(500).json({
-            status: 'error', 
+            status: 'error',
             message: 'Stageaanvraag kan niet worden opgehaald'
         })
 
@@ -308,22 +324,22 @@ const getStageaanvraagOpId = async(req, res) =>{
 
 
 
-const updateStageaanvraagStatus = async(req, res) =>{
-    try{
+const updateStageaanvraagStatus = async (req, res) => {
+    try {
         const aanvraagId = req.params.id;
 
-        const {status, feedback} = req.body;
+        const { status, feedback } = req.body;
 
-        const geldigeStatussen = ["GOEDGEKEURD", "AFGEKEURD", "AANPASSING_GEVRAAGD" ];
+        const geldigeStatussen = ["GOEDGEKEURD", "AFGEKEURD", "AANPASSING_GEVRAAGD"];
 
-        if(!geldigeStatussen.includes(status)){
+        if (!geldigeStatussen.includes(status)) {
             return res.status(400).json({
                 status: 'error',
                 message: "Ongeldige status"
             });
         }
 
-        if(status !== "GOEDGEKEURD" && !feedback){
+        if (status !== "GOEDGEKEURD" && !feedback) {
             return res.status(400).json({
                 status: "error",
                 message: "Feedback is verplicht"
@@ -332,7 +348,7 @@ const updateStageaanvraagStatus = async(req, res) =>{
 
         const feedbackTekst = feedback || "Je stageaanvraag is goedgekeurd.";
 
-        const query =  `
+        const query = `
             UPDATE stageaanvragen
             SET
                 status = ?,
@@ -342,7 +358,7 @@ const updateStageaanvraagStatus = async(req, res) =>{
 
         const [result] = await connection.promise().query(query, [status, feedbackTekst, aanvraagId]);
 
-        if(result.affectedRows ===0){
+        if (result.affectedRows === 0) {
             return res.status(404).json({
                 status: 'error',
                 message: 'Stageaanvraag is niet gevonden'
@@ -354,7 +370,7 @@ const updateStageaanvraagStatus = async(req, res) =>{
             message: 'Status en feedback succesvol bijgewerkt'
         })
 
-    }catch(error){
+    } catch (error) {
         console.error("Fout bij bijwerken van stageaanvraag", error);
 
         return res.status(500).json({
@@ -368,4 +384,4 @@ const updateStageaanvraagStatus = async(req, res) =>{
 
 
 
-module.exports = {maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraagStatus}; // andere besantden mogen deze functie ook importeren.
+module.exports = { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraagStatus }; // andere besantden mogen deze functie ook importeren.

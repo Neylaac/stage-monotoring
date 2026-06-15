@@ -52,22 +52,19 @@ router.patch('/api/stageaanvragen/:id/status', requireAuth, updateStageaanvraagS
 //-------------------------Token en role opslaan in session---------------------------
 
 router.get('/set-token', (req, res) => { //Deze route wordt gebruikt na een succesvolle login.
-    const token = req.query.token; //Haal gegevens uit de URL na het vraagteken.
-    const role = req.query.role;
-
-
-    if (!token || !role) {
-        return res.redirect('/login');
-    } /* Als token ontbreekt OF role ontbreekt,
-stuur de gebruiker terug naar login.*/
-
+    const {token, role} = req.query;  
 
     req.session.token = token;
-    req.session.role = role; /* Hier sla je de token en role op in de sessie. Een session is tijdelijke informatie die de server onthoudt voor deze gebruiker.*/
 
+
+    res.cookie('accessToken', token, {
+        httpOnly: true
+    });
 
     if (role === 'STUDENT') {
-        return res.redirect('/student/stageaanvraag');
+        return res.redirect(
+            '/student/stageaanvraagoverzicht.html'
+        );
     }
 
     if (role === 'DOCENT') {
@@ -119,6 +116,22 @@ router.get('/stagecommissie/home', (req, res)=>{
 router.get('/stagecommissie/stageaanvragen', (req, res)=>{
     res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagstagecommissie.html'));
 });
+
+router.get('/stagecommissie/stageaanvraagoverzichtstagecomissie.html', requireAuth, (req, res)=> {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraagoverzichtstagecomissie.html'));
+});
+
+router.get('/stagecommissie/stageaanvraaggoedgekeurdstagecommissie.html',requireAuth, (req, res) => {
+        res.sendFile(path.join(__dirname,'views','html','stageaanvraaggoedgekeurdstagecommissie.html'));
+    });
+
+router.get('/stagecommissie/stageaanvraagafgekeurdstagecommissie.html',requireAuth,(req, res) => {
+        res.sendFile(path.join(__dirname,'views','html','stageaanvraagafgekeurdstagecommissie.html'));
+    });
+
+router.get('/stagecommissie/stageaanvraagaangepaststagecommissie.html',requireAuth,(req, res) => {
+        res.sendFile(path.join(__dirname,'views','html','stageaanvraagaangepaststagecommissie.html'));
+    });
 
 router.get('/admin/home', (req, res)=>{
     res.send('Welkom admin');
