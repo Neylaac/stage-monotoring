@@ -1,0 +1,101 @@
+/* STAGECOMMISSIE HOME DASHBOARD */
+
+.stagecommissie-dashboard{
+    max-width:1000px;
+}
+
+.dashboard-process-card,
+.latest-card{
+    border:1px solid #eeeeee;
+    border-radius:14px;
+    padding:24px;
+    background:white;
+    margin-top:20px;
+}
+
+.dashboard-process-card h2,
+.latest-card h2{
+    font-size:22px;
+    margin-bottom:25px;
+}
+
+.process-steps{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    text-align:center;
+}
+
+.process-step{
+    border-right:1px solid #eeeeee;
+}
+
+.process-step:last-child{
+    border-right:none;
+}
+
+.process-circle{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    margin:0 auto 15px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.process-circle.red{ background:#ffdede; color:#c62828; }
+.process-circle.orange{ background:#fff0d8; color:#c47a00; }
+.process-circle.blue{ background:#e2efff; color:#276fc2; }
+.process-circle.green{ background:#d8f8df; color:#26803b; }
+
+.process-step strong{
+    display:block;
+    margin-bottom:8px;
+}
+
+.process-step span{
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:14px;
+    font-size:12px;
+    font-weight:bold;
+    background:#f3f3f3;
+}
+
+.latest-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.latest-header span{
+    color:#777;
+}
+
+.latest-item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #eeeeee;
+}
+
+.latest-item strong{
+    display:block;
+}
+
+.latest-item small{
+    color:#777;
+}
+
+.naar-aanvragen-btn{
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    padding:12px;
+    border:1px solid #832D2C;
+    color:#832D2C;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+}
