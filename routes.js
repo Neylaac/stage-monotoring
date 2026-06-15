@@ -51,7 +51,7 @@ stuur de gebruiker terug naar login.*/
 
 
     if (role === 'STUDENT') {
-        return res.redirect('/student/stageaanvraag');
+        return res.redirect('/student/home');
     }
 
     if (role === 'DOCENT') {
@@ -78,6 +78,13 @@ stuur de gebruiker terug naar login.*/
 
 router.get('/student/stageaanvraag', (req, res)=>{
     res.send('Welkom student');
+});
+
+
+router.get('/student/home', (req, res) => {
+    res.sendFile(
+        path.join(__dirname, 'views', 'html', 'studenthome.html')
+    );
 });
 
 router.get('/docent/home', (req, res)=>{
