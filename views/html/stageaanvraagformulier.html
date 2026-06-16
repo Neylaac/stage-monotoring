@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nieuwe stageaanvraag</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Student</div>
+
+            <a href="stageaanvraag.html" class="menu-item active"><i
+                    class="fa-solid fa-graduation-cap"></i><span>Stageaanvraag</span></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-house"></i><span>Home</span><i
+                    class="fa-solid fa-lock lock"></i></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-book"></i><span>Logboeken</span><i
+                    class="fa-solid fa-lock lock"></i></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-clipboard-check"></i><span>Evaluatie</span><i
+                    class="fa-solid fa-lock lock"></i></a>
+            <a href="#" class="menu-item"><i class="fa-solid fa-user"></i><span>Profiel</span><i
+                    class="fa-solid fa-lock lock"></i></a>
+        </div>
+
+        <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i>Uitloggen</a>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">NA</div>
+            <span class="ehb-logo">ehbc</span>
+        </header>
+
+        <section class="content form-page">
+
+            <h1 class="form-title">Nieuwe stageaanvraag invullen</h1>
+
+            <form class="figma-form" id="aanvraagForm">
+
+                <div class="form-grid">
+
+                    <div class="form-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-user"></i></div>
+                            <h2>Studentgegevens</h2>
+                        </div>
+
+                        <label>Naam</label>
+                        <input id="naam" type="text" placeholder="Vul je naam in" required>
+
+                        <label>Achternaam</label>
+                        <input id="achternaam" type="text" placeholder="Vul je achternaam in" required>
+
+                        <label>Studentnummer</label>
+                        <input id="studentnummer" type="text" placeholder="Vul je studentnummer in" required>
+
+                        <label>Opleiding</label>
+                        <input id="opleiding" type="text" placeholder="Vul je opleiding in" required>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-briefcase"></i></div>
+                            <h2>Stagegegevens</h2>
+                        </div>
+
+                        <label>Startdatum</label>
+                        <input id="startdatum" type="date" required>
+
+                        <label>Einddatum</label>
+                        <input id="einddatum" type="date" required>
+
+                        <label>Titel / Functie</label>
+                        <input id="functie" type="text" placeholder="Bijvoorbeeld: Software developer" required>
+                    </div>
+
+                    <div class="form-card bedrijf-card">
+                        <div class="card-title">
+                            <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
+                            <h2>Bedrijfsgegevens</h2>
+                        </div>
+
+                        <label>Bedrijfsnaam</label>
+                        <input id="bedrijfsnaam" type="text" placeholder="Naam bedrijf" required>
+
+                        <label>Telefoonnummer</label>
+                        <input id="telefoonnummer" type="text" placeholder="+32 ..." required>
+
+                        <label>E-mail</label>
+                        <input id="emailBedrijf" type="email" placeholder="bedrijf@email.be" required>
+
+                        <label>Gemeente</label>
+                        <input id="gemeente" type="text" placeholder="Gemeente" required>
+
+                        <label>Postcode</label>
+                        <input id="postcode" type="text" placeholder="Postcode" required>
+
+
+                        <label>Straat</label>
+                        <input id="straat" type="text" placeholder="Straatnaam" required>
+
+                        <label>Straatnummer</label>
+                        <input id="straatnummer" type="text" placeholder="Nummer" required>
+
+                        <label> Voornaam contactpersoon</label>
+                        <input id="contactVoornaam" type="text" placeholder="Voornaamcontactpersoon" required>
+
+                        <label>Naam contactpersoon</label>
+                        <input id="contactNaam" type="text" placeholder="Naam contactpersoon" required>
+
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="form-card description-card">
+                    <div class="card-title">
+                        <div class="icon-circle"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <h2>Omschrijving</h2>
+                    </div>
+
+                    <label>Opdracht</label>
+                    <input id="opdracht" type="text" placeholder="Korte titel van de opdracht" required>
+
+                    <label>Omschrijving</label>
+                    <textarea id="omschrijving" placeholder="Beschrijf je stageopdracht" required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="concept-btn">Opslaan als concept</button>
+                    <button type="submit" class="submit-btn">Indienen</button>
+                </div>
+
+            </form>
+
+        </section>
+    </main>
+
+    <script src="../JS/stageaanvraag.js"></script>
+</body>
+
+</html>

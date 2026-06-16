@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administratie - Stageaanvragen</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<!-- Sidebar voor administratie -->
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Administratie</div>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#" class="menu-item active">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Stageaanvragen</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppeling</span>
+        </a>
+    </div>
+
+    <a href="#" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Uitloggen
+    </a>
+</aside>
+
+<main class="main-content">
+
+    <!-- Bovenbalk voor administratie -->
+    <header class="topbar admin-topbar">
+        <div class="page-label">
+            <i class="fa-solid fa-list"></i>
+            <span>Stageaanvraag</span>
+        </div>
+
+        <div class="topbar-right">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">AD</div>
+            <div>
+                <strong>Admin</strong>
+                <p>Beheerder</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="content admin-content">
+
+        <h1>Overzicht</h1>
+        <p class="subtitle">Beheer en opvolging van alle aanvragen</p>
+
+        <!-- Cijfers worden straks met JS aangepast -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <span>Nieuwe aanvragen</span>
+                <strong id="countNieuwe">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>In behandeling</span>
+                <strong id="countBehandeling">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>Afgekeurd</span>
+                <strong id="countAfgekeurd">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>Aanpassingen vereist</span>
+                <strong id="countAanpassing">0</strong>
+            </div>
+
+            <div class="stat-box">
+                <span>Goedgekeurd</span>
+                <strong id="countGoedgekeurd">0</strong>
+            </div>
+        </div>
+
+        <!-- Filters zijn visueel al klaar, later kunnen ze echt werken met database -->
+        <div class="filter-row">
+            <input type="text" placeholder="Zoek op student, bedrijf...">
+
+            <select>
+                <option>Status</option>
+                <option>Ingediend</option>
+                <option>In behandeling</option>
+                <option>Afgekeurd</option>
+                <option>Aanpassingen vereist</option>
+                <option>Goedgekeurd</option>
+            </select>
+
+            <select>
+                <option>Opleiding</option>
+                <option>Toegepaste Informatica</option>
+                <option>Bedrijfsmanagement</option>
+                <option>Marketing</option>
+            </select>
+
+            <select>
+                <option>Periode</option>
+                <option>2026 - 2027</option>
+            </select>
+
+            <select>
+                <option>Bedrijf</option>
+            </select>
+
+            <button type="button">
+                <i class="fa-solid fa-filter-circle-xmark"></i>
+                Wis filters
+            </button>
+        </div>
+
+        <!-- Tabel wordt gevuld met de aanvraag van de student -->
+        <div class="aanvragen-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Bedrijf</th>
+                        <th>Opdracht</th>
+                        <th>Periode</th>
+                        <th>Status</th>
+                        <th>Feedback</th>
+                        <th>Actie</th>
+                    </tr>
+                </thead>
+
+                <tbody id="adminAanvragenBody">
+                    <tr>
+                        <td colspan="7" class="empty-table">
+                            Er zijn momenteel nog geen stageaanvragen.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="../JS/stageaanvraag.js"></script>
+</body>
+</html>

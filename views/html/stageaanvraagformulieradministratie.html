@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stageaanvraag bekijken</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Administratie</div>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="stageaanvragenadministratie.html" class="menu-item active">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Stageaanvragen</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppeling</span>
+        </a>
+    </div>
+
+    <a href="#" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Uitloggen
+    </a>
+</aside>
+
+<main class="main-content">
+
+    <header class="topbar">
+        <i class="fa-regular fa-bell"></i>
+        <div class="user-circle">AD</div>
+        <span class="ehb-logo">ehbc</span>
+    </header>
+
+    <section class="content form-page">
+
+        <h1 class="form-title">Stageaanvraag bekijken</h1>
+
+        <!-- Admin bekijkt alleen de gegevens. Daarom zijn alle velden readonly. -->
+        <form class="figma-form admin-formulier">
+
+            <div class="form-grid">
+
+                <div class="form-card">
+                    <div class="card-title">
+                        <div class="icon-circle"><i class="fa-solid fa-user"></i></div>
+                        <h2>Studentgegevens</h2>
+                    </div>
+
+                    <label>Naam</label>
+                    <input data-admin-aanvraag="naam" type="text" readonly>
+
+                    <label>Achternaam</label>
+                    <input data-admin-aanvraag="achternaam" type="text" readonly>
+
+                    <label>Studentnummer</label>
+                    <input data-admin-aanvraag="studentnummer" type="text" readonly>
+
+                    <label>Opleiding</label>
+                    <input data-admin-aanvraag="opleiding" type="text" readonly>
+                </div>
+
+                <div class="form-card">
+                    <div class="card-title">
+                        <div class="icon-circle"><i class="fa-solid fa-briefcase"></i></div>
+                        <h2>Stagegegevens</h2>
+                    </div>
+
+                    <label>Startdatum</label>
+                    <input data-admin-aanvraag="startdatum" type="text" readonly>
+
+                    <label>Einddatum</label>
+                    <input data-admin-aanvraag="einddatum" type="text" readonly>
+
+                    <label>Titel / Functie</label>
+                    <input data-admin-aanvraag="functie" type="text" readonly>
+                </div>
+
+
+              <div class="form-card bedrijf-card">
+    <div class="card-title">
+        <div class="icon-circle"><i class="fa-solid fa-building"></i></div>
+        <h2>Bedrijfsgegevens</h2>
+    </div>
+
+    <label>Bedrijfsnaam</label>
+    <input data-admin-aanvraag="bedrijfsnaam" type="text" readonly>
+
+    <label>Telefoonnummer</label>
+    <input data-admin-aanvraag="telefoonnummer" type="text" readonly>
+
+    <label>E-mail</label>
+    <input data-admin-aanvraag="emailBedrijf" type="text" readonly>
+
+    <label>Gemeente</label>
+    <input data-admin-aanvraag="gemeente" type="text" readonly>
+
+    <label>Postcode</label>
+    <input data-admin-aanvraag="postcode" type="text" readonly>
+
+    <label>Straat</label>
+    <input data-admin-aanvraag="straat" type="text" readonly>
+
+    <label>Straatnummer</label>
+    <input data-admin-aanvraag="straatnummer" type="text" readonly>
+
+    <label>Voornaam contactpersoon</label>
+    <input data-admin-aanvraag="contactVoornaam" type="text" readonly>
+
+    <label>Naam contactpersoon</label>
+    <input data-admin-aanvraag="contactNaam" type="text" readonly>
+</div>
+
+            
+
+
+            </div>
+
+            <div class="form-card description-card">
+                <div class="card-title">
+                    <div class="icon-circle"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <h2>Omschrijving</h2>
+                </div>
+
+                <label>Opdracht</label>
+                <input data-admin-aanvraag="opdracht" type="text" readonly>
+
+                <label>Omschrijving</label>
+                <textarea data-admin-aanvraag="omschrijving" readonly></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="stageaanvragenadministratie.html" class="submit-btn">Terug</a>
+            </div>
+
+        </form>
+
+    </section>
+</main>
+
+<script src="../JS/stageaanvraag.js"></script>
+</body>
+</html>

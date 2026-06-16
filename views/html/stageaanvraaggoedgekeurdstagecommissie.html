@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stagecommissie - Goedgekeurd</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Stagecommissie</div>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="stageaanvraagstagecommissie.html" class="menu-item active">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Stageaanvragen</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Stageovereenkomst</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiel</span>
+        </a>
+    </div>
+
+    <a href="#" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Uitloggen
+    </a>
+</aside>
+
+<main class="main-content">
+
+    <header class="topbar">
+        <i class="fa-regular fa-bell"></i>
+        <div class="user-circle">SC</div>
+        <span class="ehb-logo">ehbc</span>
+    </header>
+
+    <section class="content stagecommissie-feedback-page">
+
+        <h1>Stageaanvragen</h1>
+
+        <div class="feedback-result">
+            <h2>Feedback</h2>
+            <h3 class="feedback-green">Goedgekeurd!</h3>
+           <div class="feedback-box">
+
+    <strong>Feedback van de stagecommissie</strong>
+
+    <ul>
+        <li>Je stageaanvraag is helemaal in orde!</li>
+    </ul>
+
+</div>
+
+<button
+    type="button"
+    id="terugKnop"
+    class="feedback-terug-btn"
+    data-status="goedgekeurd"
+>
+    Terug
+</button>
+
+    </section>
+
+</main>
+
+<script src="../JS/stageaanvraag.js"></script>
+</body>
+</html>

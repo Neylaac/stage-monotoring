@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stagecommissie - Stageaanvragen</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Stagecommissie</div>
+
+            <a href="/stagecommissie/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="/stagecommissie/stageaanvragen" class="menu-item active"> <i
+                    class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvragen</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
+        </div>
+
+        <a href="#" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Uitloggen
+        </a>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar admin-topbar">
+            <div></div>
+
+            <div class="topbar-right">
+                <i class="fa-regular fa-bell"></i>
+                <div class="user-circle">SC</div>
+                <span class="ehb-logo">ehbc</span>
+            </div>
+        </header>
+
+        <section class="content admin-content">
+
+            <h1>Stageaanvragen</h1>
+            <p class="subtitle">Beoordeel stageaanvragen en volg de goedkeuringsflow op.</p>
+
+            <div class="aanvragen-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Bedrijf</th>
+                            <th>Opdracht</th>
+                            <th>Periode</th>
+                            <th>Status</th>
+                            <th>Actie</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="commissieAanvragenBody">
+                        <tr>
+                            <td colspan="6" class="empty-table">
+                                Er zijn momenteel nog geen stageaanvragen.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="../JS/stageaanvraag.js"></script>
+</body>
+
+</html>
