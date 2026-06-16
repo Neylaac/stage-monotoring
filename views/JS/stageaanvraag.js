@@ -638,30 +638,78 @@ function toonStudentBeslissing(aanvraag) {
 
     studentStatusExtra.innerHTML = "";
 
-    if (aanvraag.status === "GOEDGEKEURD") {
-        updateProgressStatus("goedgekeurd");
+if (aanvraag.status === "GOEDGEKEURD") {
+    updateProgressStatus("goedgekeurd");
 
-        if (statusMessage) {
-            statusMessage.textContent = "Je aanvraag werd geaccepteerd.";
-        }
-
-        if (detailsCard) {
-            detailsCard.style.display = "none";
-        }
-
-        studentStatusExtra.innerHTML = `
-            <div class="stage-contract-card">
-                <h2>Stageovereenkomst</h2>
-
-                <button
-    class="submit-btn"
-    onclick="window.location.href='/student-stageovereenkomst-detail'"
->
-    Ondertekenen
-</button>
-            </div>
-        `;
+    if (statusMessage) {
+        statusMessage.textContent =
+            "Je aanvraag werd geaccepteerd.";
     }
+
+    if (detailsCard) {
+        detailsCard.style.display = "none";
+    }
+
+    fetch('/api/student/stageovereenkomst')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status !== 'success') {
+                console.log(data.message);
+                return;
+            }
+
+            const overeenkomst = data.stageovereenkomst;
+
+            if (overeenkomst.student_ondertekend === 1) {
+                studentStatusExtra.innerHTML = `
+                    <div class="stage-contract-card">
+                        <h2>Ondertekenstatus</h2>
+
+                        <div class="status-row">
+                            <span>Student</span>
+                            <span class="status ondertekend">
+                                Ondertekend
+                            </span>
+                        </div>
+
+                        <div class="status-row">
+                            <span>Bedrijf</span>
+                            <span class="status wachten">
+                                In afwachting
+                            </span>
+                        </div>
+
+                        <div class="status-row">
+                            <span>School</span>
+                            <span class="status wachten">
+                                In afwachting
+                            </span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                studentStatusExtra.innerHTML = `
+                    <div class="stage-contract-card">
+                        <h2>Stageovereenkomst</h2>
+
+                        <button
+                            type="button"
+                            class="submit-btn"
+                            onclick="window.location.href='/student-stageovereenkomst-detail'"
+                        >
+                            Ondertekenen
+                        </button>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error(
+                "Fout bij ophalen ondertekenstatus:",
+                error
+            );
+        });
+}
 
     if (aanvraag.status === "AANPASSING_GEVRAAGD") {
         updateProgressStatus("behandeling");
