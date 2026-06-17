@@ -159,7 +159,7 @@ function laadStudentStageovereenkomst() {
         if (terugNaarOverzicht) {
             terugNaarOverzicht.addEventListener('click', function () {
                 window.location.href =
-                    '/student/student-stageovereenkomst-overzicht.html';
+                    '/student/stageovereenkomsten';
             });
         }
     }
