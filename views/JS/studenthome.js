@@ -44,6 +44,18 @@ fetch("/api/student/profile")
             return;
         }
 
+
+        document.querySelector("#stepAanvraag").classList.add("active");
+
+if (stage.status === "GOEDGEKEURD") {
+    document.querySelector("#stepGoedkeuring").classList.add("active");
+}
+
+
+if (stage.student_ondertekend) {
+    document.querySelector("#stepOvereenkomst").classList.add("active");
+}
+
         document.querySelector("#studentBedrijf").textContent = stage.bedrijfsnaam || "-";
         document.querySelector("#studentMentor").textContent =
             (stage.contact_voornaam || "") + " " + (stage.contact_naam || "");
