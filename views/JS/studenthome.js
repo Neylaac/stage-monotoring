@@ -47,8 +47,13 @@ fetch("/api/student/profile")
         document.querySelector("#studentBedrijf").textContent = stage.bedrijfsnaam || "-";
         document.querySelector("#studentMentor").textContent =
             (stage.contact_voornaam || "") + " " + (stage.contact_naam || "");
+
+        
+const start = new Date(stage.startdatum).toLocaleDateString("nl-BE");
+const einde = new Date(stage.einddatum).toLocaleDateString("nl-BE");
+            
         document.querySelector("#studentPeriode").textContent =
-            stage.startdatum + " - " + stage.einddatum;
+              start + " - " + einde;
     })
     .catch(function(error) {
         console.error("Fout bij laden student stagegegevens:", error);
