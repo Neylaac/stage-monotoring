@@ -5,7 +5,9 @@ if (laatsteAanvragenList) {
         .then(function(response) {
             return response.json();
         })
-        .then(function(aanvragen) {
+        .then(function(data) {
+
+            const aanvragen = data.aanvragen || [];
             const totaal = aanvragen.length;
 
             const inBehandeling = aanvragen.filter(function(aanvraag) {
