@@ -59,19 +59,19 @@
 
             <div class="student-header">
 
-                <div class="student-avatar">
+                <div class="student-avatar" id="studentInitialen">
                     ST
                 </div>
 
                 <div class="student-details">
 
-                    <h2>[Studentnaam]</h2>
+                    <h2 id="studentNaam">-</h2>
 
-                    <p>[Opleiding]</p>
+                    <p id="studentOpleiding">-</p>
 
                     <p>
                         Stageperiode:
-                        [Startdatum] - [Einddatum]
+                        <span id="studentStageperiode">-</span>
                     </p>
 
                 </div>
@@ -82,25 +82,25 @@
 
         <!-- ONDERTEKENSTATUS -->
 
-        <div class="status-box">
+        <div class="status-row">
+            <span>Student</span>
+            <span id="studentStatus" class="status waiting">
+                In afwachting
+            </span>
+        </div>
 
-            <h2>Ondertekenstatus</h2>
+        <div class="status-row">
+            <span>Bedrijf</span>
+            <span id="bedrijfStatus" class="status waiting">
+                In afwachting
+            </span>
+        </div>
 
-            <div class="status-row">
-                <span>Student</span>
-                <span class="status signed">Ondertekend</span>
-            </div>
-
-            <div class="status-row">
-                <span>Bedrijf</span>
-                <span class="status waiting">In afwachting</span>
-            </div>
-
-            <div class="status-row">
-                <span>School</span>
-                <span class="status waiting">In afwachting</span>
-            </div>
-
+        <div class="status-row">
+            <span>School</span>
+            <span id="schoolStatus" class="status waiting">
+                In afwachting
+            </span>
         </div>
 
         <!-- CONTRACT -->
@@ -109,15 +109,30 @@
 
             <h1>STAGEOVEREENKOMST</h1>
 
-            <p><strong>Student:</strong> [Studentnaam]</p>
+            <p>
+                <strong>Student:</strong>
+                <span id="contractStudentNaam">-</span>
+            </p>
 
-            <p><strong>Opleiding:</strong> [Opleiding]</p>
+            <p>
+                <strong>Opleiding:</strong>
+                <span id="contractOpleiding">-</span>
+            </p>
 
-            <p><strong>Bedrijf:</strong> [Bedrijfsnaam]</p>
+            <p>
+                <strong>Bedrijf:</strong>
+                <span id="studentBedrijf">-</span>
+            </p>
 
-            <p><strong>Stageperiode:</strong> [Startdatum] - [Einddatum]</p>
+            <p>
+                <strong>Stageperiode:</strong>
+                <span id="contractStageperiode">-</span>
+            </p>
 
-            <p><strong>Opdracht:</strong> [Stageopdracht]</p>
+            <p>
+                <strong>Opdracht:</strong>
+                <span id="studentOpdracht">-</span>
+            </p>
 
             <div class="article">
 
@@ -233,21 +248,19 @@
 
         <div class="sign-button-container">
 
-            <button
-                class="sign-button"
-                onclick="window.location.href='/itsme'">
+            <button class="sign-button" onclick="window.location.href='/itsme'">
                 Digitaal ondertekenen
             </button>
 
-            <button
-                class="back-button"
-                onclick="window.location.href='/bedrijf-student-overzicht'">
+            <button class="back-button" onclick="window.location.href='/bedrijf-student-overzicht'">
                 Terug
             </button>
 
         </div>
 
     </div>
+
+    <script src="/JS/bedrijf-student-overzicht.js"></script>
 
 </body>
 
