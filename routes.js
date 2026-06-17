@@ -306,7 +306,7 @@ router.get('/student/start', requireAuth, (req, res) => {
 router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
     const email = req.user.email;
 
-    const query =  `
+    const query = `
         SELECT
             stageaanvragen.id,
             users.voornaam,
@@ -328,7 +328,7 @@ router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
     `;
 
     connection.query(query, [email], (error, results) => {
-        if(error){
+        if (error) {
             console.error(error);
 
             return res.status(500).json({
@@ -351,33 +351,44 @@ router.get('/api/bedrijf/stagiairs/:id', requireAuth, (req, res) => {
     const aanvraagId = req.params.id;
     const email = req.user.email;
 
-    const query = `
-        SELECT
-            stageaanvragen.id,
-            users.voornaam,
-            users.achternaam,
-            users.email,
-            student_profiles.opleiding,
-            stageaanvragen.startdatum,
-            stageaanvragen.einddatum,
-            stageaanvragen.bedrijfsnaam,
-            stageaanvragen.contact_voornaam,
-            stageaanvragen.contact_naam,
-            stageaanvragen.opdracht,
-            stageaanvragen.omschrijving,
-            stageovereenkomsten.student_ondertekend,
-            stageovereenkomsten.bedrijf_ondertekend,
-            stageovereenkomsten.school_ondertekend
-        FROM stageaanvragen
-        JOIN users
-            ON users.id = stageaanvragen.student_id
-        JOIN student_profiles
-            ON student_profiles.user_id = users.id
-        JOIN stageovereenkomsten
-            ON stageovereenkomsten.stageaanvraag_id = stageaanvragen.id
-        WHERE stageaanvragen.id = ?
-        AND stageaanvragen.email_bedrijf = ?
-    `;
+    const query =  `
+    SELECT
+        stageaanvragen.id,
+        users.voornaam,
+        users.achternaam,
+        users.email,
+        student_profiles.opleiding,
+        stageaanvragen.startdatum,
+        stageaanvragen.einddatum,
+        stageaanvragen.bedrijfsnaam,
+        stageaanvragen.telefoonnummer,
+        stageaanvragen.contact_voornaam,
+        stageaanvragen.contact_naam,
+        stageaanvragen.opdracht,
+        stageaanvragen.omschrijving,
+
+        stageovereenkomsten.student_ondertekend,
+        stageovereenkomsten.bedrijf_ondertekend,
+        stageovereenkomsten.school_ondertekend,
+
+        stageovereenkomsten.student_handtekening,
+        stageovereenkomsten.bedrijf_handtekening,
+        stageovereenkomsten.school_handtekening
+
+    FROM stageaanvragen
+
+    JOIN users
+        ON users.id = stageaanvragen.student_id
+
+    JOIN student_profiles
+        ON student_profiles.user_id = users.id
+
+    JOIN stageovereenkomsten
+        ON stageovereenkomsten.stageaanvraag_id = stageaanvragen.id
+
+    WHERE stageaanvragen.id = ?
+    AND stageaanvragen.email_bedrijf = ?
+`;
 
     connection.query(query, [aanvraagId, email], (error, results) => {
         if (error) {

@@ -94,7 +94,12 @@ CREATE TABLE stageovereenkomsten (
     school_ondertekend BOOLEAN DEFAULT FALSE,
 
     student_handtekening LONGTEXT NULL,
+    bedrijf_handtekening LONGTEXT NULL,
+    school_handtekening LONGTEXT NULL,
+
     student_ondertekend_op DATETIME NULL,
+    bedrijf_ondertekend_op DATETIME NULL,
+    school_ondertekend_op DATETIME NULL,
 
     goedgekeurd BOOLEAN DEFAULT FALSE,
 

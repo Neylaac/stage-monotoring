@@ -82,26 +82,9 @@
 
         <!-- ONDERTEKENSTATUS -->
 
-        <div class="status-row">
-            <span>Student</span>
-            <span id="studentStatus" class="status waiting">
-                In afwachting
-            </span>
-        </div>
-
-        <div class="status-row">
-            <span>Bedrijf</span>
-            <span id="bedrijfStatus" class="status waiting">
-                In afwachting
-            </span>
-        </div>
-
-        <div class="status-row">
-            <span>School</span>
-            <span id="schoolStatus" class="status waiting">
-                In afwachting
-            </span>
-        </div>
+        <span id="studentStatus" class="status waiting">In afwachting</span>
+        <span id="bedrijfStatus" class="status waiting">In afwachting</span>
+        <span id="schoolStatus" class="status waiting">In afwachting</span>
 
         <!-- CONTRACT -->
 
@@ -109,31 +92,11 @@
 
             <h1>STAGEOVEREENKOMST</h1>
 
-            <p>
-                <strong>Student:</strong>
-                <span id="contractStudentNaam">-</span>
-            </p>
-
-            <p>
-                <strong>Opleiding:</strong>
-                <span id="contractOpleiding">-</span>
-            </p>
-
-            <p>
-                <strong>Bedrijf:</strong>
-                <span id="studentBedrijf">-</span>
-            </p>
-
-            <p>
-                <strong>Stageperiode:</strong>
-                <span id="contractStageperiode">-</span>
-            </p>
-
-            <p>
-                <strong>Opdracht:</strong>
-                <span id="studentOpdracht">-</span>
-            </p>
-
+            <span id="contractStudentNaam">[Studentnaam]</span>
+            <span id="contractOpleiding">[Opleiding]</span>
+            <span id="contractBedrijf">[Bedrijfsnaam]</span>
+            <span id="contractStageperiode">[Startdatum] - [Einddatum]</span>
+            <span id="contractOpdracht">[Stageopdracht]</span>
             <div class="article">
 
                 <h3>Artikel 1 - Doel van de stage</h3>
@@ -210,57 +173,41 @@
 
             <div class="signature-section">
 
-                <div class="signature-block">
-
-                    <h4>Handtekening student</h4>
-
-                    <div class="signature-placeholder">
-                        Handtekening student
-                    </div>
-
+                <div id="studentHandtekening" class="signature-placeholder">
+                    Handtekening student
                 </div>
 
-                <div class="signature-block">
-
-                    <h4>Handtekening bedrijf</h4>
-
-                    <div class="signature-placeholder">
-                        Nog niet ondertekend
-                    </div>
-
+                <div id="bedrijfHandtekening" class="signature-placeholder">
+                    Nog niet ondertekend
                 </div>
 
-                <div class="signature-block">
-
-                    <h4>Handtekening school</h4>
-
-                    <div class="signature-placeholder">
-                        Nog niet ondertekend
-                    </div>
-
+                <div id="schoolHandtekening" class="signature-placeholder">
+                    Nog niet ondertekend
                 </div>
 
             </div>
 
         </div>
 
-        <!-- BUTTONS -->
+    </div>
 
-        <div class="sign-button-container">
+    <!-- BUTTONS -->
 
-            <button class="sign-button" onclick="window.location.href='/itsme'">
-                Digitaal ondertekenen
-            </button>
+    <div class="sign-button-container">
 
-            <button class="back-button" onclick="window.location.href='/bedrijf-student-overzicht'">
-                Terug
-            </button>
+        <button class="sign-button" onclick="window.location.href='/itsme'">
+            Digitaal ondertekenen
+        </button>
 
-        </div>
+        <button class="back-button" onclick="window.location.href='/bedrijf-student-overzicht'">
+            Terug
+        </button>
 
     </div>
 
-    <script src="/JS/bedrijf-student-overzicht.js"></script>
+    </div>
+
+    <script src="/JS/bedrijf-stageovereenkomst-detail.js"></script>
 
 </body>
 
