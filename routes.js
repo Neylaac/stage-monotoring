@@ -8,7 +8,9 @@ const connection = require('./config/db_connection');//importeert de databasever
 const { loginGebruiker } = require('./controllers/authController');// haalt de functie logingebruiker uit authcontroller.js
 const { registreerGebruiker } = require('./controllers/registerController');
 const requireAuth = require('./middleware/requireAuth'); //importeert je middleware die controleert of iemand ingelogd is, requireAuth controleert de login.
-const { getStudentProfile } = require('./controllers/studentController');
+const { getStudentProfile,
+    getStudentHome
+} = require('./controllers/studentController');
 const { maakStageaanvraag, getMijnStageaanvragen, getAlleStageaanvragen, getStageaanvraagOpId, updateStageaanvraag, updateStageaanvraagStatus } = require('./controllers/stageAanvraagController');
 const {
     getAlleStageovereenkomsten,
@@ -45,6 +47,7 @@ DELETE = gegevens verwijderen */
 router.post('/login', loginGebruiker);
 router.post('/register', registreerGebruiker);
 router.get('/api/student/profile', requireAuth, getStudentProfile);
+router.get('/api/student/home', requireAuth, getStudentHome);
 router.get('/api/student/stageovereenkomst', requireAuth, (req, res) => {
     const studentId = req.user.id;
 
