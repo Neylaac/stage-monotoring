@@ -185,7 +185,7 @@ const getMijnStageaanvragen = async (req, res) => {
             aanvragen: rows
         });
     } catch (error) {
-        console.error('Fout bij ophalen stageaanvragen va studeent', error);
+        console.error('Fout bij ophalen stageaanvragen van studeent', error);
 
         return res.status(500).json({
             status: 'error',

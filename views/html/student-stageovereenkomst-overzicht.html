@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student - Stageovereenkomst</title>
+<link rel="stylesheet" href="/CSS/stageaanvraag.css">
+<link rel="stylesheet" href="/CSS/student-stageovereenkomst-overzicht.css">
+
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+>
+   
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div>
+            <h1 class="sidebar-title">
+                Student
+            </h1>
+
+            <a
+                href="/student/stageaanvraagoverzicht.html"
+                class="menu-item active"
+            >
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvraag</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <i class="fa-regular fa-bell"></i>
+
+            <div class="user-circle">
+                NA
+            </div>
+
+            <span class="logo">
+                ehbc
+            </span>
+
+        </header>
+
+        <section class="content stageovereenkomst-content">
+
+            <h1 id="welkomTekst">
+                Welkom terug!
+            </h1>
+
+            <div class="success-message">
+
+                <i class="fa-regular fa-circle-check"></i>
+
+                <span>
+                    Je stageaanvraag is goedgekeurd!
+                </span>
+
+            </div>
+
+            <div class="status-card">
+
+                <h2>
+                    Ondertekenstatus
+                </h2>
+
+                <div class="status-row">
+
+                    <span>Student</span>
+
+                    <span
+                        id="studentStatus"
+                        class="status waiting"
+                    >
+                        In afwachting
+                    </span>
+
+                </div>
+
+                <div class="status-row">
+
+                    <span>Bedrijf</span>
+
+                    <span
+                        id="bedrijfStatus"
+                        class="status waiting"
+                    >
+                        In afwachting
+                    </span>
+
+                </div>
+
+                <div class="status-row">
+
+                    <span>School</span>
+
+                    <span
+                        id="schoolStatus"
+                        class="status waiting"
+                    >
+                        In afwachting
+                    </span>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="bekijkOvereenkomstKnop"
+                    class="view-button"
+                >
+                    Stageovereenkomst bekijken
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="/JS/student-stageovereenkomst-overzicht.js"></script>
+
+</body>
+
+</html>

@@ -7,91 +7,107 @@
     <title>Student - Stageovereenkomst Detail</title>
 
     <link rel="stylesheet" href="../CSS/student-stageovereenkomst-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
     <!-- Sidebar -->
-<div class="sidebar">
 
-    <ul>
-        <li class="active">
-            🎓 Stageaanvraag
-        </li>
+    <aside class="sidebar">
 
-        <li>
-            🏠 Home 🔒
-        </li>
+        <div>
+            <div class="sidebar-title">Student</div>
 
-        <li>
-            📖 Logboeken 🔒
-        </li>
+            <a href="/student/stageaanvraagoverzicht.html" class="menu-item active">
 
-        <li>
-            📝 Evaluatie 🔒
-        </li>
+                <i class="fa-solid fa-graduation-cap"></i>
 
-        <li>
-            👤 Profiel 🔒
-        </li>
-    </ul>
+                <span>Stageaanvraag</span>
+            </a>
 
-    <div class="logout">
-        🚪 Uitloggen
-    </div>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-house"></i>
 
-</div>
+                <span>Home</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+
+                <span>Logboeken</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+
+                <span>Evaluatie</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+
+                <span>Profiel</span>
+
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Uitloggen
+        </a>
+
+    </aside>
 
     <!-- Content -->
 
-    <div class="content">
+    <main class="main-content">
 
-        <!-- Topbar -->
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
 
-        <div class="topbar">
-
-            <div class="topbar-right">
-
-                <div class="notification-icon">🔔</div>
-
-                <div class="user-avatar-top">
-                    NA
-                </div>
-
-                <div class="logo">
-                    EBSC
-                </div>
-
+            <div class="user-circle">
+                NA
             </div>
 
-        </div>
+            <span class="ehb-logo">
+                ehbc
+            </span>
+        </header>
 
-        <!-- Contract -->
+        <section class="content">
 
-        <div class="contract-container">
+            <!-- Contract -->
 
-            <h1>STAGEOVEREENKOMST</h1>
+            <div class="contract-container">
 
-            <div class="info-grid">
+                <h1>STAGEOVEREENKOMST</h1>
 
-                <div class="label">Student</div>
-                <div>Neyla Achaoui</div>
+                <div class="info-grid">
 
-                <div class="label">Opleiding</div>
-                <div>Toegepaste Informatica</div>
+                    <div class="label">Student</div>
+                    <div id="studentNaam">-</div>
 
-                <div class="label">Bedrijf</div>
-                <div>Y.O.U.</div>
+                    <div class="label">Opleiding</div>
+                    <div id="studentOpleiding">-</div>
 
-                <div class="label">Stageperiode</div>
-                <div>01/03/2026 - 30/05/2026</div>
+                    <div class="label">Bedrijf</div>
+                    <div id="stageBedrijf">-</div>
 
-                <div class="label">Opdracht</div>
-                <div>
-                    Webontwikkeling,<br>
-                    Softwareontwikkeling binnen een professionele IT omgeving
+                    <div class="label">Stageperiode</div>
+                    <div id="stagePeriode">-</div>
+
+                    <div class="label">Opdracht</div>
+                    <div id="stageOpdracht">-</div>
+
                 </div>
-
             </div>
 
             <!-- Artikels -->
@@ -155,50 +171,67 @@
             </div>
 
             <!-- Handtekeningen -->
+            <!-- Handtekeningen -->
 
             <div class="signature-section">
 
                 <div class="signature-block">
-
                     <h4>Handtekening student</h4>
 
-                    <div class="signature-line"></div>
-
+                    <div class="signature-line">
+                        <img id="studentHandtekening" alt="Handtekening student" style="display: none;">
+                    </div>
                 </div>
 
                 <div class="signature-block">
-
                     <h4>Handtekening bedrijf</h4>
-
                     <div class="signature-line"></div>
-
                 </div>
 
                 <div class="signature-block">
-
                     <h4>Handtekening school</h4>
-
                     <div class="signature-line"></div>
-
                 </div>
 
             </div>
 
-        </div>
+            <div class="signature-draw-container" id="signatureContainer">
 
-        <!-- Knoppen -->
+                <h3>Digitale handtekening student</h3>
 
-        <div class="button-container">
+                <p>Teken hieronder met je muis.</p>
 
-            <button
-    class="sign-button"
-    onclick="window.location.href='/itsme'">
-    Digitaal ondertekenen
-</button>
+                <canvas id="signatureCanvas" width="600" height="180"></canvas>
 
-        </div>
+                <div class="signature-buttons">
 
-    </div>
+                    <button type="button" id="wissenKnop">
+                        Wissen
+                    </button>
+
+                    <button type="button" id="ondertekenenKnop">
+                        Digitaal ondertekenen
+                    </button>
+
+                </div>
+
+                <p id="ondertekenStatus"></p>
+
+            </div>
+
+            <button type="button" id="terugNaarOverzicht" class="sign-button" style="display: none;">
+                Terug
+            </button>
+
+        </section>
+
+    </main>
+
+    <script src="/JS/stageovereenkomst.js"></script>
+
+</body>
+
+</html>
 
 </body>
 

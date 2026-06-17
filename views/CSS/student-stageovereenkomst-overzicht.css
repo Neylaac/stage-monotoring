@@ -1,0 +1,93 @@
+.stageovereenkomst-content > h1 {
+    color: #832D2C;
+    font-size: 28px;
+    margin-bottom: 28px;
+}
+
+.success-message {
+    min-height: 80px;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 20px 55px;
+    margin-bottom: 55px;
+
+    background-color: #edfff0;
+    border: 1px solid #d8f5dc;
+    border-radius: 6px;
+
+    font-weight: 600;
+}
+
+.success-message i {
+    color: #2ea846;
+    font-size: 30px;
+}
+
+.status-card {
+    width: 470px;
+
+    margin: 0 auto;
+    padding: 25px 30px;
+
+    border: 1px solid #bdbdbd;
+    border-radius: 6px;
+
+    background-color: white;
+}
+
+.status-card h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 35px;
+}
+
+.status {
+    width: 130px;
+
+    padding: 5px 10px;
+
+    text-align: center;
+    border-radius: 4px;
+
+    font-size: 12px;
+}
+
+.status.signed {
+    background-color: #cdefaa;
+    color: #21802d;
+}
+
+.status.waiting {
+    background-color: #f0f1f5;
+    color: #b8b8b8;
+}
+
+.view-button {
+    width: 100%;
+
+    margin-top: 25px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 4px;
+
+    background-color: #832D2C;
+    color: white;
+
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-button:hover {
+    background-color: #6f2423;
+}
