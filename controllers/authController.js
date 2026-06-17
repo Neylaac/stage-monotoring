@@ -34,6 +34,8 @@ const loginGebruiker = async (req, res) => { // maken een functie met de naam lo
         }
 
         const role = user.role; //rol ophalen
+        req.session.userId = user.id;
+req.session.role = user.role;
 
         //JWT token bestaat uit informatie over de gebruiker.
 
