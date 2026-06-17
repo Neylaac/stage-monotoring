@@ -59,101 +59,92 @@
 
             <h1>Studentoverzicht</h1>
 
-            <div class="student-profile">
-
-                <div class="student-avatar-large">
-                    ST
-                </div>
-
-                <div class="student-info">
-
-                    <h2>[Studentnaam]</h2>
-
-                    <p>[Opleiding]</p>
-
-                    <p>
-                        Stageperiode:
-                        [Startdatum] - [Einddatum]
-                    </p>
-
-                </div>
-
+            <div class="student-avatar-large" id="studentInitialen">
+                ST
             </div>
 
-            <div class="info-cards">
+            <div class="student-info">
 
-                <div class="info-card">
+                <h2 id="studentNaam">[Studentnaam]</h2>
 
-                    <h3>Gegevens student</h3>
+                <p id="studentOpleiding">[Opleiding]</p>
 
-                    <p>
-                        <strong>E-mail</strong><br>
-                        [E-mailadres]
-                    </p>
-
-                    <p>
-                        <strong>Telefoon</strong><br>
-                        [Telefoonnummer]
-                    </p>
-
-                </div>
-
-                <div class="info-card">
-
-                    <h3>Stagegegevens</h3>
-
-                    <p>
-                        <strong>Bedrijf</strong><br>
-                        [Bedrijfsnaam]
-                    </p>
-
-                    <p>
-                        <strong>Mentor</strong><br>
-                        [Mentornaam]
-                    </p>
-
-                    <p>
-                        <strong>Docent</strong><br>
-                        [Docentnaam]
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="agreement-card">
-
-                <div>
-
-                    <h2>Stageovereenkomst</h2>
-
-                    <p>
-                        Beheer de stageovereenkomst en volg de ondertekenstatus.
-                    </p>
-
-                </div>
-
-                <button
-                    class="view-button"
-                    onclick="window.location.href='/bedrijf-stageovereenkomst-detail'">
-                    Bekijken
-                </button>
-
-            </div>
-
-            <div class="back-container">
-
-                <button
-                    class="back-button"
-                    onclick="window.location.href='/bedrijf-stageovereenkomst-overzicht'">
-                    Terug
-                </button>
+                <p>
+                    Stageperiode:
+                    <span id="studentStageperiode">[Startdatum] - [Einddatum]</span>
+                </p>
 
             </div>
 
         </div>
 
+        <div class="info-cards">
+
+            <div class="info-card">
+
+                <h3>Gegevens student</h3>
+
+                <p>
+                    <strong>E-mail</strong><br>
+                    <span id="studentEmail">[E-mailadres]</span>
+                </p>
+
+                <p>
+                    <strong>Telefoon</strong><br>
+                    <span id="studentTelefoon">[Telefoonnummer]</span>
+                </p>
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>Stagegegevens</h3>
+
+                <p>
+                    <strong>Bedrijf</strong><br>
+                    <span id="studentBedrijf">[Bedrijfsnaam]</span>
+                </p>
+
+                <p>
+                    <strong>Mentor</strong><br>
+                    <span id="studentMentor">[Mentornaam]</span>
+                </p>
+
+
+            </div>
+
+        </div>
+
+        <div class="agreement-card">
+
+            <div>
+
+                <h2>Stageovereenkomst</h2>
+
+                <p>
+                    Beheer de stageovereenkomst en volg de ondertekenstatus.
+                </p>
+
+            </div>
+            <button class="view-button" id="overeenkomstKnop">
+                Bekijken
+            </button>
+        </div>
+
+        <div class="back-container">
+
+            <button class="back-button" onclick="window.location.href='/bedrijf-stageovereenkomst-overzicht'">
+                Terug
+            </button>
+
+        </div>
+
     </div>
+
+    </div>
+
+    <script src="/JS/bedrijf-student-overzicht.js"></script>
+
 
 </body>
 
