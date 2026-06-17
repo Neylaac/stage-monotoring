@@ -51,9 +51,17 @@ if (stage.status === "GOEDGEKEURD") {
     document.querySelector("#stepGoedkeuring").classList.add("active");
 }
 
+document.querySelector("#lineAanvraagGoedkeuring").classList.add("active");
 
 if (stage.student_ondertekend) {
     document.querySelector("#stepOvereenkomst").classList.add("active");
+      document.querySelector("#lineGoedkeuringOvereenkomst").classList.add("active");
+}
+
+if (stage.student_ondertekend && stage.bedrijf_ondertekend) {
+    document.querySelector("#stepActief").classList.add("active");
+
+        document.querySelector("#lineOvereenkomstActief").classList.add("active");
 }
 
         document.querySelector("#studentBedrijf").textContent = stage.bedrijfsnaam || "-";
