@@ -256,10 +256,6 @@ router.get('/api/stageovereenkomsten/:id', requireAuth, getStageovereenkomstOpId
 
 // -------------------------- STUDENT START --------------------------
 
-
-// ---------------------------------Voorlopige test-homeroutes---------------------------
-
-
 router.get('/student/start', requireAuth, (req, res) => {
     const studentId = req.user.id;
 
@@ -305,6 +301,49 @@ router.get('/student/start', requireAuth, (req, res) => {
 });
 
 
+// -------------------------- BEDRIJF API --------------------------
+
+router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
+    const email = req.user.email;
+
+    const query =  `
+        SELECT
+            stageaanvragen.id,
+            users.voornaam,
+            users.achternaam,
+            student_profiles.opleiding,
+            stageaanvragen.startdatum,
+            stageaanvragen.einddatum
+        FROM stageaanvragen
+        JOIN users
+            ON users.id = stageaanvragen.student_id
+        JOIN student_profiles
+            ON student_profiles.user_id = users.id
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id = stageaanvragen.id
+        WHERE stageaanvragen.email_bedrijf = ?
+        AND stageaanvragen.status = 'GOEDGEKEURD'
+        AND stageovereenkomsten.student_ondertekend = 1
+        ORDER BY users.voornaam
+    `;
+
+    connection.query(query, [email], (error, results) => {
+        if(error){
+            console.error(error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'stagiairs konden niet worden opgehaald'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            stagiairs: results
+        })
+    })
+
+});
 // -------------------------- STUDENT PAGINA'S --------------------------
 
 router.get('/student/stageaanvraag', requireAuth, (req, res) => {
@@ -334,9 +373,6 @@ router.get("/student-stageovereenkomst-detail", requireAuth, (req, res) => {
 
 // -------------------------- DOCENT PAGINA'S --------------------------
 
-router.get('/docent/home', requireAuth, (req, res) => {
-    res.send('Welkom docent');
-});
 
 router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));
@@ -350,7 +386,7 @@ router.get('/stageovereenkomst-detail', requireAuth, (req, res) => {
 // -------------------------- BEDRIJF PAGINA'S --------------------------
 
 router.get('/bedrijf/home', requireAuth, (req, res) => {
-    res.send('Welkom mentor');
+    res.redirect('/bedrijf-stageovereenkomst-overzicht');
 });
 
 router.get('/bedrijf-stageovereenkomst-overzicht', requireAuth, (req, res) => {
