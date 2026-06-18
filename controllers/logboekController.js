@@ -83,8 +83,74 @@ const maakDaglogboek = async (req, res) => {
     }
 
 };
+const getWeeklogboekOpId = async (req, res) => {
+
+    try {
+
+        const id = req.params.id;
+
+        const [rows] = await connection
+            .promise()
+            .query(
+                'SELECT * FROM weeklogboeken WHERE id = ?',
+                [id]
+            );
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: 'Weeklogboek niet gevonden'
+            });
+        }
+
+        res.json(rows[0]);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: 'Database fout'
+        });
+
+    }
+
+};
+const getDaglogboekOpId = async (req, res) => {
+
+    try {
+
+        const id = req.params.id;
+
+        const [rows] = await connection
+            .promise()
+            .query(
+                'SELECT * FROM daglogboeken WHERE id = ?',
+                [id]
+            );
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: 'Daglogboek niet gevonden'
+            });
+        }
+
+        res.json(rows[0]);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: 'Database fout'
+        });
+
+    }
+
+};
 
 module.exports = {
     getAlleWeeklogboeken,
-    maakDaglogboek
+    maakDaglogboek,
+    getWeeklogboekOpId,
+    getDaglogboekOpId
 };
