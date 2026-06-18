@@ -121,3 +121,59 @@ CREATE TABLE stageovereenkomsten (
         REFERENCES stageaanvragen(id)
         ON DELETE CASCADE
 );
+CREATE TABLE weeklogboeken (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    stageovereenkomst_id INT NOT NULL,
+
+    weeknummer INT NOT NULL,
+
+    startdatum DATE NOT NULL,
+    einddatum DATE NOT NULL,
+
+    ingediend BOOLEAN DEFAULT FALSE,
+    ingediend_op DATETIME NULL,
+
+    mentor_feedback TEXT NULL,
+
+    afgetekend BOOLEAN DEFAULT FALSE,
+    afgetekend_op DATETIME NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (stageovereenkomst_id)
+        REFERENCES stageovereenkomsten(id)
+        ON DELETE CASCADE
+);
+CREATE TABLE daglogboeken (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    weeklogboek_id INT NOT NULL,
+
+    datum DATE NOT NULL,
+
+    aantal_uren DECIMAL(4,2) NOT NULL,
+
+    taken TEXT NOT NULL,
+
+    geleerd TEXT NOT NULL,
+
+    problemen TEXT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (weeklogboek_id)
+        REFERENCES weeklogboeken(id)
+        ON DELETE CASCADE
+);
+CREATE TABLE daglogboek_competenties (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    daglogboek_id INT NOT NULL,
+
+    competentie VARCHAR(100) NOT NULL,
+
+    FOREIGN KEY (daglogboek_id)
+        REFERENCES daglogboeken(id)
+        ON DELETE CASCADE
+);
