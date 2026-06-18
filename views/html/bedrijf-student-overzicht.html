@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedrijf - Studentoverzicht</title>
+
+    <link rel="stylesheet" href="../CSS/bedrijf-student-overzicht.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <ul>
+            <li>Home</li>
+            <li class="active">Stagiairs</li>
+            <li>Logboeken</li>
+            <li>Evaluatie</li>
+            <li>Profiel</li>
+        </ul>
+
+        <div class="logout">
+            Uitloggen
+        </div>
+
+    </div>
+
+    <!-- Content -->
+
+    <div class="content">
+
+        <!-- Topbar -->
+
+        <div class="topbar">
+
+            <div class="topbar-right">
+
+                <div class="notification-icon">🔔</div>
+
+                <div class="user-avatar-top">
+                    IM
+                </div>
+
+                <div class="logo">
+                    EBSC
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Studentoverzicht -->
+
+        <div class="student-overview-page">
+
+            <h1>Studentoverzicht</h1>
+
+            <div class="student-avatar-large" id="studentInitialen">
+                ST
+            </div>
+
+            <div class="student-info">
+
+                <h2 id="studentNaam">[Studentnaam]</h2>
+
+                <p id="studentOpleiding">[Opleiding]</p>
+
+                <p>
+                    Stageperiode:
+                    <span id="studentStageperiode">[Startdatum] - [Einddatum]</span>
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="info-cards">
+
+            <div class="info-card">
+
+                <h3>Gegevens student</h3>
+
+                <p>
+                    <strong>E-mail</strong><br>
+                    <span id="studentEmail">[E-mailadres]</span>
+                </p>
+
+                <p>
+                    <strong>Telefoon</strong><br>
+                    <span id="studentTelefoon">[Telefoonnummer]</span>
+                </p>
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>Stagegegevens</h3>
+
+                <p>
+                    <strong>Bedrijf</strong><br>
+                    <span id="studentBedrijf">[Bedrijfsnaam]</span>
+                </p>
+
+                <p>
+                    <strong>Mentor</strong><br>
+                    <span id="studentMentor">[Mentornaam]</span>
+                </p>
+
+
+            </div>
+
+        </div>
+
+        <div class="agreement-card">
+
+            <div>
+
+                <h2>Stageovereenkomst</h2>
+
+                <p>
+                    Beheer de stageovereenkomst en volg de ondertekenstatus.
+                </p>
+
+            </div>
+            <button class="view-button" id="overeenkomstKnop">
+                Bekijken
+            </button>
+        </div>
+
+        <div class="back-container">
+
+            <button class="back-button" onclick="window.location.href='/bedrijf-stageovereenkomst-overzicht'">
+                Terug
+            </button>
+
+        </div>
+
+    </div>
+
+    </div>
+
+    <script src="/JS/bedrijf-student-overzicht.js"></script>
+
+
+</body>
+
+</html>

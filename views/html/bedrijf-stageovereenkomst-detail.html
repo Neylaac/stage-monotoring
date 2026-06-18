@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedrijf - Stageovereenkomst Detail</title>
+
+    <link rel="stylesheet" href="../CSS/bedrijf-stageovereenkomst-detail.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <ul>
+            <li>Home</li>
+            <li class="active">Stagiairs</li>
+            <li>Logboeken</li>
+            <li>Evaluatie</li>
+            <li>Profiel</li>
+        </ul>
+
+        <div class="logout">
+            Uitloggen
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="topbar-right">
+
+                <div class="notification-icon">🔔</div>
+
+                <div class="user-avatar-top">
+                    IM
+                </div>
+
+                <div class="logo">
+                    EBSC
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- STUDENTINFO -->
+
+        <div class="student-overview">
+
+            <div class="student-header">
+
+                <div class="student-avatar" id="studentInitialen">
+                    ST
+                </div>
+
+                <div class="student-details">
+
+                    <h2 id="studentNaam">-</h2>
+
+                    <p id="studentOpleiding">-</p>
+
+                    <p>
+                        Stageperiode:
+                        <span id="studentStageperiode">-</span>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ONDERTEKENSTATUS -->
+
+        <div class="status-box">
+
+            <h2>Ondertekenstatus</h2>
+
+            <div class="status-row">
+                <span>Student</span>
+                <span id="studentStatus" class="status waiting">
+                    In afwachting
+                </span>
+            </div>
+
+            <div class="status-row">
+                <span>Bedrijf</span>
+                <span id="bedrijfStatus" class="status waiting">
+                    In afwachting
+                </span>
+            </div>
+
+            <div class="status-row">
+                <span>School</span>
+                <span id="schoolStatus" class="status waiting">
+                    In afwachting
+                </span>
+            </div>
+
+        </div>
+
+        <!-- CONTRACT -->
+
+        <div class="contract-container">
+
+            <h1>STAGEOVEREENKOMST</h1>
+
+            <div class="contract-info">
+
+                <p>
+                    <strong>Student:</strong>
+                    <span id="contractStudentNaam">-</span>
+                </p>
+
+                <p>
+                    <strong>Opleiding:</strong>
+                    <span id="contractOpleiding">-</span>
+                </p>
+
+                <p>
+                    <strong>Bedrijf:</strong>
+                    <span id="contractBedrijf">-</span>
+                </p>
+
+                <p>
+                    <strong>Stageperiode:</strong>
+                    <span id="contractStageperiode">-</span>
+                </p>
+
+                <p>
+                    <strong>Opdracht:</strong>
+                    <span id="contractOpdracht">-</span>
+                </p>
+
+            </div>
+
+
+            <div class="article">
+
+                <h3>Artikel 1 - Doel van de stage</h3>
+
+                <p>
+                    De student voert een stage uit bij het vermelde bedrijf
+                    met als doel praktijkervaring op te doen binnen de opleiding
+                    en professionele competenties verder te ontwikkelen.
+                </p>
+
+            </div>
+
+            <div class="article">
+
+                <h3>Artikel 2 - Stageperiode</h3>
+
+                <p>
+                    De stage loopt gedurende de afgesproken periode zoals vermeld
+                    in deze overeenkomst. Wijzigingen aan de stageperiode moeten
+                    door alle partijen worden goedgekeurd.
+                </p>
+
+            </div>
+
+            <div class="article">
+
+                <h3>Artikel 3 - Verantwoordelijkheden student</h3>
+
+                <p>
+                    De student engageert zich om de stageopdracht zorgvuldig uit
+                    te voeren, de bedrijfsregels na te leven en vertrouwelijke
+                    informatie niet te verspreiden.
+                </p>
+
+            </div>
+
+            <div class="article">
+
+                <h3>Artikel 4 - Verantwoordelijkheden bedrijf</h3>
+
+                <p>
+                    Het bedrijf voorziet een geschikte werkplek, begeleiding
+                    tijdens de stage en een contactpersoon die de voortgang van
+                    de student opvolgt.
+                </p>
+
+            </div>
+
+            <div class="article">
+
+                <h3>Artikel 5 - Verantwoordelijkheden school</h3>
+
+                <p>
+                    De onderwijsinstelling volgt het stageproces op, ondersteunt
+                    de student waar nodig en evalueert de stage in samenwerking
+                    met het bedrijf.
+                </p>
+
+            </div>
+
+            <div class="article">
+
+                <h3>Artikel 6 - Evaluatie</h3>
+
+                <p>
+                    De stage wordt geëvalueerd op basis van de uitgevoerde
+                    opdrachten, feedback van het bedrijf, het logboek en de
+                    behaalde leerdoelen.
+                </p>
+
+            </div>
+
+            <!-- HANDTEKENINGEN -->
+
+            <div class="signature-section">
+
+                <div class="signature-block">
+                    <h4>Handtekening student</h4>
+
+                    <div id="studentHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
+                    </div>
+                </div>
+
+                <div class="signature-block">
+                    <h4>Handtekening bedrijf</h4>
+
+                    <div id="bedrijfHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
+                    </div>
+                </div>
+
+                <div class="signature-block">
+                    <h4>Handtekening school</h4>
+
+                    <div id="schoolHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEKENVAK -->
+
+        <div id="tekenVak" class="teken-vak">
+
+            <h2>Handtekening bedrijf</h2>
+
+            <canvas id="handtekeningCanvas"></canvas>
+
+            <div class="teken-buttons">
+
+                <button id="wissenKnop" type="button" class="back-button">
+                    Wissen
+                </button>
+
+                <button id="opslaanKnop" type="button" class="sign-button">
+                    Ondertekenen
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="sign-button-container">
+
+            <button id="ondertekenKnop" class="sign-button">
+                Digitaal ondertekenen
+            </button>
+
+            <button id="terugKnop" class="back-button">
+                Terug
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="/JS/bedrijf-stageovereenkomst-detail.js"></script>
+
+</body>
+
+</html>

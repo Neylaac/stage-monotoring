@@ -1,24 +1,24 @@
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
-require('dotenv').config();
+const express = require('express'); //Gebruik pakket/bestand express
+const session = require('express-session'); //session wordt gebruikt om een gebruiker te onthouden. 
+const path = require('path'); //path is een module in node.js, het helpt eigenlijk om correcte bestandspaden te doen 
+require('dotenv').config();// hier ga je eigenlijk gewoon zeggen om het .enb bestand te lezen 
 
 
-const routes = require('./routes');
+const routes = require('./routes'); // je laat je eigen bestand
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-// Middleware om JSON en formulierdata te kunnen lezen
-app.use(express.json());
+// Middleware is code die een verzoek passeert voordat het bij de uiteindelijke route komt.
+app.use(express.json()); // gaat ervoor zorgen dat de JSON-gegevens van de browser leesbaar voor de server is
 app.use(express.urlencoded({ extended: true }));
 
 // Session middleware
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+app.use(session({ // moet weten tot het einde welke student aangelogd is en wat haar rol is
+    secret: process.env.SESSION_SECRET, //gebruikt geheime sleutel in de env om sessie te beschermen
+    resave: false, //Niet opnieuw opslaan als niets veranderde.
+    saveUninitialized: false, // Geen lege sessies bewaren.
     cookie: {
         secure: false
     }

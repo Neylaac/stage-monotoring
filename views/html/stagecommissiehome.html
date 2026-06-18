@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stagecommissie - Home</title>
+
+        <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+        <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Stagecommissie</div>
+
+        <a href="/stagecommissie/home" class="menu-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="/stagecommissie/stageaanvragen" class="menu-item">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Stageaanvragen</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Stageovereenkomst</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiel</span>
+        </a>
+    </div>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Uitloggen</span>
+    </a>
+</aside>
+
+    <main class="main-content">
+
+        <header class="topbar admin-topbar">
+            <div></div>
+
+<div class="topbar-right">
+                <i class="fa-regular fa-bell"></i>
+     <div class="user-circle">SC</div>
+        
+     <span class="ehb-logo">ehbc</span>
+            </div>
+        </header>
+
+        <section class="content admin-content stagecommissie-dashboard">
+
+            
+            
+            
+<h1>Welkom terug, Stagecommissie!</h1>
+
+            <p class="subtitle">
+                
+        Volg de belangrijkste stappen van het stageproces op.
+            </p>
+ <div class="dashboard-process-card">
+        <h2>Stageproces opvolging</h2>
+
+        <div class="process-steps">
+     <div class="process-step">
+               
+               
+     <div class="process-circle red">1</div>
+        <strong>Stagevoorstel</strong>
+            
+        <span id="countStagevoorstel">0 wachten</span>
+     </div>
+
+            <div class="process-step">
+      <div class="process-circle orange">2</div>
+            
+      
+      <strong>Goedkeuring</strong>
+        <span id="countGoedkeuring">0 behandelen</span>
+            </div>
+
+           
+     <div class="process-step">
+             
+       <div class="process-circle blue">3</div>
+                <strong>Overeenkomst</strong>
+         <span id="countOvereenkomst">0 ontbrekend</span>
+            </div>
+
+            <div class="process-step">
+            
+        <div class="process-circle green">4</div>
+       <strong>Evaluatie</strong>
+              <span id="countEvaluatie">0 gepland</span>
+        
+            </div>
+ </div>
+ </div>
+
+    <div class="latest-card">
+<div class="latest-header">
+    <h2>Laatste stageaanvragen</h2>
+ <span>Status</span>
+        </div>
+
+  <div id="laatsteAanvragenList"></div>
+
+       
+       
+ <a href="/stagecommissie/stageaanvragen" class="naar-aanvragen-btn">
+           
+Naar stageaanvragen
+</a>
+   
+</div>
+
+</section>
+
+
+    </main>
+
+    
+<script src="/JS/stageaanvraag.js"></script>
+
+
+<script src="/JS/stagecommissiehome.js"></script>
+</body>
+
+</html>

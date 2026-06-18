@@ -1,7 +1,13 @@
 CREATE DATABASE IF NOT EXISTS stage_monitoring;
 USE stage_monitoring;
 
-CREATE TABLE IF NOT EXISTS users (
+DROP TABLE IF EXISTS stageaanvragen;
+DROP TABLE IF EXISTS bedrijf_profiles;
+DROP TABLE IF EXISTS student_profiles;
+DROP TABLE IF EXISTS users;
+
+
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     voornaam VARCHAR(100) NOT NULL,
     achternaam VARCHAR(100) NOT NULL,
