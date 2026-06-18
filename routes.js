@@ -322,7 +322,8 @@ router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
             users.achternaam,
             student_profiles.opleiding,
             stageaanvragen.startdatum,
-            stageaanvragen.einddatum
+            stageaanvragen.einddatum,
+                stageovereenkomsten.bedrijf_ondertekend
         FROM stageaanvragen
         JOIN users
             ON users.id = stageaanvragen.student_id
