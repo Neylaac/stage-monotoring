@@ -66,8 +66,12 @@ router.get('/set-token', (req, res) => { //Deze route wordt gebruikt na een succ
     }
 
     if (role === 'BEDRIJF') {
-        return res.redirect('/bedrijf/home');
+            return res.redirect('/bedrijf/home');
+        
     }
+
+
+
 
     if (role === 'ADMIN') {
         return res.redirect('/admin/home');
@@ -322,7 +326,8 @@ router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
             users.achternaam,
             student_profiles.opleiding,
             stageaanvragen.startdatum,
-            stageaanvragen.einddatum
+            stageaanvragen.einddatum,
+                stageovereenkomsten.bedrijf_ondertekend
         FROM stageaanvragen
         JOIN users
             ON users.id = stageaanvragen.student_id
@@ -538,8 +543,9 @@ router.get('/stageovereenkomst-detail', requireAuth, (req, res) => {
 
 // -------------------------- BEDRIJF PAGINA'S --------------------------
 
+
 router.get('/bedrijf/home', requireAuth, (req, res) => {
-    res.redirect('/bedrijf-stageovereenkomst-overzicht');
+    res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijfhome.html'));
 });
 
 router.get('/bedrijf-stageovereenkomst-overzicht', requireAuth, (req, res) => {
