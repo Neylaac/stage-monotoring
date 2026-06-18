@@ -82,9 +82,32 @@
 
         <!-- ONDERTEKENSTATUS -->
 
-        <span id="studentStatus" class="status waiting">In afwachting</span>
-        <span id="bedrijfStatus" class="status waiting">In afwachting</span>
-        <span id="schoolStatus" class="status waiting">In afwachting</span>
+        <div class="status-box">
+
+            <h2>Ondertekenstatus</h2>
+
+            <div class="status-row">
+                <span>Student</span>
+                <span id="studentStatus" class="status waiting">
+                    In afwachting
+                </span>
+            </div>
+
+            <div class="status-row">
+                <span>Bedrijf</span>
+                <span id="bedrijfStatus" class="status waiting">
+                    In afwachting
+                </span>
+            </div>
+
+            <div class="status-row">
+                <span>School</span>
+                <span id="schoolStatus" class="status waiting">
+                    In afwachting
+                </span>
+            </div>
+
+        </div>
 
         <!-- CONTRACT -->
 
@@ -92,11 +115,36 @@
 
             <h1>STAGEOVEREENKOMST</h1>
 
-            <span id="contractStudentNaam">[Studentnaam]</span>
-            <span id="contractOpleiding">[Opleiding]</span>
-            <span id="contractBedrijf">[Bedrijfsnaam]</span>
-            <span id="contractStageperiode">[Startdatum] - [Einddatum]</span>
-            <span id="contractOpdracht">[Stageopdracht]</span>
+            <div class="contract-info">
+
+                <p>
+                    <strong>Student:</strong>
+                    <span id="contractStudentNaam">-</span>
+                </p>
+
+                <p>
+                    <strong>Opleiding:</strong>
+                    <span id="contractOpleiding">-</span>
+                </p>
+
+                <p>
+                    <strong>Bedrijf:</strong>
+                    <span id="contractBedrijf">-</span>
+                </p>
+
+                <p>
+                    <strong>Stageperiode:</strong>
+                    <span id="contractStageperiode">-</span>
+                </p>
+
+                <p>
+                    <strong>Opdracht:</strong>
+                    <span id="contractOpdracht">-</span>
+                </p>
+
+            </div>
+
+
             <div class="article">
 
                 <h3>Artikel 1 - Doel van de stage</h3>
@@ -173,37 +221,70 @@
 
             <div class="signature-section">
 
-                <div id="studentHandtekening" class="signature-placeholder">
-                    Handtekening student
+                <div class="signature-block">
+                    <h4>Handtekening student</h4>
+
+                    <div id="studentHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
+                    </div>
                 </div>
 
-                <div id="bedrijfHandtekening" class="signature-placeholder">
-                    Nog niet ondertekend
+                <div class="signature-block">
+                    <h4>Handtekening bedrijf</h4>
+
+                    <div id="bedrijfHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
+                    </div>
                 </div>
 
-                <div id="schoolHandtekening" class="signature-placeholder">
-                    Nog niet ondertekend
+                <div class="signature-block">
+                    <h4>Handtekening school</h4>
+
+                    <div id="schoolHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
+                    </div>
                 </div>
 
             </div>
 
         </div>
 
-    </div>
 
-    <!-- BUTTONS -->
+        <!-- TEKENVAK -->
 
-    <div class="sign-button-container">
+        <div id="tekenVak" class="teken-vak">
 
-        <button class="sign-button" onclick="window.location.href='/itsme'">
-            Digitaal ondertekenen
-        </button>
+            <h2>Handtekening bedrijf</h2>
 
-        <button class="back-button" onclick="window.location.href='/bedrijf-student-overzicht'">
-            Terug
-        </button>
+            <canvas id="handtekeningCanvas"></canvas>
 
-    </div>
+            <div class="teken-buttons">
+
+                <button id="wissenKnop" type="button" class="back-button">
+                    Wissen
+                </button>
+
+                <button id="opslaanKnop" type="button" class="sign-button">
+                    Ondertekenen
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="sign-button-container">
+
+            <button id="ondertekenKnop" class="sign-button">
+                Digitaal ondertekenen
+            </button>
+
+            <button id="terugKnop" class="back-button">
+                Terug
+            </button>
+
+        </div>
 
     </div>
 

@@ -33,6 +33,26 @@ function laadStudentStageovereenkomst() {
                 handtekeningAfbeelding.style.display = 'block';
             }
 
+            const bedrijfHandtekening =
+                document.querySelector('#bedrijfHandtekening');
+
+            if (overeenkomst.bedrijf_handtekening) {
+                bedrijfHandtekening.src =
+                    overeenkomst.bedrijf_handtekening;
+
+                bedrijfHandtekening.style.display = 'block';
+            }
+
+            const schoolHandtekening =
+                document.querySelector('#schoolHandtekening');
+
+            if (overeenkomst.school_handtekening) {
+                schoolHandtekening.src =
+                    overeenkomst.school_handtekening;
+
+                schoolHandtekening.style.display = 'block';
+            }
+
             signatureContainer.style.display = 'none';
             terugKnop.style.display = 'block';
         }

@@ -1,4 +1,4 @@
-window.window.onload = () => {
+window.onload = () => {
 
     function formatteerDatum(datum) {
         const datumObject = new Date(datum);
@@ -127,9 +127,8 @@ window.window.onload = () => {
                 student.school_handtekening,
                 'Nog niet ondertekend'
             );
-
             const ondertekenKnop =
-                document.querySelector('.sign-button');
+                document.getElementById('ondertekenKnop');
 
             if (
                 student.student_ondertekend === 1 &&
@@ -141,7 +140,7 @@ window.window.onload = () => {
             }
 
             const terugKnop =
-                document.querySelector('.back-button');
+                document.getElementById('terugKnop');
 
             terugKnop.onclick = function () {
                 window.location.href =
@@ -155,4 +154,110 @@ window.window.onload = () => {
                 error
             );
         });
+
+
+    const tekenVak = document.getElementById('tekenVak');
+    const canvas = document.getElementById('handtekeningCanvas');
+    const context = canvas.getContext('2d');
+
+    const ondertekenKnop = document.getElementById('ondertekenKnop');
+    const wissenKnop = document.getElementById('wissenKnop');
+    const opslaanKnop = document.getElementById('opslaanKnop');
+
+    let tekenen = false;
+    let heeftGetekend = false;
+
+    tekenVak.style.display = 'none';
+
+    canvas.width = 600;
+    canvas.height = 200;
+
+    context.lineWidth = 2;
+    context.lineCap = 'round';
+
+    canvas.addEventListener('mousedown', function (event) {
+        tekenen = true;
+        heeftGetekend = true;
+
+        context.beginPath();
+        context.moveTo(event.offsetX, event.offsetY);
+    });
+
+    canvas.addEventListener('mousemove', function (event) {
+        if (!tekenen) {
+            return;
+        }
+
+        context.lineTo(event.offsetX, event.offsetY);
+        context.stroke();
+    });
+
+    canvas.addEventListener('mouseup', function () {
+        tekenen = false;
+    });
+
+    canvas.addEventListener('mouseleave', function () {
+        tekenen = false;
+    });
+
+    ondertekenKnop.onclick = function () {
+        tekenVak.style.display = 'block';
+
+        tekenVak.scrollIntoView({
+            behavior: 'smooth'
+        });
+    };
+
+    wissenKnop.onclick = function () {
+        context.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        heeftGetekend = false;
+    };
+
+    opslaanKnop.onclick = function () {
+        if (!heeftGetekend) {
+            alert('Plaats eerst je handtekening');
+            return;
+        }
+
+        const handtekening =
+            canvas.toDataURL('image/png');
+
+        fetch(
+            '/api/bedrijf/stageovereenkomst/' +
+            aanvraagId +
+            '/ondertekenen',
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    handtekening: handtekening
+                })
+            }
+        )
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== 'success') {
+                    alert(data.message);
+                    return;
+                }
+
+                alert('Stageovereenkomst ondertekend');
+
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error(
+                    'Fout bij ondertekenen:',
+                    error
+                );
+            });
+    };
 };
