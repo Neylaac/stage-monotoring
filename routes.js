@@ -24,6 +24,9 @@ const {
     getStageovereenkomstOpId
 } = require('./controllers/stageOvereenkomstController');
 
+const {
+    getAlleWeeklogboeken
+} = require('./controllers/logboekController');
 // get gebruik je om een pagina op te vragen
 
 // -------------------------- ALGEMEEN --------------------------
@@ -263,6 +266,13 @@ router.get('/api/stageovereenkomsten', requireAuth, getAlleStageovereenkomsten);
 
 router.get('/api/stageovereenkomsten/:id', requireAuth, getStageovereenkomstOpId);
 
+// -------------------------- LOGBOEKEN API --------------------------
+
+router.get(
+    '/api/logboeken',
+    requireAuth,
+    getAlleWeeklogboeken
+);
 // -------------------------- STUDENT START --------------------------
 
 router.get('/student/start', requireAuth, (req, res) => {
@@ -523,7 +533,38 @@ router.get("/student-stageovereenkomst-detail", requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "views", "html", "student-stageovereenkomst-detail.html"));
 });
 
+router.get('/student/logboeken', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'studentlogboeken.html'
+        )
+    );
+});
 
+router.get('/student/weeklogboek', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'studentweeklogboek.html'
+        )
+    );
+});
+
+router.get('/student/daglogboek', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'studentdaglogboek.html'
+        )
+    );
+});
 // -------------------------- DOCENT PAGINA'S --------------------------
 
 
