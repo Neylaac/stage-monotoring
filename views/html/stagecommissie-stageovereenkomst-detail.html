@@ -6,27 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stagecommissie - Stageovereenkomst Detail</title>
 
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="../CSS/home.css">
     <link rel="stylesheet" href="../CSS/stagecommissie-stageovereenkomst-detail.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
     <!-- SIDEBAR -->
 
-    <div class="sidebar">
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Stagecommissie</div>
 
-        <ul>
-            <li>Home</li>
-            <li>Aanvragen</li>
-            <li class="active">Stageovereenkomst</li>
-            <li>Profiel</li>
-        </ul>
+            <a href="/stagecommissie/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <div class="logout">
-            Uitloggen
+            <a href="/stagecommissie/stageaanvragen" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvragen</span>
+            </a>
+
+            <a href="/stagecommissie-stageovereenkomst-overzicht" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-    </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
 
     <!-- CONTENT -->
 
@@ -205,17 +225,13 @@
 
         <div class="button-container">
 
-            <button
-                class="back-button"
-                onclick="window.location.href='/stagecommissie-stageovereenkomst-overzicht'">
+            <button class="back-button" onclick="window.location.href='/stagecommissie-stageovereenkomst-overzicht'">
 
                 Terug
 
             </button>
 
-            <button
-                class="approve-button"
-                onclick="window.location.href='/stagecommissie-stageovereenkomst-overzicht'">
+            <button class="approve-button" onclick="window.location.href='/stagecommissie-stageovereenkomst-overzicht'">
 
                 Goedkeuren
 

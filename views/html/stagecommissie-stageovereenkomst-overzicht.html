@@ -4,29 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Stagecommissie - Stageovereenkomsten</title>
 
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="../CSS/home.css">
     <link rel="stylesheet" href="../CSS/stagecommissie-stageovereenkomst-overzicht.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
     <!-- SIDEBAR -->
 
-    <div class="sidebar">
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Stagecommissie</div>
 
-        <ul>
-            <li>Home</li>
-            <li>Aanvragen</li>
-            <li class="active">Stageovereenkomst</li>
-            <li>Profiel</li>
-        </ul>
+            <a href="/stagecommissie/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <div class="logout">
-            Uitloggen
+            <a href="/stagecommissie/stageaanvragen" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvragen</span>
+            </a>
+
+            <a href="/stagecommissie-stageovereenkomst-overzicht" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-    </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
 
     <!-- CONTENT -->
 
@@ -54,137 +75,29 @@
 
         <h1>Stageovereenkomsten</h1>
 
-        <!-- ZOEKBALK -->
+        <div class="table-container">
 
-        <div class="search-container">
+            <table>
 
-            <input
-                type="text"
-                placeholder="Zoek student........">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Opleiding</th>
+                        <th>Stageperiode</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-        </div>
+                <tbody id="overeenkomstenTabel">
+                </tbody>
 
-        <!-- STUDENT 1 -->
-
-        <div class="agreement-card">
-
-            <div class="student-info">
-
-                <div class="student-avatar">
-                    LV
-                </div>
-
-                <div class="student-details">
-
-                    <h3>[Studentnaam]</h3>
-
-                    <p><strong>Bedrijf:</strong> [Bedrijfsnaam]</p>
-
-                    <p><strong>Stageperiode:</strong> [Startdatum] - [Einddatum]</p>
-
-                    <p><strong>Laatste activiteit:</strong> [Laatste activiteit]</p>
-
-                </div>
-
-            </div>
-
-            <div class="agreement-actions">
-
-                <h3>Stageovereenkomst</h3>
-
-                <span class="approved-label">
-                    goedgekeurd
-                </span>
-
-                <button
-                    class="view-button"
-                    onclick="window.location.href='/stagecommissie-stageovereenkomst-detail'">
-
-                    Bekijken
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- STUDENT 2 -->
-
-        <div class="agreement-card">
-
-            <div class="student-info">
-
-                <div class="student-avatar">
-                    LV
-                </div>
-
-                <div class="student-details">
-
-                    <h3>[Studentnaam]</h3>
-
-                    <p><strong>Bedrijf:</strong> [Bedrijfsnaam]</p>
-
-                    <p><strong>Stageperiode:</strong> [Startdatum] - [Einddatum]</p>
-
-                </div>
-
-            </div>
-
-            <div class="agreement-actions">
-
-                <h3>Stageovereenkomst</h3>
-
-                <button
-                    class="view-button"
-                    onclick="window.location.href='/stagecommissie-stageovereenkomst-detail'">
-
-                    Bekijken
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- STUDENT 3 -->
-
-        <div class="agreement-card">
-
-            <div class="student-info">
-
-                <div class="student-avatar">
-                    LV
-                </div>
-
-                <div class="student-details">
-
-                    <h3>[Studentnaam]</h3>
-
-                    <p><strong>Bedrijf:</strong> [Bedrijfsnaam]</p>
-
-                    <p><strong>Stageperiode:</strong> [Startdatum] - [Einddatum]</p>
-
-                </div>
-
-            </div>
-
-            <div class="agreement-actions">
-
-                <h3>Stageovereenkomst</h3>
-
-                <button
-                    class="view-button"
-                    onclick="window.location.href='/stagecommissie-stageovereenkomst-detail'">
-
-                    Bekijken
-
-                </button>
-
-            </div>
+            </table>
 
         </div>
 
     </div>
+
+    <script src="/JS/stagecommissie-stageovereenkomst-overzicht.js"></script>
 
 </body>
 

@@ -11,21 +11,36 @@
 
 <body>
 
-    <div class="sidebar">
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Stagecommissie</div>
 
-        <ul>
-            <li>Home</li>
-            <li class="active">Stagiairs</li>
-            <li>Logboeken</li>
-            <li>Evaluatie</li>
-            <li>Profiel</li>
-        </ul>
+            <a href="/stagecommissie/home" class="menu-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <div class="logout">
-            Uitloggen
+            <a href="/stagecommissie/stageaanvragen" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvragen</span>
+            </a>
+
+            <a href="/stagecommissie-stageovereenkomst-overzicht" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-    </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
 
     <div class="content">
 

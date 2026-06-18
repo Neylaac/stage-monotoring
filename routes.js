@@ -109,38 +109,42 @@ router.get('/api/student/stageovereenkomst', requireAuth, (req, res) => {
     const studentId = req.user.id;
 
     const query = `
-    SELECT
-        users.voornaam,
-        users.achternaam,
-        student_profiles.opleiding,
-        stageaanvragen.bedrijfsnaam,
-        stageaanvragen.startdatum,
-        stageaanvragen.einddatum,
-        stageaanvragen.opdracht,
-        stageaanvragen.omschrijving,
-        stageovereenkomsten.student_ondertekend,
-        stageovereenkomsten.bedrijf_ondertekend,
-        stageovereenkomsten.school_ondertekend,
-        stageovereenkomsten.student_handtekening,
-        stageovereenkomsten.bedrijf_handtekening,
-        stageovereenkomsten.school_handtekening
-    FROM stageaanvragen
+        SELECT
+            users.voornaam,
+            users.achternaam,
+            student_profiles.opleiding,
+            stageaanvragen.bedrijfsnaam,
+            stageaanvragen.startdatum,
+            stageaanvragen.einddatum,
+            stageaanvragen.opdracht,
+            stageaanvragen.omschrijving,
 
-    JOIN users
-        ON users.id = stageaanvragen.student_id
+            stageovereenkomsten.student_ondertekend,
+            stageovereenkomsten.bedrijf_ondertekend,
+            stageovereenkomsten.school_ondertekend,
 
-    JOIN student_profiles
-        ON student_profiles.user_id = users.id
+            stageovereenkomsten.student_handtekening,
+            stageovereenkomsten.bedrijf_handtekening,
+            stageovereenkomsten.school_handtekening
 
-    LEFT JOIN stageovereenkomsten
-        ON stageovereenkomsten.stageaanvraag_id = stageaanvragen.id
+        FROM stageaanvragen
 
-    WHERE stageaanvragen.student_id = ?
-    AND stageaanvragen.status = 'GOEDGEKEURD'
+        JOIN users
+            ON users.id = stageaanvragen.student_id
 
-    ORDER BY stageaanvragen.created_at DESC
-    LIMIT 1
-`;
+        JOIN student_profiles
+            ON student_profiles.user_id = users.id
+
+        LEFT JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id =
+               stageaanvragen.id
+
+        WHERE stageaanvragen.student_id = ?
+        AND stageaanvragen.status = 'GOEDGEKEURD'
+
+        ORDER BY stageaanvragen.created_at DESC
+        LIMIT 1
+    `;
 
     connection.query(query, [studentId], (error, results) => {
         if (error) {
