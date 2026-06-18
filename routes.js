@@ -25,7 +25,8 @@ const {
 } = require('./controllers/stageOvereenkomstController');
 
 const {
-    getAlleWeeklogboeken
+    getAlleWeeklogboeken,
+    maakDaglogboek
 } = require('./controllers/logboekController');
 // get gebruik je om een pagina op te vragen
 
@@ -272,6 +273,11 @@ router.get(
     '/api/logboeken',
     requireAuth,
     getAlleWeeklogboeken
+);
+router.post(
+    '/api/daglogboeken',
+    requireAuth,
+    maakDaglogboek
 );
 // -------------------------- STUDENT START --------------------------
 
