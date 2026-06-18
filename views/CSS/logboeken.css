@@ -1,4 +1,113 @@
 /* LOGBOEKEN OVERZICHT */
+/* =========================
+   ALGEMENE LAYOUT
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f8f8;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 240px;
+    background: #8B2C2C;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+}
+
+.sidebar-title {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    text-decoration: none;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.menu-item:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+.menu-item.active {
+    background: rgba(255,255,255,0.25);
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    text-decoration: none;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 25px;
+    margin-top: 40px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.topbar {
+    height: 70px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    padding: 0 30px;
+}
+
+.user-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #8B2C2C;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.ehb-logo {
+    font-size: 24px;
+    color: #666;
+}
+
+.content {
+    padding: 40px;
+}
 
 .logboek-table-card{
     background:white;
@@ -235,4 +344,43 @@
 .form-actions .submit-btn{
     text-align:center;
     text-decoration:none;
+}
+.competentie-btn {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.competentie-btn.selected {
+    background-color: #8B2C2C;
+    color: white;
+    border-color: #8B2C2C;
+}
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.nieuw-btn {
+    background: #8B2C2C;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.nieuw-btn:hover {
+    opacity: 0.9;
+}
+.success-message {
+    display: none;
+    background: #d8f8df;
+    color: #26803b;
+    border: 1px solid #26803b;
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
