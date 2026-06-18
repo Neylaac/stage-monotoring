@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daglogboek</title>
+
+    <link rel="stylesheet" href="../CSS/logboeken.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div>
+
+        <div class="sidebar-title">Bedrijf</div>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>Stagiairs</span>
+        </a>
+
+        <a href="bedrijflogboeken.html" class="menu-item active">
+            <i class="fa-solid fa-book"></i>
+            <span>Logboeken</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Evaluatie</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiel</span>
+        </a>
+
+    </div>
+
+    <a href="#" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Uitloggen
+    </a>
+
+</aside>
+
+<main class="main-content">
+
+    <header class="topbar">
+
+        <i class="fa-regular fa-bell"></i>
+
+        <div class="user-circle">
+            IM
+        </div>
+
+        <span class="ehb-logo">
+            ebsc
+        </span>
+
+    </header>
+
+    <section class="content daglogboek-page">
+
+        <h1>Daglogboek</h1>
+
+        <div class="dag-form">
+
+            <div class="form-row">
+                <label>Datum</label>
+                <input type="date" value="2026-03-03" readonly>
+            </div>
+
+            <div class="form-row">
+                <label>Aantal uren</label>
+                <input type="number" value="8" readonly>
+            </div>
+
+            <div class="form-row large">
+                <label>Taken van vandaag</label>
+                <textarea readonly>[Taken]</textarea>
+            </div>
+
+            <div class="form-row large">
+                <label>Wat heb ik geleerd?</label>
+                <textarea readonly>[Wat geleerd]</textarea>
+            </div>
+
+            <div class="form-row large">
+                <label>Problemen / moeilijkheden</label>
+                <textarea readonly>[Problemen]</textarea>
+            </div>
+
+        </div>
+
+        <div class="competenties-section">
+
+            <h2>Competenties</h2>
+
+            <div class="competenties-grid">
+
+                <button disabled>Planning</button>
+                <button disabled>Ontwerp</button>
+                <button disabled>Implementatie</button>
+
+                <button disabled>Integratie</button>
+                <button disabled>Onderzoek</button>
+                <button disabled>Communicatie</button>
+
+                <button disabled>Probleemoplossing</button>
+                <button disabled>Groei</button>
+                <button disabled>Professionaliteit</button>
+
+                <button disabled>Ondernemerschap</button>
+                <button disabled>Ethiek</button>
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <a href="bedrijfweeklogboek.html"
+               class="submit-btn">
+
+                Terug
+
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

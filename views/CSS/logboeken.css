@@ -384,3 +384,11 @@ body {
     margin-bottom: 20px;
     font-weight: 600;
 }
+.logboek-table td:first-child {
+    font-weight: 600;
+}
+.competenties-grid button:disabled {
+    color: #000000;
+    opacity: 1;
+    cursor: default;
+}
