@@ -170,64 +170,73 @@
                 </p>
             </div>
 
-            <!-- Handtekeningen -->
-            <!-- Handtekeningen -->
+                        <!-- HANDTEKENINGEN -->
 
             <div class="signature-section">
 
                 <div class="signature-block">
                     <h4>Handtekening student</h4>
 
-                    <div class="signature-line">
-                        <img id="studentHandtekening" alt="Handtekening student" style="display: none;">
+                    <div id="studentHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
                     </div>
                 </div>
 
                 <div class="signature-block">
                     <h4>Handtekening bedrijf</h4>
 
-                    <div class="signature-line">
-                        <img id="bedrijfHandtekening" alt="Handtekening bedrijf" style="display: none;">
+                    <div id="bedrijfHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
                     </div>
                 </div>
-                
+
                 <div class="signature-block">
                     <h4>Handtekening school</h4>
 
-                    <div class="signature-line">
-                        <img id="schoolHandtekening" alt="Handtekening school" style="display: none;">
+                    <div id="schoolHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
                     </div>
                 </div>
 
             </div>
 
-            <div class="signature-draw-container" id="signatureContainer">
+        </div>
 
-                <h3>Digitale handtekening student</h3>
+        <!-- TEKENVAK -->
 
-                <p>Teken hieronder met je muis.</p>
+        <div id="tekenVak" class="teken-vak">
 
-                <canvas id="signatureCanvas" width="600" height="180"></canvas>
+            <h2>Handtekening school</h2>
 
-                <div class="signature-buttons">
+            <canvas id="handtekeningCanvas"></canvas>
 
-                    <button type="button" id="wissenKnop">
-                        Wissen
-                    </button>
+            <div class="teken-buttons">
 
-                    <button type="button" id="ondertekenenKnop">
-                        Digitaal ondertekenen
-                    </button>
+                <button id="wissenKnop" type="button" class="back-button">
+                    Wissen
+                </button>
 
-                </div>
-
-                <p id="ondertekenStatus"></p>
+                <button id="opslaanKnop" type="button" class="approve-button">
+                    Ondertekenen
+                </button>
 
             </div>
 
-            <button type="button" id="terugNaarOverzicht" class="sign-button" style="display: none;">
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="button-container">
+
+            <button id="terugKnop" class="back-button">
                 Terug
             </button>
+
+            <button id="ondertekenKnop" class="approve-button">
+                Digitaal ondertekenen
+            </button>
+
+        </div>
 
         </section>
 

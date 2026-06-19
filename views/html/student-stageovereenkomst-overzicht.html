@@ -4,20 +4,14 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Student - Stageovereenkomst</title>
-<link rel="stylesheet" href="/CSS/stageaanvraag.css">
-<link rel="stylesheet" href="/CSS/student-stageovereenkomst-overzicht.css">
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/student-stageovereenkomst-overzicht.css">
 
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
->
-   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
@@ -29,39 +23,32 @@
                 Student
             </h1>
 
-            <a
-                href="/student/stageaanvraagoverzicht.html"
-                class="menu-item active"
-            >
+            <a href="/student/stageaanvraagoverzicht.html" class="menu-item active">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>Stageaanvraag</span>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="#" id="homeLink" class="menu-item">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
-
                 <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="#" id="logboekenLink" class="menu-item">
                 <i class="fa-solid fa-book"></i>
                 <span>Logboeken</span>
-
                 <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="#" id="evaluatieLink" class="menu-item">
                 <i class="fa-solid fa-clipboard-check"></i>
                 <span>Evaluatie</span>
-
                 <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="#" id="profielLink" class="menu-item">
                 <i class="fa-solid fa-user"></i>
                 <span>Profiel</span>
-
                 <i class="fa-solid fa-lock lock"></i>
             </a>
         </div>
@@ -115,10 +102,7 @@
 
                     <span>Student</span>
 
-                    <span
-                        id="studentStatus"
-                        class="status waiting"
-                    >
+                    <span id="studentStatus" class="status waiting">
                         In afwachting
                     </span>
 
@@ -128,10 +112,7 @@
 
                     <span>Bedrijf</span>
 
-                    <span
-                        id="bedrijfStatus"
-                        class="status waiting"
-                    >
+                    <span id="bedrijfStatus" class="status waiting">
                         In afwachting
                     </span>
 
@@ -141,20 +122,13 @@
 
                     <span>School</span>
 
-                    <span
-                        id="schoolStatus"
-                        class="status waiting"
-                    >
+                    <span id="schoolStatus" class="status waiting">
                         In afwachting
                     </span>
 
                 </div>
 
-                <button
-                    type="button"
-                    id="bekijkOvereenkomstKnop"
-                    class="view-button"
-                >
+                <button type="button" id="bekijkOvereenkomstKnop" class="view-button">
                     Stageovereenkomst bekijken
                 </button>
 
@@ -165,6 +139,7 @@
     </main>
 
     <script src="/JS/student-stageovereenkomst-overzicht.js"></script>
+    <script src="/JS/student-toegang.js"></script>
 
 </body>
 

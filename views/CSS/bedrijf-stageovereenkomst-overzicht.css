@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #eef1f8;
+    background-color: white;
     min-height: 100vh;
     display: flex;
 }
@@ -192,4 +192,12 @@ td {
 
 .view-button:hover {
     opacity: 0.9;
+}
+
+.menu-item:hover {
+    background-color: #a84e4e;
+}
+
+.menu-item.active {
+    background-color: #b76a6a;
 }

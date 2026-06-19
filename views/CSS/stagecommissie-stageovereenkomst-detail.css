@@ -1,16 +1,90 @@
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #eef1f8;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 25%;
+    min-width: 220px;
+    background-color: #832D2C;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 35px 25px;
+}
+
+.sidebar-title {
+    color: white;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 45px;
+    padding-left: 10px;
+}
+
+.menu-item {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: #a84e4e;
+}
+
+.menu-item.active {
+    background-color: #b76a6a;
+}
+
+.lock {
+    margin-left: auto;
+    font-size: 16px;
+}
+
+.logout {
+    color: white;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 18px 14px;
+
+    font-size: 18px;
+}
+
+.logout i {
+    font-size: 19px;
+}
 
 /* CONTENT */
 
 .content {
     flex: 1;
-    padding: 40px 60px;
+    padding: 30px 50px;
+    box-sizing: border-box;
+    min-width: 0;
 }
+
 /* TOPBAR */
 
 .topbar {
@@ -21,7 +95,7 @@
     border-bottom: 1px solid #d3d3d3;
 
     padding-bottom: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
 .topbar-right {
@@ -31,35 +105,35 @@
 }
 
 .notification-icon {
-    font-size: 30px;
+    font-size: 28px;
 }
 
 .user-avatar-top {
     width: 55px;
     height: 55px;
 
-    border-radius: 50%;
-
-    background-color: #8B2C2C;
+    background-color: #922b2b;
     color: white;
+
+    border-radius: 50%;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-weight: bold;
-    font-size: 24px;
 }
 
 .logo {
-    font-size: 24px;
     color: #243247;
+    font-size: 22px;
 }
 
-/* STUDENT OVERVIEW */
+/* STUDENT INFO */
 
 .student-overview {
-    margin-bottom: 40px;
+    max-width: 900px;
+    margin: 0 auto 35px auto;
 }
 
 .student-header {
@@ -69,89 +143,84 @@
 }
 
 .student-avatar {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
+
+    background-color: #922b2b;
+    color: white;
 
     border-radius: 50%;
 
-    background-color: #8B2C2C;
-    color: white;
-
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     font-size: 24px;
     font-weight: bold;
 }
 
 .student-details h2 {
-    margin: 0;
-    font-size: 36px;
+    font-size: 32px;
+    margin-bottom: 8px;
 }
 
 .student-details p {
-    margin: 10px 0;
-    color: #444;
+    margin-bottom: 8px;
+    font-size: 17px;
 }
 
-/* STATUS BOX */
+/* STATUS */
 
 .status-box {
-    background-color: white;
+    max-width: 900px;
+    margin: 0 auto 35px auto;
 
+    background-color: white;
     border: 1px solid #d3d3d3;
     border-radius: 5px;
 
-    width: 700px;
-
     padding: 25px;
-
-    margin-bottom: 40px;
 }
 
 .status-box h2 {
-    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .status-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-    margin: 15px 0;
+    margin-bottom: 15px;
 }
 
 .status {
-    padding: 6px 15px;
+    padding: 8px 18px;
     border-radius: 5px;
-
-    font-size: 14px;
     font-weight: bold;
 }
 
-.signed {
-    background-color: #d4edbc;
-    color: #2d7d2d;
+.status.signed {
+    background-color: #d5f2c2;
+    color: #287a20;
 }
 
-.waiting {
+.status.waiting {
     background-color: #eeeeee;
-    color: #777;
+    color: #777777;
 }
 
 /* CONTRACT */
 
 .contract-container {
-    background-color: white;
+    max-width: 900px;
+    margin: 0 auto 35px auto;
 
+    background-color: white;
     border: 1px solid #d3d3d3;
     border-radius: 5px;
 
-    max-width: 900px;
-
     padding: 40px;
-
-    margin-bottom: 40px;
 }
 
 .contract-container h1 {
@@ -160,113 +229,122 @@
 }
 
 .contract-container p {
-    line-height: 1.6;
+    margin-bottom: 14px;
+    font-size: 16px;
 }
 
-/* ARTIKELS */
-
 .article {
-    border: 1px solid #e5e5e5;
-
+    border: 1px solid #e0e0e0;
     border-radius: 5px;
 
     padding: 20px;
-
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .article h3 {
-    margin-top: 0;
+    margin-bottom: 12px;
 }
 
 /* HANDTEKENINGEN */
 
 .signature-section {
-    margin-top: 50px;
+    margin-top: 45px;
 }
 
 .signature-block {
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
 .signature-block h4 {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .signature-placeholder {
-    width: 300px;
-
-    border-top: 1px solid #999;
-
+    min-height: 80px;
+    border-top: 1px solid #999999;
     padding-top: 15px;
-
-    color: #777;
+    color: #777777;
 }
 
-/* BUTTON */
-
-.sign-button-container {
-    display: flex;
-    justify-content: flex-end;
-
-    margin-bottom: 50px;
+.signature-image {
+    display: block;
+    max-width: 220px;
+    max-height: 100px;
+    object-fit: contain;
 }
 
-.sign-button {
-    background-color: #8B2C2C;
-    color: white;
+/* TEKENVAK */
 
-    border: none;
+.teken-vak {
+    max-width: 900px;
+    margin: 0 auto 30px auto;
 
-    padding: 15px 35px;
-
-    font-size: 16px;
-
+    background-color: white;
+    border: 1px solid #d3d3d3;
     border-radius: 5px;
 
-    cursor: pointer;
+    padding: 25px;
 }
 
-.sign-button:hover {
-    opacity: 0.9;
+.teken-vak h2 {
+    margin-bottom: 20px;
 }
+
+#handtekeningCanvas {
+    display: block;
+
+    width: 100%;
+    max-width: 600px;
+    height: 200px;
+
+    border: 1px solid #999999;
+    background-color: white;
+
+    cursor: crosshair;
+}
+
+.teken-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* BUTTONS */
+
 .button-container {
+    max-width: 900px;
+    margin: 30px auto 0 auto;
+
     display: flex;
     justify-content: flex-end;
     gap: 15px;
+}
 
-    margin-bottom: 50px;
+.back-button,
+.approve-button {
+    border: none;
+    border-radius: 5px;
+
+    padding: 14px 30px;
+
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .back-button {
-    background-color: #8B2C2C;
+    background-color: #922b2b;
     color: white;
-
-    border: none;
-
-    padding: 15px 35px;
-
-    border-radius: 5px;
-
-    cursor: pointer;
 }
 
 .approve-button {
-    background-color: white;
-    color: #4CAF50;
-
-    border: 1px solid #4CAF50;
-
-    padding: 15px 35px;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-
-    font-weight: bold;
+    background-color: #922b2b;
+    color: white;
 }
 
 .back-button:hover,
 .approve-button:hover {
     opacity: 0.9;
 }
+
+
+

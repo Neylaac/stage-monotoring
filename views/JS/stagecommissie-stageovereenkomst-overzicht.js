@@ -10,6 +10,22 @@ function formatteerDatum(datum) {
     });
 }
 
+    function toonStatusSchool(overeenkomst) {
+        if (overeenkomst.school_ondertekend === 1) {
+            return `
+            <span class="status-badge signed">
+                Volledig ondertekend
+            </span>
+        `;
+        }
+
+        return `
+        <span class="status-badge waiting">
+            Wacht op school
+        </span>
+    `;
+    }
+
 function laadStageovereenkomsten() {
     fetch('/api/stagecommissie/stageovereenkomsten')
         .then(response => response.json())
@@ -63,20 +79,25 @@ function laadStageovereenkomsten() {
                             ${overeenkomst.opleiding}
                         </td>
 
-                        <td>
-                            ${formatteerDatum(overeenkomst.startdatum)}
-                            <br>
-                            -
-                            ${formatteerDatum(overeenkomst.einddatum)}
-                        </td>
+                      <td>
+    ${formatteerDatum(overeenkomst.startdatum)}
+    <br>
+    -
+    ${formatteerDatum(overeenkomst.einddatum)}
+</td>
 
-                        <td>
-                            <button
-                                class="view-button"
-                                onclick="window.location.href='/stagecommissie-stageovereenkomst-detail?id=${overeenkomst.id}'"
-                            >
-                                Bekijken
-                            </button>
+<td>
+    ${toonStatusSchool(overeenkomst)}
+</td>
+
+<td>
+    <button
+        class="view-button"
+        onclick="window.location.href='/stagecommissie-stageovereenkomst-detail?id=${overeenkomst.id}'"
+    >
+        Bekijken
+    </button>
+</td>
                         </td>
 
                     </tr>

@@ -269,30 +269,35 @@ router.get('/api/stageovereenkomsten/:id', requireAuth, getStageovereenkomstOpId
 
 // -------------------------- STUDENT START --------------------------
 
+
 router.get('/student/start', requireAuth, (req, res) => {
     const studentId = req.user.id;
 
     const query = `
-            SELECT
-                stageaanvragen.id,
-                stageaanvragen.status,
-                stageovereenkomsten.student_ondertekend
+        SELECT
+            stageaanvragen.id,
+            stageaanvragen.status,
 
-            FROM stageaanvragen
+            stageovereenkomsten.student_ondertekend,
+            stageovereenkomsten.bedrijf_ondertekend,
+            stageovereenkomsten.school_ondertekend
 
-            LEFT JOIN stageovereenkomsten
-                ON stageovereenkomsten.stageaanvraag_id =
-                   stageaanvragen.id
+        FROM stageaanvragen
 
-            WHERE stageaanvragen.student_id = ?
+        LEFT JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id =
+               stageaanvragen.id
 
-            ORDER BY stageaanvragen.created_at DESC
-            LIMIT 1
-        `;
+        WHERE stageaanvragen.student_id = ?
+
+        ORDER BY stageaanvragen.created_at DESC
+        LIMIT 1
+    `;
 
     connection.query(query, [studentId], (error, results) => {
         if (error) {
             console.error('Fout bij controleren studentstatus:', error);
+
             return res.redirect('/student/stageaanvraag');
         }
 
@@ -304,15 +309,246 @@ router.get('/student/start', requireAuth, (req, res) => {
 
         if (
             aanvraag.status === 'GOEDGEKEURD' &&
-            aanvraag.student_ondertekend === 1
+            aanvraag.student_ondertekend === 1 &&
+            aanvraag.bedrijf_ondertekend === 1 &&
+            aanvraag.school_ondertekend === 1
+        ) {
+            return res.redirect('/student/home');
+        }
+
+        if (
+            aanvraag.status === 'GOEDGEKEURD'
         ) {
             return res.redirect('/student/stageovereenkomsten');
         }
 
-        res.redirect('/student/stageaanvraagoverzicht.html');
+        return res.redirect('/student/stageaanvraagoverzicht.html');
     });
 });
 
+
+
+router.get('/api/student/toegang', requireAuth, (req, res) => {
+    const studentId = req.user.id;
+
+    const query = `
+        SELECT
+            stageovereenkomsten.student_ondertekend,
+            stageovereenkomsten.bedrijf_ondertekend,
+            stageovereenkomsten.school_ondertekend
+
+        FROM stageaanvragen
+
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id =
+               stageaanvragen.id
+
+        WHERE stageaanvragen.student_id = ?
+        AND stageaanvragen.status = 'GOEDGEKEURD'
+
+        ORDER BY stageaanvragen.created_at DESC
+        LIMIT 1
+    `;
+
+    connection.query(query, [studentId], (error, results) => {
+        if (error) {
+            console.error('Fout bij controleren toegang:', error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Toegang kon niet gecontroleerd worden'
+            });
+        }
+
+        if (results.length === 0) {
+            return res.json({
+                status: 'success',
+                toegang: false
+            });
+        }
+
+        const overeenkomst = results[0];
+
+        const toegang =
+            overeenkomst.student_ondertekend === 1 &&
+            overeenkomst.bedrijf_ondertekend === 1 &&
+            overeenkomst.school_ondertekend === 1;
+
+        res.json({
+            status: 'success',
+            toegang: toegang
+        });
+    });
+});
+
+
+
+// -------------------------- STAGECOMMISSIE API --------------------------
+
+router.get('/api/stagecommissie/stageovereenkomsten', requireAuth, (req, res) => {
+    const query = `
+        SELECT
+            stageaanvragen.id,
+            users.voornaam,
+            users.achternaam,
+            student_profiles.opleiding,
+            stageaanvragen.startdatum,
+            stageaanvragen.einddatum,
+            stageovereenkomsten.student_ondertekend,
+            stageovereenkomsten.bedrijf_ondertekend,
+            stageovereenkomsten.school_ondertekend
+        FROM stageaanvragen
+
+        JOIN users
+            ON users.id = stageaanvragen.student_id
+
+        JOIN student_profiles
+            ON student_profiles.user_id = users.id
+
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id =
+               stageaanvragen.id
+
+        WHERE stageaanvragen.status = 'GOEDGEKEURD'
+        AND stageovereenkomsten.student_ondertekend = 1
+        AND stageovereenkomsten.bedrijf_ondertekend = 1
+
+        ORDER BY users.voornaam
+    `;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            console.error('Fout bij ophalen stageovereenkomsten:', error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Stageovereenkomsten konden niet worden opgehaald'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            stageovereenkomsten: results
+        });
+    });
+});
+
+router.get('/api/stagecommissie/stageovereenkomsten/:id', requireAuth, (req, res) => {
+    const aanvraagId = req.params.id;
+
+    const query = `
+        SELECT
+            stageaanvragen.id,
+            users.voornaam,
+            users.achternaam,
+            student_profiles.opleiding,
+            stageaanvragen.bedrijfsnaam,
+            stageaanvragen.startdatum,
+            stageaanvragen.einddatum,
+            stageaanvragen.opdracht,
+            stageaanvragen.omschrijving,
+
+            stageovereenkomsten.student_ondertekend,
+            stageovereenkomsten.bedrijf_ondertekend,
+            stageovereenkomsten.school_ondertekend,
+
+            stageovereenkomsten.student_handtekening,
+            stageovereenkomsten.bedrijf_handtekening,
+            stageovereenkomsten.school_handtekening
+
+        FROM stageaanvragen
+
+        JOIN users
+            ON users.id = stageaanvragen.student_id
+
+        JOIN student_profiles
+            ON student_profiles.user_id = users.id
+
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id =
+               stageaanvragen.id
+
+        WHERE stageaanvragen.id = ?
+        AND stageaanvragen.status = 'GOEDGEKEURD'
+        AND stageovereenkomsten.student_ondertekend = 1
+        AND stageovereenkomsten.bedrijf_ondertekend = 1
+    `;
+
+    connection.query(query, [aanvraagId], (error, results) => {
+        if (error) {
+            console.error(error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Stageovereenkomst kon niet worden opgehaald'
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Stageovereenkomst niet gevonden'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            stageovereenkomst: results[0]
+        });
+    });
+});
+
+router.patch('/api/stagecommissie/stageovereenkomsten/:id/ondertekenen', requireAuth, (req, res) => {
+    const aanvraagId = req.params.id;
+    const handtekening = req.body.handtekening;
+
+    if (!handtekening) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'Plaats eerst een handtekening'
+        });
+    }
+
+    const query = `
+        UPDATE stageovereenkomsten
+
+        JOIN stageaanvragen
+            ON stageaanvragen.id =
+               stageovereenkomsten.stageaanvraag_id
+
+        SET
+            stageovereenkomsten.school_ondertekend = 1,
+            stageovereenkomsten.school_handtekening = ?,
+            stageovereenkomsten.school_ondertekend_op = NOW()
+
+        WHERE stageaanvragen.id = ?
+        AND stageovereenkomsten.student_ondertekend = 1
+        AND stageovereenkomsten.bedrijf_ondertekend = 1
+    `;
+
+    connection.query(query, [handtekening, aanvraagId], (error, result) => {
+        if (error) {
+            console.error(error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Schoolhandtekening kon niet worden opgeslagen'
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(403).json({
+                status: 'error',
+                message: 'Student en bedrijf moeten eerst ondertekenen'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            message: 'Stageovereenkomst ondertekend door school'
+        });
+    });
+});
 
 // -------------------------- BEDRIJF API --------------------------
 
@@ -505,7 +741,41 @@ router.patch('/api/bedrijf/stageovereenkomst/:id/ondertekenen', requireAuth, (re
 // -------------------------- STUDENT PAGINA'S --------------------------
 
 router.get('/student/stageaanvraag', requireAuth, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvraag.html'));
+    const studentId = req.user.id;
+
+    const query = `
+        SELECT
+            id,
+            status
+        FROM stageaanvragen
+        WHERE student_id = ?
+        ORDER BY created_at DESC
+        LIMIT 1
+    `;
+
+    connection.query(query, [studentId], (error, results) => {
+        if (error) {
+            console.error('Fout bij controleren stageaanvraag:', error);
+
+            return res.sendFile(
+                path.join(__dirname, 'views', 'html', 'stageaanvraag.html')
+            );
+        }
+
+        if (results.length === 0) {
+            return res.sendFile(
+                path.join(__dirname, 'views', 'html', 'stageaanvraag.html')
+            );
+        }
+
+        const aanvraag = results[0];
+
+        if (aanvraag.status === 'GOEDGEKEURD') {
+            return res.redirect('/student/stageovereenkomsten');
+        }
+
+        return res.redirect('/student/stageaanvraagoverzicht.html');
+    });
 });
 
 router.get('/student/stageaanvraagformulier.html', requireAuth, (req, res) => {
