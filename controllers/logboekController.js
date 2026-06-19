@@ -425,5 +425,7 @@ module.exports = {
     getAlleWeeklogboeken,
     maakDaglogboek,
     getWeeklogboekOpId,
-    getDaglogboekOpId
+    getDaglogboekOpId,
+    keurWeeklogboekGoed,
+    getDaglogboekenVanWeek
 };

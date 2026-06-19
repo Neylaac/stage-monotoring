@@ -29,7 +29,11 @@ const {
     getAlleWeeklogboeken,
     maakDaglogboek,
     getWeeklogboekOpId,
-    getDaglogboekOpId
+    getDaglogboekOpId,
+    getWeeklogboekOpId,
+    getDaglogboekOpId,
+    keurWeeklogboekGoed,
+    getDaglogboekenVanWeek
 } = require('./controllers/logboekController');
 // get gebruik je om een pagina op te vragen
 
@@ -284,6 +288,29 @@ router.post(
     requireAuth,
     maakDaglogboek
 );
+router.get(
+    '/api/weeklogboeken/:id/daglogboeken',
+    requireAuth,
+    getDaglogboekenVanWeek
+);
+router.get(
+    '/api/weeklogboeken/:id',
+    requireAuth,
+    getWeeklogboekOpId
+);
+
+router.get(
+    '/api/daglogboeken/:id',
+    requireAuth,
+    getDaglogboekOpId
+);
+
+router.put(
+    '/api/weeklogboeken/:id/goedkeuren',
+    requireAuth,
+    keurWeeklogboekGoed
+);
+
 // -------------------------- STUDENT START --------------------------
 
 
@@ -880,7 +907,49 @@ router.get('/bedrijf-stageovereenkomst-detail', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijf-stageovereenkomst-detail.html'));
 });
 
+router.get('/bedrijf/logboeken', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'bedrijflogboeken.html'
+        )
+    );
+});
+console.log('BEDRIJF ROUTES GELADEN');
+router.get('/bedrijf/studentlogboeken', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'bedrijfstudentlogboeken.html'
+        )
+    );
+});
 
+router.get('/bedrijf/weeklogboek', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'bedrijfweeklogboek.html'
+        )
+    );
+});
+
+router.get('/bedrijf/daglogboek', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'bedrijfdaglogboek.html'
+        )
+    );
+});
 
 // -------------------------- STAGECOMMISSIE PAGINA'S --------------------------
 
