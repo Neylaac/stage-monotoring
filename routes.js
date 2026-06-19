@@ -923,6 +923,41 @@ router.get('/api/admin/docenten', requireAuth, (req, res) => {
 });
 
 
+router.get('/api/admin/koppelingen', requireAuth, (req, res) => {
+    const query = `
+        SELECT 
+            k.koppeling_id,
+            k.student_id,
+            us.voornaam AS student_voornaam,
+            us.achternaam AS student_achternaam,
+            us.email AS student_email,
+            sp.studentnummer,
+            sp.opleiding,
+            k.docent_id,
+            ut.voornaam AS docent_voornaam,
+            ut.achternaam AS docent_achternaam,
+            ut.email AS docent_email,
+            k.gekoppeld_op
+        FROM koppelingen k
+        JOIN users us ON k.student_id = us.id
+        LEFT JOIN student_profiles sp ON us.id = sp.user_id
+        JOIN users ut ON k.docent_id = ut.id
+        ORDER BY k.gekoppeld_op DESC
+    `;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            console.error('Fout bij ophalen koppelingen:', error);
+            return res.status(500).json({
+                status: 'error',
+                message: 'Fout bij ophalen koppelingen'
+            });
+        }
+        res.json(results);
+    });
+});
+
+
 router.post('/api/admin/koppelingen', requireAuth, (req, res) => {
 
     const { student_id, docent_id } = req.body;
@@ -956,10 +991,66 @@ router.post('/api/admin/koppelingen', requireAuth, (req, res) => {
     );
 });
 
+
+router.delete('/api/admin/koppelingen/:id', requireAuth, (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM koppelingen WHERE koppeling_id = ?';
+
+    connection.query(query, [id], (error, result) => {
+        if (error) {
+            console.error('Fout bij verwijderen koppeling:', error);
+            return res.status(500).json({
+                status: 'error',
+                message: 'Fout bij verwijderen koppeling'
+            });
+        }
+        res.json({
+            status: 'success',
+            message: 'Koppeling succesvol verwijderd'
+        });
+    });
+});
+
+
+router.get('/api/admin/stats', requireAuth, (req, res) => {
+    const qStudents = "SELECT COUNT(*) AS count FROM users WHERE role = 'STUDENT'";
+    const qDocenten = "SELECT COUNT(*) AS count FROM users WHERE role = 'DOCENT'";
+    const qStages = "SELECT COUNT(*) AS count FROM stageaanvragen";
+
+    connection.query(qStudents, (errStudents, rStudents) => {
+        if (errStudents) {
+            console.error(errStudents);
+            return res.status(500).json({ status: 'error' });
+        }
+        connection.query(qDocenten, (errDocenten, rDocenten) => {
+            if (errDocenten) {
+                console.error(errDocenten);
+                return res.status(500).json({ status: 'error' });
+            }
+            connection.query(qStages, (errStages, rStages) => {
+                if (errStages) {
+                    console.error(errStages);
+                    return res.status(500).json({ status: 'error' });
+                }
+                res.json({
+                    totaalStudenten: rStudents[0].count,
+                    totaalDocenten: rDocenten[0].count,
+                    totaalStageplaatsen: rStages[0].count
+                });
+            });
+        });
+    });
+});
+
+
 // -------------------------- ADMIN --------------------------
 
 router.get('/admin/home', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'html', 'administratiehome.html'));
+});
+
+router.get('/admin/stageaanvragen', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvragenadministratie.html'));
 });
 
 router.get('/admin/koppelingen', requireAuth, (req, res) => {

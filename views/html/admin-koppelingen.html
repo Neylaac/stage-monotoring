@@ -1,75 +1,275 @@
-<h1>Koppeling</h1>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administratie - Koppelingen</title>
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
 
-<div>
-  <label>Student</label>
-  <select id="studentSelect">
-    <option value="">Kies een student</option>
-  </select>
-</div>
+<!-- Sidebar voor administratie -->
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Administratie</div>
 
-<div>
-  <label>Docent</label>
-  <select id="docentSelect">
-    <option value="">Kies een docent</option>
-  </select>
-</div>
+        <a href="/admin/home" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
 
-<button id="koppelBtn">Koppelen</button>
+        <a href="/admin/stageaanvragen" class="menu-item">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Stageaanvragen</span>
+        </a>
 
-<p id="melding"></p>
+        <a href="/admin/koppelingen" class="menu-item active">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppeling</span>
+        </a>
+    </div>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Uitloggen</span>
+    </a>
+</aside>
+
+<main class="main-content">
+    <!-- Bovenbalk voor administratie -->
+    <header class="topbar admin-topbar">
+        <div class="page-label">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppelingen</span>
+        </div>
+
+        <div class="topbar-right">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">AD</div>
+            <div>
+                <strong>Admin</strong>
+                <p>Beheerder</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="content admin-content">
+        <h1>Student-Docent Koppelingen</h1>
+        <p class="subtitle">Koppel studenten aan de juiste stagebegeleider en beheer bestaande koppelingen</p>
+
+        <div class="form-grid" style="grid-template-columns: 1fr 2fr; max-width: 100%; gap: 30px; margin-top: 30px;">
+            
+            <!-- Linkerzijde: Formulier om te koppelen -->
+            <div class="form-card">
+                <div class="card-title">
+                    <div class="icon-circle"><i class="fa-solid fa-link"></i></div>
+                    <h2>Nieuwe Koppeling</h2>
+                </div>
+
+                <form id="koppelingForm">
+                    <label for="studentSelect">Student</label>
+                    <select id="studentSelect" style="width: 100%; height: 42px; border: 1px solid #bfbfbf; border-radius: 5px; padding: 10px 12px; font-size: 14px; outline: none; background: white; margin-bottom: 20px;">
+                        <option value="">Kies een student</option>
+                    </select>
+
+                    <label for="docentSelect">Docent</label>
+                    <select id="docentSelect" style="width: 100%; height: 42px; border: 1px solid #bfbfbf; border-radius: 5px; padding: 10px 12px; font-size: 14px; outline: none; background: white; margin-bottom: 30px;">
+                        <option value="">Kies een docent</option>
+                    </select>
+
+                    <button type="submit" class="submit-btn" style="width: 100%; border: none; cursor: pointer; text-align: center; display: block; font-family: inherit;">
+                        Koppelen
+                    </button>
+                </form>
+
+                <p id="melding" style="margin-top: 20px; font-weight: bold; text-align: center; font-size: 14px;"></p>
+            </div>
+
+            <!-- Rechterzijde: Bestaande koppelingen tabel -->
+            <div class="form-card">
+                <div class="card-title">
+                    <div class="icon-circle"><i class="fa-solid fa-list-check"></i></div>
+                    <h2>Bestaande Koppelingen</h2>
+                </div>
+
+                <div class="aanvragen-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Studentnummer & Opleiding</th>
+                                <th>Stagebegeleider</th>
+                                <th>Gekoppeld Op</th>
+                                <th>Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="koppelingenBody">
+                            <tr>
+                                <td colspan="5" class="empty-table">
+                                    Er zijn momenteel geen studenten gekoppeld.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
 
 <script>
-async function laadStudenten() {
-  const response = await fetch('/api/admin/studenten');
-  const studenten = await response.json();
+async function laadData() {
+    try {
+        // 1. Ophalen van actieve koppelingen
+        const koppelingenRes = await fetch('/api/admin/koppelingen');
+        const koppelingen = await koppelingenRes.json();
 
-  const select = document.getElementById('studentSelect');
+        // 2. Ophalen van studenten
+        const studentenRes = await fetch('/api/admin/studenten');
+        const studenten = await studentenRes.json();
 
-  studenten.forEach(student => {
-    const option = document.createElement('option');
-    option.value = student.id;
-    option.textContent = `${student.voornaam} ${student.achternaam}`;
-    select.appendChild(option);
-  });
+        // 3. Ophalen van docenten
+        const docentenRes = await fetch('/api/admin/docenten');
+        const docenten = await docentenRes.json();
+
+        // 4. Vul tabel met koppelingen
+        const tbody = document.getElementById('koppelingenBody');
+        tbody.innerHTML = '';
+
+        if (koppelingen.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="empty-table">
+                        Er zijn momenteel geen actieve koppelingen.
+                    </td>
+                </tr>
+            `;
+        } else {
+            koppelingen.forEach(k => {
+                const tr = document.createElement('tr');
+                const datum = new Date(k.gekoppeld_op).toLocaleDateString('nl-BE', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                tr.innerHTML = `
+                    <td>
+                        <strong>${k.student_voornaam} ${k.student_achternaam}</strong>
+                        <span>${k.student_email}</span>
+                    </td>
+                    <td>
+                        <strong>${k.studentnummer || '-'}</strong>
+                        <span>${k.opleiding || '-'}</span>
+                    </td>
+                    <td>
+                        <strong>${k.docent_voornaam} ${k.docent_achternaam}</strong>
+                        <span>${k.docent_email}</span>
+                    </td>
+                    <td>${datum}</td>
+                    <td>
+                        <button class="view-btn ontkoppel-btn" data-id="${k.koppeling_id}" style="background: none; outline: none; cursor: pointer; display: inline-block;">
+                            Ontkoppelen
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 5. Vul dropdown studenten (alleen de niet-gekoppelde studenten tonen)
+        const gekoppeldeStudentenIds = new Set(koppelingen.map(k => k.student_id));
+        const studentSelect = document.getElementById('studentSelect');
+        studentSelect.innerHTML = '<option value="">Kies een student</option>';
+
+        const nietGekoppeldeStudenten = studenten.filter(s => !gekoppeldeStudentenIds.has(s.id));
+        nietGekoppeldeStudenten.forEach(student => {
+            const option = document.createElement('option');
+            option.value = student.id;
+            option.textContent = `${student.voornaam} ${student.achternaam}`;
+            studentSelect.appendChild(option);
+        });
+
+        // 6. Vul dropdown docenten
+        const docentSelect = document.getElementById('docentSelect');
+        docentSelect.innerHTML = '<option value="">Kies een docent</option>';
+        docenten.forEach(docent => {
+            const option = document.createElement('option');
+            option.value = docent.id;
+            option.textContent = `${docent.voornaam} ${docent.achternaam}`;
+            docentSelect.appendChild(option);
+        });
+
+        // 7. Klik events toevoegen voor ontkoppelen buttons
+        document.querySelectorAll('.ontkoppel-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.target.dataset.id;
+                if (confirm('Weet je zeker dat je deze koppeling wilt verwijderen?')) {
+                    try {
+                        const res = await fetch(`/api/admin/koppelingen/${id}`, {
+                            method: 'DELETE'
+                        });
+                        const data = await res.json();
+                        laadData();
+                    } catch (err) {
+                        console.error('Fout bij ontkoppelen:', err);
+                    }
+                }
+            });
+        });
+
+    } catch (error) {
+        console.error('Fout bij inladen data:', error);
+    }
 }
 
-async function laadDocenten() {
-  const response = await fetch('/api/admin/docenten');
-  const docenten = await response.json();
+document.getElementById('koppelingForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const student_id = document.getElementById('studentSelect').value;
+    const docent_id = document.getElementById('docentSelect').value;
+    const melding = document.getElementById('melding');
 
-  const select = document.getElementById('docentSelect');
+    melding.textContent = '';
+    melding.style.color = '';
 
-  docenten.forEach(docent => {
-    const option = document.createElement('option');
-    option.value = docent.id;
-    option.textContent = `${docent.voornaam} ${docent.achternaam}`;
-    select.appendChild(option);
-  });
-}
+    if (!student_id || !docent_id) {
+        melding.textContent = 'Kies eerst een student en een docent.';
+        melding.style.color = '#832D2C';
+        return;
+    }
 
-document.getElementById('koppelBtn').addEventListener('click', async () => {
-  const student_id = document.getElementById('studentSelect').value;
-  const docent_id = document.getElementById('docentSelect').value;
-  const melding = document.getElementById('melding');
+    try {
+        const response = await fetch('/api/admin/koppelingen', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ student_id, docent_id })
+        });
 
-  if (!student_id || !docent_id) {
-    melding.textContent = 'Kies eerst een student en een docent.';
-    return;
-  }
-
-  const response = await fetch('/api/admin/koppelingen', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ student_id, docent_id })
-  });
-
-  const data = await response.json();
-
-  melding.textContent = data.message;
+        const data = await response.json();
+        
+        if (response.ok) {
+            melding.textContent = 'Koppeling succesvol gemaakt!';
+            melding.style.color = '#2E9E49';
+            document.getElementById('koppelingForm').reset();
+            laadData();
+        } else {
+            melding.textContent = data.message || 'Koppeling mislukt.';
+            melding.style.color = '#832D2C';
+        }
+    } catch (error) {
+        console.error('Fout bij koppelen:', error);
+        melding.textContent = 'Fout bij verbinden met de server.';
+        melding.style.color = '#832D2C';
+    }
 });
 
-laadStudenten();
-laadDocenten();
+laadData();
 </script>
+</body>
+</html>
