@@ -7,25 +7,49 @@
     <title>Bedrijf - Stageovereenkomsten</title>
 
     <link rel="stylesheet" href="../CSS/bedrijf-stageovereenkomst-overzicht.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-    <div class="sidebar">
 
-        <ul>
-            <li>Home</li>
-            <li class="active">Stagiairs</li>
-            <li>Logboeken</li>
-            <li>Evaluatie</li>
-            <li>Profiel</li>
-        </ul>
+<aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Bedrijf</div>
 
-        <div class="logout">
-            Uitloggen
+            <a href="/bedrijf/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="/bedrijf-stageovereenkomst-overzicht" class="menu-item active">
+                <i class="fa-solid fa-users"></i>
+                <span>Stagiairs</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-    </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+
 
     <div class="content">
 

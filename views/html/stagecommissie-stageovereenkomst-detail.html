@@ -6,27 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stagecommissie - Stageovereenkomst Detail</title>
 
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="../CSS/home.css">
     <link rel="stylesheet" href="../CSS/stagecommissie-stageovereenkomst-detail.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
     <!-- SIDEBAR -->
 
-    <div class="sidebar">
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Stagecommissie</div>
 
-        <ul>
-            <li>Home</li>
-            <li>Aanvragen</li>
-            <li class="active">Stageovereenkomst</li>
-            <li>Profiel</li>
-        </ul>
+            <a href="/stagecommissie/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <div class="logout">
-            Uitloggen
+            <a href="/stagecommissie/stageaanvragen" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvragen</span>
+            </a>
+
+            <a href="/stagecommissie-stageovereenkomst-overzicht" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-    </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
 
     <!-- CONTENT -->
 
@@ -58,19 +78,19 @@
 
             <div class="student-header">
 
-                <div class="student-avatar">
-                    LS
+                <div class="student-avatar" id="studentInitialen">
+                    ST
                 </div>
 
                 <div class="student-details">
 
-                    <h2>[Studentnaam]</h2>
+                    <h2 id="studentNaam">-</h2>
 
-                    <p>[Opleiding]</p>
+                    <p id="studentOpleiding">-</p>
 
                     <p>
                         Stageperiode:
-                        [Startdatum] - [Einddatum]
+                        <span id="studentStageperiode">-</span>
                     </p>
 
                 </div>
@@ -87,17 +107,23 @@
 
             <div class="status-row">
                 <span>Student</span>
-                <span class="status signed">Ondertekend</span>
+                <span id="studentStatus" class="status waiting">
+                    In afwachting
+                </span>
             </div>
 
             <div class="status-row">
                 <span>Bedrijf</span>
-                <span class="status signed">Ondertekend</span>
+                <span id="bedrijfStatus" class="status waiting">
+                    In afwachting
+                </span>
             </div>
 
             <div class="status-row">
                 <span>School</span>
-                <span class="status signed">Ondertekend</span>
+                <span id="schoolStatus" class="status waiting">
+                    In afwachting
+                </span>
             </div>
 
         </div>
@@ -108,15 +134,30 @@
 
             <h1>STAGEOVEREENKOMST</h1>
 
-            <p><strong>Student:</strong> [Studentnaam]</p>
+            <p>
+                <strong>Student:</strong>
+                <span id="contractStudentNaam">-</span>
+            </p>
 
-            <p><strong>Opleiding:</strong> [Opleiding]</p>
+            <p>
+                <strong>Opleiding:</strong>
+                <span id="contractOpleiding">-</span>
+            </p>
 
-            <p><strong>Bedrijf:</strong> [Bedrijfsnaam]</p>
+            <p>
+                <strong>Bedrijf:</strong>
+                <span id="contractBedrijf">-</span>
+            </p>
 
-            <p><strong>Stageperiode:</strong> [Startdatum] - [Einddatum]</p>
+            <p>
+                <strong>Stageperiode:</strong>
+                <span id="contractStageperiode">-</span>
+            </p>
 
-            <p><strong>Opdracht:</strong> [Stageopdracht]</p>
+            <p>
+                <strong>Opdracht:</strong>
+                <span id="contractOpdracht">-</span>
+            </p>
 
             <div class="article">
                 <h3>Artikel 1 - Doel van de stage</h3>
@@ -178,24 +219,49 @@
 
                 <div class="signature-block">
                     <h4>Handtekening student</h4>
-                    <div class="signature-placeholder">
-                        Handtekening student
+
+                    <div id="studentHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
                     </div>
                 </div>
 
                 <div class="signature-block">
                     <h4>Handtekening bedrijf</h4>
-                    <div class="signature-placeholder">
-                        Handtekening bedrijf
+
+                    <div id="bedrijfHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
                     </div>
                 </div>
 
                 <div class="signature-block">
                     <h4>Handtekening school</h4>
-                    <div class="signature-placeholder">
-                        Handtekening school
+
+                    <div id="schoolHandtekening" class="signature-placeholder">
+                        Nog niet ondertekend
                     </div>
                 </div>
+
+            </div>
+
+        </div>
+
+        <!-- TEKENVAK -->
+
+        <div id="tekenVak" class="teken-vak">
+
+            <h2>Handtekening school</h2>
+
+            <canvas id="handtekeningCanvas"></canvas>
+
+            <div class="teken-buttons">
+
+                <button id="wissenKnop" type="button" class="back-button">
+                    Wissen
+                </button>
+
+                <button id="opslaanKnop" type="button" class="approve-button">
+                    Ondertekenen
+                </button>
 
             </div>
 
@@ -205,26 +271,21 @@
 
         <div class="button-container">
 
-            <button
-                class="back-button"
-                onclick="window.location.href='/stagecommissie-stageovereenkomst-overzicht'">
-
+            <button id="terugKnop" class="back-button">
                 Terug
-
             </button>
 
-            <button
-                class="approve-button"
-                onclick="window.location.href='/stagecommissie-stageovereenkomst-overzicht'">
-
-                Goedkeuren
-
+            <button id="ondertekenKnop" class="approve-button">
+                Digitaal ondertekenen
             </button>
 
         </div>
 
     </div>
 
+    <script src="/JS/stagecommissie-stageovereenkomst-detail.js"></script>
+
 </body>
 
 </html>
+
