@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administratie Dashboard</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+
+
+    
+
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div>
+
+        <div class="sidebar-title">
+            Administratie
+        </div>
+
+        <a href="/admin/home" class="menu-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-file"></i>
+            <span>Stageaanvragen</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppeling</span>
+        </a>
+
+    </div>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Uitloggen</span>
+    </a>
+
+</aside>
+
+<main class="main-content">
+
+    <header class="topbar">
+
+        <i class="fa-regular fa-bell"></i>
+
+        <div class="user-circle">
+            AD
+        </div>
+
+        <span class="ehb-logo">
+            ehbc
+        </span>
+
+    </header>
+
+    <section class="content">
+
+        <h1>Welkom terug!</h1>
+
+        <p class="subtitle">
+            Hier is een overzicht van het platform.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Totaal Studenten</h3>
+                <p id="totaalStudenten">0</p>
+            </div>
+
+      
+
+            <div class="stat-card">
+                <h3>Totaal Docenten</h3>
+                <p id="totaalDocenten">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Totaal Stageplaatsen</h3>
+                <p id="totaalStageplaatsen">0</p>
+            </div>
+
+        </div>
+
+       <div class="student-quick-card admin-actions-card">
+    <h2>Snelle toegang</h2>
+
+    <div class="quick-grid">
+        <a href="#" class="quick-item">
+            <i class="fa-solid fa-file"></i>
+            <span>Stageaanvragen</span>
+        </a>
+
+        <a href="#" class="quick-item">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppeling</span>
+        </a>
+    </div>
+</div>
+    </section>
+
+</main>
+
+<script src="../JS/administratiehome.js"></script>
+
+</body>
+
+</html>

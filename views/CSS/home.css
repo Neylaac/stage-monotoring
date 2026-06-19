@@ -217,3 +217,103 @@
     margin-top:15px;
     padding-left:20px;
 }
+
+
+.bedrijf-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.bedrijf-card h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #222;
+}
+
+.mentor-box {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.mentor-box i {
+    font-size: 40px;
+    color: #8c2b2b;
+    background: #f7f2f2;
+    padding: 18px;
+    border-radius: 50%;
+}
+
+.mentor-label {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.mentor-naam {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+}
+
+
+/* ADMIN HOME */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stat-card h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 32px;
+    font-weight: bold;
+    color: #222;
+}
+
+.activity-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 35px;
+}
+
+.activity-card h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+.activity-item {
+    padding: 15px 0;
+}
+
+.activity-item strong {
+    font-size: 18px;
+}
+
+.activity-item p {
+    color: #777;
+    margin-top: 5px;
+}
+
+
+.admin-actions-card {
+    margin-top: 35px;
+}

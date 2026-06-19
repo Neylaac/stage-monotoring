@@ -1,0 +1,75 @@
+<h1>Koppeling</h1>
+
+<div>
+  <label>Student</label>
+  <select id="studentSelect">
+    <option value="">Kies een student</option>
+  </select>
+</div>
+
+<div>
+  <label>Docent</label>
+  <select id="docentSelect">
+    <option value="">Kies een docent</option>
+  </select>
+</div>
+
+<button id="koppelBtn">Koppelen</button>
+
+<p id="melding"></p>
+
+<script>
+async function laadStudenten() {
+  const response = await fetch('/api/admin/studenten');
+  const studenten = await response.json();
+
+  const select = document.getElementById('studentSelect');
+
+  studenten.forEach(student => {
+    const option = document.createElement('option');
+    option.value = student.id;
+    option.textContent = `${student.voornaam} ${student.achternaam}`;
+    select.appendChild(option);
+  });
+}
+
+async function laadDocenten() {
+  const response = await fetch('/api/admin/docenten');
+  const docenten = await response.json();
+
+  const select = document.getElementById('docentSelect');
+
+  docenten.forEach(docent => {
+    const option = document.createElement('option');
+    option.value = docent.id;
+    option.textContent = `${docent.voornaam} ${docent.achternaam}`;
+    select.appendChild(option);
+  });
+}
+
+document.getElementById('koppelBtn').addEventListener('click', async () => {
+  const student_id = document.getElementById('studentSelect').value;
+  const docent_id = document.getElementById('docentSelect').value;
+  const melding = document.getElementById('melding');
+
+  if (!student_id || !docent_id) {
+    melding.textContent = 'Kies eerst een student en een docent.';
+    return;
+  }
+
+  const response = await fetch('/api/admin/koppelingen', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ student_id, docent_id })
+  });
+
+  const data = await response.json();
+
+  melding.textContent = data.message;
+});
+
+laadStudenten();
+laadDocenten();
+</script>

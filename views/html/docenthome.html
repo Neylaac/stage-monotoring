@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docent Home</title>
+
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div>
+        <div class="sidebar-title">Docent</div>
+
+        <a href="/docent/home" class="menu-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Stageovereenkomst</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Studenten</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <i class="fa-solid fa-user"></i>
+            <span>Profiel</span>
+        </a>
+    </div>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Uitloggen</span>
+    </a>
+
+</aside>
+
+<main class="main-content">
+
+    <header class="topbar">
+        <i class="fa-regular fa-bell"></i>
+
+        <div class="user-circle">
+            DO
+        </div>
+
+        <span class="ehb-logo">
+            ehbc
+        </span>
+    </header>
+
+    <section class="content">
+
+        <h1>Welkom terug, Docent!</h1>
+
+        <p class="subtitle">
+            Hier kan je je studenten en stageovereenkomsten opvolgen.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Mijn studenten</h3>
+                <p id="aantalDocentStudenten">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Open evaluaties</h3>
+                <p id="aantalOpenEvaluaties">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Actieve stages</h3>
+                <p id="aantalActieveStages">0</p>
+            </div>
+
+        </div>
+
+        <div class="student-quick-card admin-actions-card">
+            <h2>Snelle toegang</h2>
+
+            <div class="quick-grid">
+                <a href="#" class="quick-item">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Studenten</span>
+                </a>
+
+                <a href="#" class="quick-item">
+                    <i class="fa-solid fa-file-signature"></i>
+                    <span>Stageovereenkomst</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="bedrijf-card">
+            <h2>Studenten opvolgen</h2>
+
+            <div class="mentor-box">
+                <i class="fa-solid fa-users"></i>
+
+                <div>
+                    <p class="mentor-label">Bekijk hier de studentenstatus</p>
+                    <p class="mentor-naam">Nog niet gekoppeld</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="../JS/docenthome.js"></script>
+
+</body>
+
+</html>

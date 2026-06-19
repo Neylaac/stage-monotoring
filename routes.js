@@ -594,11 +594,220 @@ router.get('/stagecommissie-stageovereenkomst-detail', requireAuth, (req, res) =
     res.sendFile(path.join(__dirname, 'views', 'html', 'stagecommissie-stageovereenkomst-detail.html'));
 });
 
+
+// -------------------------- ADMIN KOPPELINGEN --------------------------
+
+router.get('/api/admin/studenten', requireAuth, (req, res) => {
+
+    const query = `
+        SELECT
+            id,
+            voornaam,
+            achternaam,
+            email
+        FROM users
+        WHERE role = 'STUDENT'
+        ORDER BY voornaam
+    `;
+
+    connection.query(query, (error, results) => {
+
+        if (error) {
+            return res.status(500).json({
+                status: 'error'
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+
+router.get('/api/admin/docenten', requireAuth, (req, res) => {
+
+    const query = `
+        SELECT
+            id,
+            voornaam,
+            achternaam,
+            email
+        FROM users
+        WHERE role = 'DOCENT'
+        ORDER BY voornaam
+    `;
+
+    connection.query(query, (error, results) => {
+
+        if (error) {
+            return res.status(500).json({
+                status: 'error'
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+
+router.post('/api/admin/koppelingen', requireAuth, (req, res) => {
+
+    const { student_id, docent_id } = req.body;
+
+    const query = `
+        INSERT INTO koppelingen (
+            student_id,
+            docent_id
+        )
+        VALUES (?, ?)
+    `;
+
+    connection.query(
+        query,
+        [student_id, docent_id],
+        (error) => {
+
+            if (error) {
+
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Koppeling mislukt'
+                });
+            }
+
+            res.json({
+                status: 'success',
+                message: 'Student gekoppeld aan docent'
+            });
+        }
+    );
+});
+
 // -------------------------- ADMIN --------------------------
 
 router.get('/admin/home', requireAuth, (req, res) => {
-    res.send('Welkom admin');
+  res.sendFile(path.join(__dirname, 'views', 'html', 'administratiehome.html'));
 });
 
+router.get('/admin/koppelingen', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(__dirname, 'views', 'html', 'admin-koppelingen.html')
+    );
+});
+
+
+router.get('/admin/gebruikers', requireAuth, (req, res) => {
+    console.log('ADMIN GEBRUIKERS PAGE');
+
+    res.sendFile(
+        path.join(__dirname, 'views', 'html', 'admin-gebruikers.html')
+    );
+});
+
+
+// -------------------------- ADMIN GEBRUIKERS TOEVOEGEN --------------------------
+
+router.post('/api/admin/studenten', requireAuth, (req, res) => {
+    const {
+        voornaam,
+        achternaam,
+        email,
+        wachtwoord,
+        studentnummer,
+        opleiding
+    } = req.body;
+
+    const userQuery = `
+        INSERT INTO users (
+            voornaam,
+            achternaam,
+            email,
+            wachtwoord,
+            role
+        )
+        VALUES (?, ?, ?, ?, 'STUDENT')
+    `;
+
+    connection.query(
+        userQuery,
+        [voornaam, achternaam, email, wachtwoord],
+        (error, result) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Student kon niet worden aangemaakt'
+                });
+            }
+
+            const studentQuery = `
+                INSERT INTO student_profiles (
+                    user_id,
+                    studentnummer,
+                    opleiding
+                )
+                VALUES (?, ?, ?)
+            `;
+
+            connection.query(
+                studentQuery,
+                [result.insertId, studentnummer, opleiding],
+                (error) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).json({
+                            status: 'error',
+                            message: 'Studentprofiel kon niet worden aangemaakt'
+                        });
+                    }
+
+                    res.json({
+                        status: 'success',
+                        message: 'Student aangemaakt'
+                    });
+                }
+            );
+        }
+    );
+});
+
+
+router.post('/api/admin/docenten', requireAuth, (req, res) => {
+    const {
+        voornaam,
+        achternaam,
+        email,
+        wachtwoord
+    } = req.body;
+
+    const query = `
+        INSERT INTO users (
+            voornaam,
+            achternaam,
+            email,
+            wachtwoord,
+            role
+        )
+        VALUES (?, ?, ?, ?, 'DOCENT')
+    `;
+
+    connection.query(
+        query,
+        [voornaam, achternaam, email, wachtwoord],
+        (error) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Docent kon niet worden aangemaakt'
+                });
+            }
+
+            res.json({
+                status: 'success',
+                message: 'Docent aangemaakt'
+            });
+        }
+    );
+});
 
 module.exports = router;
