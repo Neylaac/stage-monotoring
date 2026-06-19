@@ -317,3 +317,23 @@
 .admin-actions-card {
     margin-top: 35px;
 }
+
+.menu-item {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: #a84e4e;
+}
+
+.menu-item.active {
+    background-color: #b76a6a;
+}

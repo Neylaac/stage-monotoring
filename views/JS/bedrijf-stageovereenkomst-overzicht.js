@@ -10,21 +10,21 @@ function formatteerDatum(datum) {
     });
 }
 
-function laadStagiairs(){
-   fetch('/api/bedrijf/stagiairs')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        const stagiairsTabel = document.querySelector('#stagiairsTabel');
+function laadStagiairs() {
+    fetch('/api/bedrijf/stagiairs')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            const stagiairsTabel = document.querySelector('#stagiairsTabel');
 
-        if(data.status !== 'success'){
-            console.log(data.message);
-            return
-        }
+            if (data.status !== 'success') {
+                console.log(data.message);
+                return
+            }
 
 
-        if(data.stagiairs.length === 0){
-            stagiairsTabel.innerHTML =  `
+            if (data.stagiairs.length === 0) {
+                stagiairsTabel.innerHTML = `
                     <tr>
                         <td colspan="4">
                             Geen stagiairs gevonden.
@@ -32,15 +32,15 @@ function laadStagiairs(){
                     </tr>
                 `;
                 return
-        }
+            }
 
-        stagiairsTabel.innerHTML = ``;
-        data.stagiairs.forEach(stagiair => {
-            const initialen = 
-            stagiair.voornaam.charAt(0) +
-            stagiair.achternaam.charAt(0);
+            stagiairsTabel.innerHTML = ``;
+            data.stagiairs.forEach(stagiair => {
+                const initialen =
+                    stagiair.voornaam.charAt(0) +
+                    stagiair.achternaam.charAt(0);
 
-            stagiairsTabel.innerHTML += `
+                stagiairsTabel.innerHTML += `
                     <tr>
                         <td class="student-cell">
                             <div class="student-avatar">
@@ -65,23 +65,23 @@ function laadStagiairs(){
                         </td>
 
                         <td>
-                            <button
+                             <button
                                 class="view-button"
                                 onclick="window.location.href='/bedrijf-student-overzicht?id=${stagiair.id}'"
-                            >
-                                Student bekijken
-                            </button>
+                                >
+                                Bekijken
+                                </button>
                         </td>
                     </tr>
                 `;
-            
-        });
 
-    })
+            });
 
-    .catch(error =>{
-        console.error('Fout bij ophalen van stagiairs', error)
-    })
+        })
+
+        .catch(error => {
+            console.error('Fout bij ophalen van stagiairs', error)
+        })
 }
 
 
