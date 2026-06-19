@@ -13,21 +13,41 @@
 
     <!-- Sidebar -->
 
-    <div class="sidebar">
+ <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Bedrijf</div>
 
-        <ul>
-            <li>Home</li>
-            <li class="active">Stagiairs</li>
-            <li>Logboeken</li>
-            <li>Evaluatie</li>
-            <li>Profiel</li>
-        </ul>
+            <a href="/bedrijf/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <div class="logout">
-            Uitloggen
+            <a href="/bedrijf-stageovereenkomst-overzicht" class="menu-item active">
+                <i class="fa-solid fa-users"></i>
+                <span>Stagiairs</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-    </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
 
     <!-- Content -->
 
