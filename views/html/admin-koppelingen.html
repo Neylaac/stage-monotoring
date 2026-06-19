@@ -6,6 +6,25 @@
     <title>Administratie - Koppelingen</title>
     <link rel="stylesheet" href="../CSS/stageaanvraag.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .ontkoppel-btn {
+            border: 1px solid #E53935;
+            color: #E53935;
+            background: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: inline-block;
+            outline: none;
+        }
+        .ontkoppel-btn:hover {
+            background: #E53935;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -58,63 +77,65 @@
         <h1>Student-Docent Koppelingen</h1>
         <p class="subtitle">Koppel studenten aan de juiste stagebegeleider en beheer bestaande koppelingen</p>
 
-        <div class="form-grid" style="grid-template-columns: 1fr 2fr; max-width: 100%; gap: 30px; margin-top: 30px;">
-            
-            <!-- Linkerzijde: Formulier om te koppelen -->
-            <div class="form-card">
-                <div class="card-title">
-                    <div class="icon-circle"><i class="fa-solid fa-link"></i></div>
-                    <h2>Nieuwe Koppeling</h2>
-                </div>
+        <!-- Top: Horizontal Form for New Coupling -->
+        <div class="form-card" style="margin-top: 30px; margin-bottom: 30px;">
+            <div class="card-title" style="margin-bottom: 15px;">
+                <div class="icon-circle"><i class="fa-solid fa-link"></i></div>
+                <h2>Nieuwe Koppeling maken</h2>
+            </div>
 
-                <form id="koppelingForm">
-                    <label for="studentSelect">Student</label>
-                    <select id="studentSelect" style="width: 100%; height: 42px; border: 1px solid #bfbfbf; border-radius: 5px; padding: 10px 12px; font-size: 14px; outline: none; background: white; margin-bottom: 20px;">
+            <form id="koppelingForm" style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <label for="studentSelect" style="margin-top: 0; margin-bottom: 8px; display: block; font-size: 13px; font-weight: bold; color: #333;">Student</label>
+                    <select id="studentSelect" style="width: 100%; height: 42px; border: 1px solid #bfbfbf; border-radius: 5px; padding: 10px 12px; font-size: 14px; outline: none; background: white;">
                         <option value="">Kies een student</option>
                     </select>
+                </div>
 
-                    <label for="docentSelect">Docent</label>
-                    <select id="docentSelect" style="width: 100%; height: 42px; border: 1px solid #bfbfbf; border-radius: 5px; padding: 10px 12px; font-size: 14px; outline: none; background: white; margin-bottom: 30px;">
+                <div style="flex: 1; min-width: 250px;">
+                    <label for="docentSelect" style="margin-top: 0; margin-bottom: 8px; display: block; font-size: 13px; font-weight: bold; color: #333;">Docent</label>
+                    <select id="docentSelect" style="width: 100%; height: 42px; border: 1px solid #bfbfbf; border-radius: 5px; padding: 10px 12px; font-size: 14px; outline: none; background: white;">
                         <option value="">Kies een docent</option>
                     </select>
+                </div>
 
-                    <button type="submit" class="submit-btn" style="width: 100%; border: none; cursor: pointer; text-align: center; display: block; font-family: inherit;">
+                <div style="min-width: 150px;">
+                    <button type="submit" class="submit-btn" style="height: 42px; width: 100%; border: none; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; font-family: inherit; padding: 0 35px; border-radius: 5px;">
                         Koppelen
                     </button>
-                </form>
+                </div>
+            </form>
 
-                <p id="melding" style="margin-top: 20px; font-weight: bold; text-align: center; font-size: 14px;"></p>
+            <p id="melding" style="margin-top: 15px; font-weight: bold; font-size: 14px;"></p>
+        </div>
+
+        <!-- Bottom: Existing Couplings Table -->
+        <div class="form-card">
+            <div class="card-title">
+                <div class="icon-circle"><i class="fa-solid fa-list-check"></i></div>
+                <h2>Bestaande Koppelingen</h2>
             </div>
 
-            <!-- Rechterzijde: Bestaande koppelingen tabel -->
-            <div class="form-card">
-                <div class="card-title">
-                    <div class="icon-circle"><i class="fa-solid fa-list-check"></i></div>
-                    <h2>Bestaande Koppelingen</h2>
-                </div>
-
-                <div class="aanvragen-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Studentnummer & Opleiding</th>
-                                <th>Stagebegeleider</th>
-                                <th>Gekoppeld Op</th>
-                                <th>Actie</th>
-                            </tr>
-                        </thead>
-                        <tbody id="koppelingenBody">
-                            <tr>
-                                <td colspan="5" class="empty-table">
-                                    Er zijn momenteel geen studenten gekoppeld.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="aanvragen-table">
+                <table style="width: 100%; table-layout: fixed;">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Student</th>
+                            <th style="width: 25%;">Studentnummer & Opleiding</th>
+                            <th style="width: 25%;">Stagebegeleider</th>
+                            <th style="width: 13%;">Gekoppeld Op</th>
+                            <th style="width: 12%; text-align: center;">Actie</th>
+                        </tr>
+                    </thead>
+                    <tbody id="koppelingenBody">
+                        <tr>
+                            <td colspan="5" class="empty-table">
+                                Er zijn momenteel geen studenten gekoppeld.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
         </div>
     </section>
 </main>
@@ -158,21 +179,21 @@ async function laadData() {
                 });
 
                 tr.innerHTML = `
-                    <td>
+                    <td style="word-wrap: break-word; white-space: normal;">
                         <strong>${k.student_voornaam} ${k.student_achternaam}</strong>
                         <span>${k.student_email}</span>
                     </td>
-                    <td>
+                    <td style="word-wrap: break-word; white-space: normal;">
                         <strong>${k.studentnummer || '-'}</strong>
                         <span>${k.opleiding || '-'}</span>
                     </td>
-                    <td>
+                    <td style="word-wrap: break-word; white-space: normal;">
                         <strong>${k.docent_voornaam} ${k.docent_achternaam}</strong>
                         <span>${k.docent_email}</span>
                     </td>
                     <td>${datum}</td>
-                    <td>
-                        <button class="view-btn ontkoppel-btn" data-id="${k.koppeling_id}" style="background: none; outline: none; cursor: pointer; display: inline-block;">
+                    <td style="text-align: center;">
+                        <button class="ontkoppel-btn" data-id="${k.koppeling_id}">
                             Ontkoppelen
                         </button>
                     </td>
