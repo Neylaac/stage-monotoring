@@ -148,9 +148,55 @@ const getDaglogboekOpId = async (req, res) => {
 
 };
 
+const keurWeeklogboekGoed = async (req, res) => {
+
+    try {
+
+        const id = req.params.id;
+
+        const {
+            feedback
+        } = req.body;
+
+        await connection
+            .promise()
+            .query(
+                `
+                UPDATE weeklogboeken
+                SET
+                    mentor_feedback = ?,
+                    afgetekend = TRUE,
+                    afgetekend_op = NOW()
+                WHERE id = ?
+                `,
+                [
+                    feedback,
+                    id
+                ]
+            );
+
+        res.json({
+            message:
+                'Weeklogboek goedgekeurd'
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message:
+                'Database fout'
+        });
+
+    }
+
+};
+
 module.exports = {
     getAlleWeeklogboeken,
     maakDaglogboek,
     getWeeklogboekOpId,
-    getDaglogboekOpId
+    getDaglogboekOpId,
+    keurWeeklogboekGoed
 };
