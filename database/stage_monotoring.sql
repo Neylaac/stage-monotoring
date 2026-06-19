@@ -127,6 +127,9 @@ CREATE TABLE stageovereenkomsten (
         REFERENCES stageaanvragen(id)
         ON DELETE CASCADE
 );
+
+
+
 CREATE TABLE weeklogboeken (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -149,29 +152,39 @@ CREATE TABLE weeklogboeken (
 
     FOREIGN KEY (stageovereenkomst_id)
         REFERENCES stageovereenkomsten(id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE(stageovereenkomst_id, weeknummer)
 );
+
 CREATE TABLE daglogboeken (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
     weeklogboek_id INT NOT NULL,
 
     datum DATE NOT NULL,
+    dag_naam VARCHAR(30) NOT NULL,
 
-    aantal_uren DECIMAL(4,2) NOT NULL,
+    aantal_uren DECIMAL(4,2) NULL,
 
-    taken TEXT NOT NULL,
-
-    geleerd TEXT NOT NULL,
-
+    taken TEXT NULL,
+    geleerd TEXT NULL,
     problemen TEXT NULL,
 
+    status ENUM('NIET_INGEVULD', 'INGEVULD') DEFAULT 'NIET_INGEVULD',
+
+    ingevuld_op DATETIME NULL,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (weeklogboek_id)
         REFERENCES weeklogboeken(id)
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE(weeklogboek_id, datum)
 );
+
 CREATE TABLE daglogboek_competenties (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -183,3 +196,4 @@ CREATE TABLE daglogboek_competenties (
         REFERENCES daglogboeken(id)
         ON DELETE CASCADE
 );
+

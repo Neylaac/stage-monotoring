@@ -25,8 +25,11 @@ const {
 } = require('./controllers/stageOvereenkomstController');
 
 const {
+    getStudentLogboeken,
     getAlleWeeklogboeken,
-    maakDaglogboek
+    maakDaglogboek,
+    getWeeklogboekOpId,
+    getDaglogboekOpId
 } = require('./controllers/logboekController');
 // get gebruik je om een pagina op te vragen
 
@@ -253,6 +256,7 @@ router.patch('/api/student/stageovereenkomst/ondertekenen', requireAuth, (req, r
     });
 });
 
+
 // -------------------------- STAGEAANVRAGEN API --------------------------
 router.post('/api/stageaanvragen', requireAuth, maakStageaanvraag);
 router.get('/api/stageaanvragen/mijn', requireAuth, getMijnStageaanvragen);
@@ -273,11 +277,8 @@ router.get('/api/stageovereenkomsten/:id', requireAuth, getStageovereenkomstOpId
 
 // -------------------------- LOGBOEKEN API --------------------------
 
-router.get(
-    '/api/logboeken',
-    requireAuth,
-    getAlleWeeklogboeken
-);
+router.get('/api/student/logboeken', requireAuth, getStudentLogboeken);
+
 router.post(
     '/api/daglogboeken',
     requireAuth,
