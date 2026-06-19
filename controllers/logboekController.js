@@ -192,11 +192,44 @@ const keurWeeklogboekGoed = async (req, res) => {
     }
 
 };
+const getDaglogboekenVanWeek = async (req, res) => {
 
+    try {
+
+        const weeklogboekId =
+            req.params.id;
+
+        const [rows] =
+            await connection
+                .promise()
+                .query(
+                    `
+                    SELECT *
+                    FROM daglogboeken
+                    WHERE weeklogboek_id = ?
+                    ORDER BY datum
+                    `,
+                    [weeklogboekId]
+                );
+
+        res.json(rows);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: 'Database fout'
+        });
+
+    }
+
+};
 module.exports = {
     getAlleWeeklogboeken,
     maakDaglogboek,
     getWeeklogboekOpId,
     getDaglogboekOpId,
-    keurWeeklogboekGoed
+    keurWeeklogboekGoed,
+    getDaglogboekenVanWeek
 };
