@@ -23,12 +23,12 @@
             <span>Home</span>
         </a>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/stageovereenkomsten" class="menu-item">
             <i class="fa-solid fa-briefcase"></i>
             <span>Stageovereenkomst</span>
         </a>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/home" class="menu-item">
             <i class="fa-solid fa-graduation-cap"></i>
             <span>Studenten</span>
         </a>
@@ -62,7 +62,7 @@
 
     <section class="content">
 
-        <h1>Welkom terug, Docent!</h1>
+        <h1 id="docentWelkom">Welkom terug, Docent!</h1>
 
         <p class="subtitle">
             Hier kan je je studenten en stageovereenkomsten opvolgen.
@@ -91,28 +91,40 @@
             <h2>Snelle toegang</h2>
 
             <div class="quick-grid">
-                <a href="#" class="quick-item">
+                <a href="/docent/home" class="quick-item">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Studenten</span>
                 </a>
 
-                <a href="#" class="quick-item">
+                <a href="/docent/stageovereenkomsten" class="quick-item">
                     <i class="fa-solid fa-file-signature"></i>
                     <span>Stageovereenkomst</span>
                 </a>
             </div>
         </div>
 
-        <div class="bedrijf-card">
-            <h2>Studenten opvolgen</h2>
+        <div class="bedrijf-card" style="width: 100%; margin-top: 30px;">
+            <h2>Mijn studenten opvolgen</h2>
 
-            <div class="mentor-box">
-                <i class="fa-solid fa-users"></i>
-
-                <div>
-                    <p class="mentor-label">Bekijk hier de studentenstatus</p>
-                    <p class="mentor-naam">Nog niet gekoppeld</p>
-                </div>
+            <div class="aanvragen-table" style="margin-top: 15px; overflow-x: auto;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Studentnummer & Opleiding</th>
+                            <th>Bedrijf</th>
+                            <th>Ondertekenstatus (Student / Bedrijf / School)</th>
+                            <th>Actie</th>
+                        </tr>
+                    </thead>
+                    <tbody id="docentStudentenBody">
+                        <tr>
+                            <td colspan="5" class="empty-table">
+                                Er zijn momenteel geen studenten aan jou gekoppeld.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 

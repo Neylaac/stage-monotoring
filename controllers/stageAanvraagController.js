@@ -224,7 +224,11 @@ const getAlleStageaanvragen = async (req, res) => {
                 users.email AS student_email,
 
                 student_profiles.studentnummer,
-                student_profiles.opleiding
+                student_profiles.opleiding,
+
+                so.student_ondertekend,
+                so.bedrijf_ondertekend,
+                so.school_ondertekend
 
             FROM stageaanvragen
 
@@ -233,6 +237,9 @@ const getAlleStageaanvragen = async (req, res) => {
 
             JOIN student_profiles
                 ON student_profiles.user_id = users.id
+
+            LEFT JOIN stageovereenkomsten so
+                ON so.stageaanvraag_id = stageaanvragen.id
 
             ORDER BY stageaanvragen.created_at DESC
         `;

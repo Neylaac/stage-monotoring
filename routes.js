@@ -107,6 +107,24 @@ PATCH  = een deel van bestaande gegevens aanpassen
 DELETE = gegevens verwijderen */
 
 
+router.get('/api/user/profile', requireAuth, (req, res) => {
+    const userId = req.user?.id || req.session?.userId;
+    if (!userId) {
+        return res.status(401).json({ status: 'error', message: 'Niet ingelogd' });
+    }
+    const query = 'SELECT id, voornaam, achternaam, email, role FROM users WHERE id = ?';
+    connection.query(query, [userId], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen profiel' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ status: 'error', message: 'Gebruiker niet gevonden' });
+        }
+        res.json({ status: 'success', user: results[0] });
+    });
+});
+
 router.get('/api/student/profile', requireAuth, getStudentProfile);
 router.get('/api/student/home', requireAuth, getStudentHome);
 router.get('/api/student/stageovereenkomst', requireAuth, (req, res) => {
@@ -552,6 +570,28 @@ router.patch('/api/stagecommissie/stageovereenkomsten/:id/ondertekenen', require
 
 // -------------------------- BEDRIJF API --------------------------
 
+router.get('/api/bedrijf/begeleiders', requireAuth, (req, res) => {
+    const email = req.user.email;
+    const query = `
+        SELECT DISTINCT
+            ud.voornaam,
+            ud.achternaam,
+            ud.email
+        FROM stageaanvragen sa
+        JOIN koppelingen k ON sa.student_id = k.student_id
+        JOIN users ud ON k.docent_id = ud.id
+        WHERE sa.email_bedrijf = ?
+        AND sa.status = 'GOEDGEKEURD'
+    `;
+    connection.query(query, [email], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen begeleiders' });
+        }
+        res.json({ status: 'success', begeleiders: results });
+    });
+});
+
 router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
     const email = req.user.email;
 
@@ -801,6 +841,52 @@ router.get("/student-stageovereenkomst-detail", requireAuth, (req, res) => {
 
 // -------------------------- DOCENT PAGINA'S --------------------------
 
+router.get('/docent/home', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docenthome.html'));
+});
+
+router.get('/api/docent/home', requireAuth, (req, res) => {
+    const docentId = req.user.id;
+    const query = `
+        SELECT 
+            u.voornaam, 
+            u.achternaam, 
+            u.email,
+            sp.studentnummer,
+            sp.opleiding,
+            sa.bedrijfsnaam,
+            sa.status AS aanvraag_status,
+            so.student_ondertekend,
+            so.bedrijf_ondertekend,
+            so.school_ondertekend,
+            sa.id AS aanvraag_id
+        FROM koppelingen k
+        JOIN users u ON k.student_id = u.id
+        LEFT JOIN student_profiles sp ON u.id = sp.user_id
+        LEFT JOIN stageaanvragen sa ON u.id = sa.student_id
+        LEFT JOIN stageovereenkomsten so ON sa.id = so.stageaanvraag_id
+        WHERE k.docent_id = ?
+    `;
+    
+    connection.query(query, [docentId], (error, results) => {
+        if (error) {
+            console.error('Fout bij ophalen docent home data:', error);
+            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen data' });
+        }
+        
+        const totaalStudenten = results.length;
+        const actieveStages = results.filter(r => r.aanvraag_status === 'GOEDGEKEURD').length;
+        const openEvaluaties = 0;
+        
+        res.json({
+            status: 'success',
+            totaalStudenten,
+            actieveStages,
+            openEvaluaties,
+            studenten: results
+        });
+    });
+});
 
 router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));

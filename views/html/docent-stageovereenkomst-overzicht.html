@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docent - Stageovereenkomsten</title>
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="display: flex; min-height: 100vh; background-color: #eef1f8;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Docent</div>
+
+            <a href="/docent/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="/docent/stageovereenkomsten" class="menu-item active">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="/docent/home" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Studenten</span>
+            </a>
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content" style="flex: 1; background: white; min-height: 100vh;">
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle" id="userCircle">DO</div>
+            <span class="ehb-logo">ehbc</span>
+        </header>
+
+        <section class="content">
+            <h1>Stageovereenkomsten</h1>
+            <p class="subtitle" style="margin-bottom: 30px;">Opvolging en overzicht van alle lopende overeenkomsten van jouw studenten.</p>
+
+            <div class="aanvragen-table">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Opleiding</th>
+                            <th>Bedrijf</th>
+                            <th>Ondertekenstatus (Student / Bedrijf / School)</th>
+                            <th>Actie</th>
+                        </tr>
+                    </thead>
+                    <tbody id="overeenkomstenBody">
+                        <tr>
+                            <td colspan="5" class="empty-table">
+                                Er zijn momenteel geen overeenkomsten beschikbaar.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Ophalen van profiel voor initials in topbar
+        fetch("/api/user/profile")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== "success") return;
+                const user = data.user;
+                const circle = document.getElementById("userCircle");
+                if (circle) circle.textContent = user.voornaam.charAt(0) + user.achternaam.charAt(0);
+            })
+            .catch(err => console.error("Fout bij laden profiel:", err));
+
+        // Ophalen van gekoppelde studenten en hun status
+        fetch("/api/docent/home")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== "success") return;
+                const studenten = data.studenten || [];
+                const tbody = document.getElementById("overeenkomstenBody");
+                tbody.innerHTML = "";
+
+                if (studenten.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="empty-table">
+                                Geen stageovereenkomsten gevonden voor gekoppelde studenten.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                studenten.forEach(s => {
+                    const tr = document.createElement("tr");
+
+                    const studentBadge = s.student_ondertekend === 1 
+                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+                        : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
+
+                    const bedrijfBadge = s.bedrijf_ondertekend === 1 
+                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+                        : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
+
+                    const schoolBadge = s.school_ondertekend === 1 
+                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+                        : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
+
+                    const statusTekst = `<div style="display: flex; gap: 5px;">S: ${studentBadge} B: ${bedrijfBadge} D: ${schoolBadge}</div>`;
+
+                    const actieKnop = s.aanvraag_id 
+                        ? `<a href="/stageovereenkomst-detail?id=${s.aanvraag_id}" class="view-btn">Bekijken</a>`
+                        : `<span style="color: #999; font-style: italic;">Geen overeenkomst</span>`;
+
+                    tr.innerHTML = `
+                        <td>
+                            <strong>${s.voornaam} ${s.achternaam}</strong>
+                            <span style="display: block; font-size: 12px; color: #777;">${s.email}</span>
+                        </td>
+                        <td>${s.opleiding || "-"}</td>
+                        <td>${s.bedrijfsnaam || "-"}</td>
+                        <td>${statusTekst}</td>
+                        <td>${actieKnop}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(err => console.error("Fout bij laden overeenkomsten:", err));
+    </script>
+</body>
+</html>

@@ -4,18 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bedrijf Home</title>
-
-
+    <title>Bedrijf Home - Stage Monitoring</title>
     
-    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
-    <link rel="stylesheet" href="../CSS/home.css">
     <link rel="stylesheet" href="../CSS/bedrijfhome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div>
             <div class="sidebar-title">Bedrijf</div>
@@ -52,77 +49,117 @@
         </a>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
 
+        <!-- Topbar -->
         <header class="topbar">
             <i class="fa-regular fa-bell"></i>
-
-            <div class="user-circle">
-                SM
-            </div>
-
-            <span class="ehb-logo">
-                ehbc
-            </span>
+            <div class="user-circle">CO</div>
+            <span class="ehb-logo">ehbc</span>
         </header>
 
+        <!-- Page Content -->
         <section class="content">
 
             <h1 id="bedrijfWelkom">Welkom terug!</h1>
+            <p class="subtitle">Welkom terug op het stageplatform.</p>
 
-            <p class="subtitle">
-                Welkom terug op het stageplatform.
-            </p>
-
-            <div class="student-home-grid">
-
-                <div class="student-info-card">
-                    <h2>Mijn stagiairs</h2>
-                    <div id="bedrijfStagiairsLijst">
-                        Geen stagiairs gevonden.
+            <!-- Stats Container -->
+            <div class="stats-container">
+                <!-- Stat Card 1 -->
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Actieve Stagiairs</h3>
+                        <p id="aantalStagiairs">0</p>
+                    </div>
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-user-graduate"></i>
                     </div>
                 </div>
 
-                <div class="student-quick-card">
-                    <h2>Snelle toegang</h2>
-
-                    <div class="quick-grid">
-                        <a href="#" class="quick-item">
-                            <i class="fa-solid fa-users"></i>
-                            <span>Stagiairs</span>
-                        </a>
-
-                        <a href="#" class="quick-item">
-                            <i class="fa-solid fa-file-signature"></i>
-                            <span>Overeenkomsten</span>
-                        </a>
+                <!-- Stat Card 2 -->
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Te Ondertekenen</h3>
+                        <p id="aantalTeTekenen">0</p>
+                    </div>
+                    <div class="stat-icon amber">
+                        <i class="fa-solid fa-file-signature"></i>
                     </div>
                 </div>
 
-                <div class="student-activity-card">
-                    <h2>Overzicht</h2>
-
-                    <ul>
-                        <li><strong id="aantalStagiairs">0</strong> stagiairs actief</li>
-                        <li><strong id="aantalTeTekenen">0</strong> overeenkomsten te ondertekenen</li>
-                    </ul>
-    </div>
-
-
-    <div class="bedrijf-card">
-    <h2>Gekoppelde stagementor</h2>
-
-    <div class="mentor-box">
-        <i class="fa-solid fa-user-tie"></i>
-
-        <div>
-            <p class="mentor-label">Je bent gekoppeld aan</p>
-            <p id="mentorNaam" class="mentor-naam">
-               Nog niet gekoppeld
-            </p>
-        </div>
-    </div>
+                <!-- Stat Card 3 -->
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h3>Begeleiders</h3>
+                        <p id="aantalBegeleiders">0</p>
+                    </div>
+                    <div class="stat-icon red">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                </div>
             </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+
+                <!-- Left Column: Stagiairs Lijst -->
+                <div class="section-card">
+                    <h2><i class="fa-solid fa-graduation-cap"></i> Mijn stagiairs</h2>
+                    
+                    <div class="trainees-table-wrapper">
+                        <table class="trainees-table">
+                            <thead>
+                                <tr>
+                                    <th>Stagiair</th>
+                                    <th>Opleiding</th>
+                                    <th>Status Overeenkomst</th>
+                                    <th>Actie</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bedrijfStagiairsLijst">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">
+                                        Laden van stagiairs...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right Column: Quick Cards & Mentor -->
+                <div>
+                    <!-- Quick Access -->
+                    <div class="section-card">
+                        <h2><i class="fa-solid fa-bolt"></i> Snelle toegang</h2>
+                        <div class="quick-access-grid">
+                            <a href="/bedrijf-stageovereenkomst-overzicht" class="quick-action-card">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Stagiairs overzicht</span>
+                            </a>
+                            <a href="/bedrijf-stageovereenkomst-overzicht" class="quick-action-card">
+                                <i class="fa-solid fa-file-invoice"></i>
+                                <span>Overeenkomsten</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Mentor Card -->
+                    <div class="section-card">
+                        <h2><i class="fa-solid fa-user-shield"></i> Schoolbegeleiding</h2>
+                        <div class="mentor-card-body">
+                            <div class="mentor-avatar">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div class="mentor-info">
+                                <p>Gekoppelde stagementor(en)</p>
+                                <strong id="mentorNaam">Nog niet gekoppeld</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
