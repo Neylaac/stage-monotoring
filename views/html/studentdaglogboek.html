@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,121 +12,122 @@
 
 <body>
 
-<aside class="sidebar">
-    <div>
-        <div class="sidebar-title">Student</div>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Student</div>
 
-        <a href="stageaanvraag.html" class="menu-item">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Stageaanvraag</span>
-        </a>
+            <a href="/student/stageaanvraag" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvraag</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
+            <a href="/student/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <a href="studentlogboeken.html" class="menu-item active">
-            <i class="fa-solid fa-book"></i>
-            <span>Logboeken</span>
-        </a>
+            <a href="/student/logboeken" class="menu-item active">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <span>Evaluatie</span>
-        </a>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-    </div>
-
-    <a href="#" class="logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
-    </a>
-</aside>
-
-<main class="main-content">
-
-    <header class="topbar">
-        <i class="fa-regular fa-bell"></i>
-        <div class="user-circle">NA</div>
-        <span class="ehb-logo">ebsc</span>
-    </header>
-
-    <section class="content daglogboek-page">
-
-        <h1>Dagelijks logboek</h1>
-
-        <div class="dag-form">
-
-            <div class="form-row">
-                <label>Datum</label>
-                <input type="date" id="datum">
-            </div>
-
-            <div class="form-row">
-                <label>Aantal uren</label>
-                <input type="number" id="aantalUren">
-            </div>
-
-            <div class="form-row large">
-                <label>Taken van vandaag</label>
-                <textarea id="taken"></textarea>
-            </div>
-
-            <div class="form-row large">
-                <label>Wat heb ik geleerd?</label>
-                <textarea id="geleerd"></textarea>
-            </div>
-
-            <div class="form-row large">
-                <label>Problemen / moeilijkheden</label>
-                <textarea id="problemen"></textarea>
-            </div>
-
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
         </div>
 
-        <div class="competenties-section">
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Uitloggen
+        </a>
+    </aside>
 
-            <h2>Competenties</h2>
-            <p>Duid jouw competenties aan</p>
+    <main class="main-content">
 
-            <div class="competenties-grid">
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">NA</div>
+            <span class="ehb-logo">ebsc</span>
+        </header>
 
-                <button class="competentie-btn">Planning</button>
-<button class="competentie-btn">Ontwerp</button>
-<button class="competentie-btn">Implementatie</button>
+        <section class="content daglogboek-page">
 
-<button class="competentie-btn">Integratie</button>
-<button class="competentie-btn">Onderzoek</button>
-<button class="competentie-btn">Communicatie</button>
+            <h1>Dagelijks logboek</h1>
 
-<button class="competentie-btn">Probleemoplossing</button>
-<button class="competentie-btn">Groei</button>
-<button class="competentie-btn">Professionaliteit</button>
+            <div class="dag-form">
 
-<button class="competentie-btn">Ondernemerschap</button>
-<button class="competentie-btn">Ethiek</button>
+                <div class="form-row">
+                    <label>Datum</label>
+                    <input type="date" id="datum">
+                </div>
+
+                <div class="form-row">
+                    <label>Aantal uren</label>
+                    <input type="number" id="aantalUren">
+                </div>
+
+                <div class="form-row large">
+                    <label>Taken van vandaag</label>
+                    <textarea id="taken"></textarea>
+                </div>
+
+                <div class="form-row large">
+                    <label>Wat heb ik geleerd?</label>
+                    <textarea id="geleerd"></textarea>
+                </div>
+
+                <div class="form-row large">
+                    <label>Problemen / moeilijkheden</label>
+                    <textarea id="problemen"></textarea>
+                </div>
 
             </div>
 
-        </div>
+            <div class="competenties-section">
 
-        <div class="form-actions">
-<button id="conceptBtn" class="concept-btn">
-    Opslaan als concept
-</button>
-<button id="opslaanBtn" class="submit-btn">
-    Opslaan
-</button>
-        </div>
+                <h2>Competenties</h2>
+                <p>Duid jouw competenties aan</p>
 
-    </section>
+                <div class="competenties-grid">
 
-</main>
-<script src="../JS/logboeken.js"></script>
+                    <button class="competentie-btn">Planning</button>
+                    <button class="competentie-btn">Ontwerp</button>
+                    <button class="competentie-btn">Implementatie</button>
+
+                    <button class="competentie-btn">Integratie</button>
+                    <button class="competentie-btn">Onderzoek</button>
+                    <button class="competentie-btn">Communicatie</button>
+
+                    <button class="competentie-btn">Probleemoplossing</button>
+                    <button class="competentie-btn">Groei</button>
+                    <button class="competentie-btn">Professionaliteit</button>
+
+                    <button class="competentie-btn">Ondernemerschap</button>
+                    <button class="competentie-btn">Ethiek</button>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button id="conceptBtn" class="concept-btn">
+                    Opslaan als concept
+                </button>
+                <button id="opslaanBtn" class="submit-btn">
+                    Opslaan
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+    <script src="../JS/logboeken.js"></script>
 </body>
+
 </html>

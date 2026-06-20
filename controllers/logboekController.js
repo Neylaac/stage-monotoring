@@ -420,6 +420,69 @@ const getDaglogboekOpId = (req, res) => {
     });
 };
 
+
+const getDaglogboekenVanWeek = (req, res) => {
+    const weeklogboekId = req.params.id;
+
+    const query = `
+        SELECT *
+        FROM daglogboeken
+        WHERE weeklogboek_id = ?
+        ORDER BY datum
+    `;
+
+    connection.query(query, [weeklogboekId], (error, rows) => {
+        if (error) {
+            console.error(error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Daglogboeken konden niet worden opgehaald'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            dagen: rows
+        });
+    });
+};
+
+const keurWeeklogboekGoed = (req, res) => {
+    const weeklogboekId = req.params.id;
+
+    const query = `
+        UPDATE weeklogboeken
+        SET
+            afgetekend = TRUE,
+            afgetekend_op = NOW()
+        WHERE id = ?
+    `;
+
+    connection.query(query, [weeklogboekId], (error, result) => {
+        if (error) {
+            console.error(error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Weeklogboek kon niet worden goedgekeurd'
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Weeklogboek niet gevonden'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            message: 'Weeklogboek goedgekeurd'
+        });
+    });
+};
+
 module.exports = {
     getStudentLogboeken,
     getAlleWeeklogboeken,

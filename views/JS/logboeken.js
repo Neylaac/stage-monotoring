@@ -20,8 +20,7 @@ if (conceptBtn) {
             'Daglogboek opgeslagen als concept'
         );
 
-        window.location.href =
-            'studentlogboeken.html';
+        window.location.href = '/student/logboeken';
     });
 
 }

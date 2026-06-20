@@ -9,6 +9,7 @@ INSERT INTO users (voornaam, achternaam, email, wachtwoord, role) VALUES
 ('Admin', 'School', 'admin@ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'ADMIN'),
 ('Stagecommissie', 'School', 'stagecommissie@ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'STAGECOMMISSIE'),
 ('Neyla', 'Achaoui', 'neyla.achaoui@student.ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'STUDENT'),
+('Imane', 'Achaoui', 'imane.achaoui@student.ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'STUDENT'),
 ('Malak', 'Achaoui', 'malak.achaoui@student.ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'STUDENT'),
 ('Sofie', 'Achaoui', 'sofie.achaoui@student.ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'STUDENT'),
 ('Nora', 'Achaoui', 'nora.achaoui@student.ehb.be', '$2b$10$Kf/f8/TYJ63/z2cmDwR6Mu7u0GZM04GbVGsMG.lrc.WDQkBysEGRW', 'STUDENT'),
@@ -60,6 +61,15 @@ INSERT INTO student_profiles (user_id, studentnummer, opleiding)
 SELECT id, 'STU005', 'Toegepaste Informatica'
 FROM users
 WHERE email = 'ines.el.yanaoui@student.ehb.be'
+ON DUPLICATE KEY UPDATE
+    studentnummer = VALUES(studentnummer),
+    opleiding = VALUES(opleiding);
+
+
+INSERT INTO student_profiles (user_id, studentnummer, opleiding)
+SELECT id, 'STU006', 'Toegepaste Informatica'
+FROM users
+WHERE email = 'imane.achaoui@student.ehb.be'
 ON DUPLICATE KEY UPDATE
     studentnummer = VALUES(studentnummer),
     opleiding = VALUES(opleiding);

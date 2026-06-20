@@ -30,8 +30,6 @@ const {
     maakDaglogboek,
     getWeeklogboekOpId,
     getDaglogboekOpId,
-    getWeeklogboekOpId,
-    getDaglogboekOpId,
     keurWeeklogboekGoed,
     getDaglogboekenVanWeek
 } = require('./controllers/logboekController');
