@@ -9,11 +9,9 @@ async function laadStats() {
         
         const totaalStudenten = document.querySelector("#totaalStudenten");
         const totaalDocenten = document.querySelector("#totaalDocenten");
-        const totaalStageplaatsen = document.querySelector("#totaalStageplaatsen");
 
         if (totaalStudenten) totaalStudenten.textContent = data.totaalStudenten || 0;
         if (totaalDocenten) totaalDocenten.textContent = data.totaalDocenten || 0;
-        if (totaalStageplaatsen) totaalStageplaatsen.textContent = data.totaalStageplaatsen || 0;
 
     } catch (error) {
         console.error("Fout bij ophalen admin stats:", error);

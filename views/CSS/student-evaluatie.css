@@ -1,0 +1,347 @@
+/* EVALUATIE DASHBOARD STYLES */
+
+.evaluatie-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.evaluatie-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.evaluatie-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+}
+
+.evaluatie-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.icon-container.border-red {
+    background: #fdf3f3;
+    color: #832D2C;
+    border: 1.5px solid rgba(131, 45, 44, 0.2);
+}
+
+.icon-container.border-orange {
+    background: #fff8eb;
+    color: #c47a00;
+    border: 1.5px solid rgba(196, 122, 0, 0.2);
+}
+
+.icon-container.border-green {
+    background: #f1fcf4;
+    color: #26803b;
+    border: 1.5px solid rgba(38, 128, 59, 0.2);
+}
+
+.evaluatie-card h2 {
+    font-size: 20px;
+    color: #222;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.evaluatie-card p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    flex: 1;
+}
+
+.evaluatie-card-actions {
+    margin-top: auto;
+}
+
+/* Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-badge.red {
+    background: #ffdede;
+    color: #c62828;
+}
+
+.status-badge.green {
+    background: #d8f8df;
+    color: #26803b;
+}
+
+.status-badge.orange {
+    background: #fff0d8;
+    color: #c47a00;
+}
+
+.status-badge.grey {
+    background: #f3f3f3;
+    color: #777;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s, opacity 0.2s;
+    width: 100%;
+}
+
+.btn-red {
+    background: #832D2C;
+    color: white;
+    border: none;
+}
+
+.btn-red:hover {
+    background: #9d3938;
+}
+
+.btn.disabled {
+    background: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* BACK LINK */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #832D2C;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* FORM & DETAILS */
+.evaluation-form,
+.evaluation-details {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 30px;
+    max-width: 900px;
+}
+
+.form-card,
+.detail-card {
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
+}
+
+.form-card-header,
+.detail-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.form-card-header h3,
+.detail-card-header h3 {
+    font-size: 18px;
+    color: #222;
+    font-weight: 600;
+}
+
+.score-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-selector label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+}
+
+.score-selector select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+    color: #832D2C;
+}
+
+.score-selector select:focus {
+    outline: none;
+    border-color: #832D2C;
+}
+
+.criterion-desc {
+    font-size: 13.5px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #832D2C;
+}
+
+.form-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.submit-btn {
+    background: #832D2C;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background: #9d3938;
+}
+
+/* SCORES DISPLAY DETAILS */
+.scores-display-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.scores-display-grid.two-columns {
+    grid-template-columns: 1fr 1fr;
+}
+
+.score-box {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #832D2C;
+}
+
+.score-box.mentor {
+    border-left-color: #c47a00;
+}
+
+.score-box.docent {
+    border-left-color: #26803b;
+}
+
+.score-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.score-box-header h4 {
+    font-size: 14px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.score-value-badge {
+    background: #832D2C;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.score-box.mentor .score-value-badge {
+    background: #c47a00;
+}
+
+.score-box.docent .score-value-badge {
+    background: #26803b;
+}
+
+.score-box p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    white-space: pre-line;
+}
+
+.no-score-text {
+    font-size: 14px;
+    color: #888;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .evaluatie-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .scores-display-grid.two-columns {
+        grid-template-columns: 1fr;
+    }
+}

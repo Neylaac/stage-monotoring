@@ -1,0 +1,150 @@
+/* COMPANY EVALUATIONS STYLES */
+
+.evaluation-table-card {
+    margin-top: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* Status cell badges */
+.trainees-card td .status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Action links / buttons in tables */
+.eval-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    border: 1px solid #832D2C;
+}
+
+.eval-btn.fill {
+    background: #832D2C;
+    color: white;
+}
+
+.eval-btn.fill:hover {
+    background: #9d3938;
+}
+
+.eval-btn.view {
+    background: white;
+    color: #832D2C;
+}
+
+.eval-btn.view:hover {
+    background: #fdf3f3;
+}
+
+/* COMPARISON LAYOUT */
+.comp-card {
+    border-radius: 16px;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+.student-reflection-box {
+    background: #f9f9f9;
+    border-left: 4px solid #832D2C;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.student-reflection-box h4 {
+    font-size: 12.5px;
+    color: #832D2C;
+    margin-bottom: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.student-reflection-box .student-score-badge {
+    background: #832D2C;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12.5px;
+    margin-left: 8px;
+}
+
+.student-reflection-box p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #444;
+    white-space: pre-line;
+}
+
+.mentor-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.score-input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.score-input-header h4 {
+    font-size: 12.5px;
+    color: #c47a00;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.score-input-header select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+    color: #c47a00;
+}
+
+.score-input-header select:focus {
+    outline: none;
+    border-color: #c47a00;
+}
+
+.mentor-input-box textarea {
+    height: 90px;
+    font-size: 13.5px;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.mentor-input-box textarea:focus {
+    border-color: #c47a00;
+}
+
+@media (max-width: 992px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}

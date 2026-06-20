@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedrijf - Evaluatie Invullen</title>
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/home.css">
+    <link rel="stylesheet" href="/CSS/student-evaluatie.css">
+    <link rel="stylesheet" href="/CSS/bedrijf-evaluatie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Bedrijf</div>
+
+            <a href="/bedrijf/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="/bedrijf-stageovereenkomst-overzicht" class="menu-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Stagiairs</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
+
+            <a href="/bedrijf/evaluatie" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-right">
+                <div class="notification-icon">🔔</div>
+                <div class="user-avatar-top">IM</div>
+                <div class="logo">EBSC</div>
+            </div>
+        </header>
+
+        <section class="content">
+            <a href="/bedrijf/evaluatie" class="back-link"><i class="fa-solid fa-arrow-left"></i> Terug naar overzicht</a>
+            
+            <h1 id="form-title">Evaluatie Invullen</h1>
+            <p class="subtitle" id="form-subtitle">Beoordeel de prestaties en voortgang van de stagiair.</p>
+
+            <form id="bedrijfEvaluatieForm" class="evaluation-form">
+                
+                <!-- Planning & Organisatie -->
+                <div class="form-card comp-card">
+                    <div class="form-card-header">
+                        <h3>1. Planning & Organisatie</h3>
+                    </div>
+                    <p class="criterion-desc">Het plannen en organiseren van taken, respecteren van deadlines en hanteren van een gestructureerde, methodische werkwijze.</p>
+                    
+                    <div class="comparison-grid">
+                        <div class="student-reflection-box" id="box-student-planning">
+                            <h4>ZELFREFLECTIE STAGIAIR</h4>
+                            <p class="no-score-text">Gegevens laden...</p>
+                        </div>
+                        <div class="mentor-input-box">
+                            <div class="score-input-header">
+                                <h4>JOUW BEOORDELING (BEDRIJF)</h4>
+                                <select id="planning_score" name="planning_score" required>
+                                    <option value="" disabled selected>Kies score</option>
+                                    <option value="A">A - Zeer goed</option>
+                                    <option value="B">B - Goed</option>
+                                    <option value="C">C - Voldoende</option>
+                                    <option value="D">D - Onvoldoende</option>
+                                </select>
+                            </div>
+                            <textarea id="planning_feedback" name="planning_feedback" placeholder="Geef feedback en toelichting op de score..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technische Uitwerking -->
+                <div class="form-card comp-card">
+                    <div class="form-card-header">
+                        <h3>2. Technische Uitwerking</h3>
+                    </div>
+                    <p class="criterion-desc">Kwaliteit van het geleverde werk/de code, begrip van technische tools en frameworks, nauwkeurigheid en testen van oplossingen.</p>
+                    
+                    <div class="comparison-grid">
+                        <div class="student-reflection-box" id="box-student-technisch">
+                            <h4>ZELFREFLECTIE STAGIAIR</h4>
+                            <p class="no-score-text">Gegevens laden...</p>
+                        </div>
+                        <div class="mentor-input-box">
+                            <div class="score-input-header">
+                                <h4>JOUW BEOORDELING (BEDRIJF)</h4>
+                                <select id="technisch_score" name="technisch_score" required>
+                                    <option value="" disabled selected>Kies score</option>
+                                    <option value="A">A - Zeer goed</option>
+                                    <option value="B">B - Goed</option>
+                                    <option value="C">C - Voldoende</option>
+                                    <option value="D">D - Onvoldoende</option>
+                                </select>
+                            </div>
+                            <textarea id="technisch_feedback" name="technisch_feedback" placeholder="Geef feedback en toelichting op de score..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Onderzoek & Probleemoplossing -->
+                <div class="form-card comp-card">
+                    <div class="form-card-header">
+                        <h3>3. Onderzoek & Probleemoplossing</h3>
+                    </div>
+                    <p class="criterion-desc">Analytisch vermogen, het zelfstandig analyseren en oplossen van problemen, opzoeken van de nodige documentatie en stellen van de juiste vragen.</p>
+                    
+                    <div class="comparison-grid">
+                        <div class="student-reflection-box" id="box-student-onderzoek">
+                            <h4>ZELFREFLECTIE STAGIAIR</h4>
+                            <p class="no-score-text">Gegevens laden...</p>
+                        </div>
+                        <div class="mentor-input-box">
+                            <div class="score-input-header">
+                                <h4>JOUW BEOORDELING (BEDRIJF)</h4>
+                                <select id="onderzoek_score" name="onderzoek_score" required>
+                                    <option value="" disabled selected>Kies score</option>
+                                    <option value="A">A - Zeer goed</option>
+                                    <option value="B">B - Goed</option>
+                                    <option value="C">C - Voldoende</option>
+                                    <option value="D">D - Onvoldoende</option>
+                                </select>
+                            </div>
+                            <textarea id="onderzoek_feedback" name="onderzoek_feedback" placeholder="Geef feedback en toelichting op de score..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Communicatie & Houding -->
+                <div class="form-card comp-card">
+                    <div class="form-card-header">
+                        <h3>4. Communicatie & Professionele Houding</h3>
+                    </div>
+                    <p class="criterion-desc">Actieve en open communicatie met het team en begeleiders, stiptheid, respecteren van bedrijfscultuur en openstaan voor opbouwende feedback.</p>
+                    
+                    <div class="comparison-grid">
+                        <div class="student-reflection-box" id="box-student-communicatie">
+                            <h4>ZELFREFLECTIE STAGIAIR</h4>
+                            <p class="no-score-text">Gegevens laden...</p>
+                        </div>
+                        <div class="mentor-input-box">
+                            <div class="score-input-header">
+                                <h4>JOUW BEOORDELING (BEDRIJF)</h4>
+                                <select id="communicatie_score" name="communicatie_score" required>
+                                    <option value="" disabled selected>Kies score</option>
+                                    <option value="A">A - Zeer goed</option>
+                                    <option value="B">B - Goed</option>
+                                    <option value="C">C - Voldoende</option>
+                                    <option value="D">D - Onvoldoende</option>
+                                </select>
+                            </div>
+                            <textarea id="communicatie_feedback" name="communicatie_feedback" placeholder="Geef feedback en toelichting op de score..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Groei, Initiatief & Ethiek -->
+                <div class="form-card comp-card">
+                    <div class="form-card-header">
+                        <h3>5. Groei, Initiatief & Ethiek</h3>
+                    </div>
+                    <p class="criterion-desc">Proactief handelen, tonen van eigen initiatief, ethische beroepshouding en de mate waarin je geleerd hebt van voorgaande ervaringen.</p>
+                    
+                    <div class="comparison-grid">
+                        <div class="student-reflection-box" id="box-student-groei">
+                            <h4>ZELFREFLECTIE STAGIAIR</h4>
+                            <p class="no-score-text">Gegevens laden...</p>
+                        </div>
+                        <div class="mentor-input-box">
+                            <div class="score-input-header">
+                                <h4>JOUW BEOORDELING (BEDRIJF)</h4>
+                                <select id="groei_score" name="groei_score" required>
+                                    <option value="" disabled selected>Kies score</option>
+                                    <option value="A">A - Zeer goed</option>
+                                    <option value="B">B - Goed</option>
+                                    <option value="C">C - Voldoende</option>
+                                    <option value="D">D - Onvoldoende</option>
+                                </select>
+                            </div>
+                            <textarea id="groei_feedback" name="groei_feedback" placeholder="Geef feedback en toelichting op de score..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Evaluatie indienen</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="/JS/bedrijf-evaluatie-formulier.js"></script>
+</body>
+</html>
