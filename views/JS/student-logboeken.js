@@ -10,21 +10,53 @@ window.onload = () => {
         });
     }
 
+    function datumZonderTijd(datum) {
+        const datumObject = new Date(datum);
+
+        datumObject.setHours(0, 0, 0, 0);
+
+        return datumObject;
+    }
+
+    function isWeekBeschikbaar(week) {
+        const vandaag = new Date();
+        vandaag.setHours(0, 0, 0, 0);
+
+        const startdatum = datumZonderTijd(week.startdatum);
+
+        return startdatum <= vandaag;
+    }
+
     function toonWeekStatus(week) {
-        if (week.ingediend === 1) {
+        if (!isWeekBeschikbaar(week)) {
             return `
-                <span class="logboek-status ingediend">
-                    Ingediend
-                </span>
-            `;
+            <span class="logboek-status niet-gestart">
+                Niet beschikbaar
+            </span>
+        `;
         }
 
         return `
-            <span class="logboek-status niet-ingediend">
-                Niet ingediend
-            </span>
-        `;
+        <span class="logboek-status ingediend">
+            Beschikbaar
+        </span>
+    `;
     }
+
+    function toonActieKnop(week) {
+    if (!isWeekBeschikbaar(week)) {
+        return '';
+    }
+
+    return `
+        <button
+            class="logboek-btn"
+            onclick="window.location.href='/student/weeklogboek?id=${week.id}'"
+        >
+            Bekijken
+        </button>
+    `;
+}
 
     function laadWeken() {
         const wekenTabel =
@@ -84,14 +116,9 @@ window.onload = () => {
                                 ${toonWeekStatus(week)}
                             </td>
 
-                            <td>
-                                <button
-                                    class="logboek-btn"
-                                    onclick="window.location.href='/student/weeklogboek?id=${week.id}'"
-                                >
-                                    Bekijken
-                                </button>
-                            </td>
+<td>
+    ${toonActieKnop(week)}
+</td>
                         </tr>
                     `;
                 });

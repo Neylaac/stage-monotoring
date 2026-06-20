@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,185 +12,96 @@
 
 <body>
 
-<aside class="sidebar">
-    <div>
-        <div class="sidebar-title">Student</div>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Student</div>
 
-        <a href="/student/stageaanvraag" class="menu-item">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Stageaanvraag</span>
-        </a>
+            <a href="/student/stageaanvraag" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvraag</span>
+            </a>
 
-        <a href="/student/home" class="menu-item">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
+            <a href="/student/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <a href="/student/logboeken" class="menu-item active">
-            <i class="fa-solid fa-book"></i>
-            <span>Logboeken</span>
-        </a>
+            <a href="/student/logboeken" class="menu-item active">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <span>Evaluatie</span>
-        </a>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-    </div>
-
-    <a href="/logout" class="logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
-    </a>
-</aside>
-
-<main class="main-content">
-<div id="successMessage" class="success-message"></div>
-    <header class="topbar">
-        <i class="fa-regular fa-bell"></i>
-        <div class="user-circle">NA</div>
-        <span class="ehb-logo">ebsc</span>
-    </header>
-
-    <section class="content">
-
-<div class="page-header">
-
-    <h1>Mijn logboeken</h1>
-
-    <a href="/student/daglogboek" class="nieuw-btn">
-        + Nieuw
-    </a>
-
-</div>
-        <div class="mentor-card">
-
-            <h2>Weekcontrole door stagementor</h2>
-
-            <div class="mentor-grid">
-
-                <div>
-                    <span>Status</span>
-                    <p class="status-badge">Niet afgetekend</p>
-                </div>
-
-                <div>
-                    <span>Mentor</span>
-                    <p>Samuel de Vis</p>
-                </div>
-
-                <div>
-                    <span>Feedback</span>
-                    <p>-</p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="logboek-table-card">
-
-            <table class="logboek-table">
-
-                <thead>
-                    <tr>
-                        <th>Dag</th>
-                        <th>Status</th>
-                        <th>Actie</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Maandag</td>
-                        <td>
-                            <span class="logboek-status ingediend">
-                                Ingevuld
-                            </span>
-                        </td>
-                        <td>
-                            <a href="/student/daglogboek" class="logboek-btn"></a>
-                                Bekijken
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Dinsdag</td>
-                        <td>
-                            <span class="logboek-status ingediend">
-                                Ingevuld
-                            </span>
-                        </td>
-                        <td>
-                            <a href="/student/daglogboek" class="logboek-btn">
-                                Bekijken
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Woensdag</td>
-                        <td>
-                            <span class="logboek-status niet-ingediend">
-    Niet ingevuld
-</span>
-                        </td>
-                        <td>
-                            <a href="/student/daglogboek" class="logboek-btn">
-                                Bekijken
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Donderdag</td>
-                        <td>
-                            <span class="logboek-status niet-ingediend">
-    Niet ingevuld
-</span>
-                        </td>
-                        <td>
-                            <a href="/student/daglogboek" class="logboek-btn">
-                                Bekijken
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Vrijdag</td>
-                        <td>
-                            <span class="logboek-status niet-ingediend">
-    Niet ingevuld
-</span>
-                        </td>
-                        <td>
-                            <a href="/student/daglogboek" class="logboek-btn"></a><a href="studentdaglogboek.html" class="logboek-btn">
-                                Bekijken
-                            </a>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <div class="form-actions">
-            <a href="/student/logboeken" class="submit-btn">
-                Terug
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
             </a>
         </div>
 
-    </section>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Uitloggen
+        </a>
+    </aside>
 
-</main>
+    <main class="main-content">
+        <div id="successMessage" class="success-message"></div>
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">NA</div>
+            <span class="ehb-logo">ebsc</span>
+        </header>
+
+        <section class="content">
+
+            <div class="page-header">
+
+                <h1>Mijn logboeken</h1>
+
+
+            </div>
+
+
+            <div class="logboek-table-card">
+
+                <table class="logboek-table">
+
+                    <thead>
+                        <tr>
+                            <th>Dag</th>
+                            <th>Status</th>
+                            <th>Actie</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tbody id="dagenTabel"></tbody>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div id="weekActies" class="form-actions">
+            </div>
+
+            <div class="form-actions">
+                <a href="/student/logboeken" class="submit-btn">
+                    Terug
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/JS/student-weeklogboek.js"></script>
 
 </body>
+
 </html>
