@@ -50,7 +50,27 @@ if (laatsteAanvragenList) {
 
             laatsteAanvragenList.innerHTML = "";
             
-            aanvragen.slice(0, 4).forEach(function(aanvraag) {
+                        aanvragen.slice(0, 4).forEach(function(aanvraag) {
+                let statusClass = "in_afwachting";
+                let statusTekst = "In afwachting";
+
+                if (aanvraag.status === "INGEDIEND") {
+                    statusClass = "ingediend";
+                    statusTekst = "Ingediend";
+                } else if (aanvraag.status === "IN_BEHANDELING") {
+                    statusClass = "behandeling";
+                    statusTekst = "In behandeling";
+                } else if (aanvraag.status === "GOEDGEKEURD") {
+                    statusClass = "goedgekeurd";
+                    statusTekst = "Goedgekeurd";
+                } else if (aanvraag.status === "AFGEKEURD") {
+                    statusClass = "afgekeurd";
+                    statusTekst = "Afgekeurd";
+                } else if (aanvraag.status === "AANPASSING_GEVRAAGD") {
+                    statusClass = "aanpassing";
+                    statusTekst = "Aanpassingen vereist";
+                }
+
                 laatsteAanvragenList.innerHTML += `
                     <div class="latest-item">
                         <div>
@@ -58,8 +78,8 @@ if (laatsteAanvragenList) {
                             <small>${aanvraag.bedrijfsnaam || "Geen bedrijf"}</small>
                         </div>
 
-                        <span class="status ${aanvraag.status ? aanvraag.status.toLowerCase() : "in_afwachting"}">
-                            ${aanvraag.status || "In afwachting"}
+                        <span class="status ${statusClass}">
+                            ${statusTekst}
                         </span>
                     </div>
                 `;
@@ -69,3 +89,18 @@ if (laatsteAanvragenList) {
             console.error("Fout bij laden stagecommissie home:", error);
         });
 }
+
+// Ophalen van ingelogde Stagecommissie-gebruiker profiel
+fetch("/api/user/profile")
+    .then(response => response.json())
+    .then(data => {
+        if (data.status !== "success") return;
+        const user = data.user;
+        const userCircle = document.querySelector(".user-circle");
+        if (userCircle) {
+            userCircle.textContent = (user.voornaam.charAt(0) + user.achternaam.charAt(0)).toUpperCase();
+        }
+    })
+    .catch(error => {
+        console.error("Fout bij ophalen profiel:", error);
+    });
