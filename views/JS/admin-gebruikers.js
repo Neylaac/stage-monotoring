@@ -16,6 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('gebruikerForm');
     const formFeedback = document.getElementById('formFeedback');
 
+    // Modal elements
+    const addUserModal = document.getElementById('addUserModal');
+    const openAddUserModal = document.getElementById('openAddUserModal');
+    const closeAddUserModal = document.getElementById('closeAddUserModal');
+
+    // Modal open/close actions
+    openAddUserModal.addEventListener('click', () => {
+        addUserModal.classList.add('open');
+        formFeedback.textContent = '';
+    });
+
+    closeAddUserModal.addEventListener('click', () => {
+        addUserModal.classList.remove('open');
+        form.reset();
+    });
+
+    addUserModal.addEventListener('click', (e) => {
+        if (e.target === addUserModal) {
+            addUserModal.classList.remove('open');
+            form.reset();
+        }
+    });
+
     // Load data from the server
     async function loadUsers() {
         try {
@@ -218,8 +241,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     opleidingInput.removeAttribute('required');
                 }
 
-                // Refresh the user lists and render
+                // Reload users immediately
                 loadUsers();
+
+                // Close modal after a brief delay so success feedback is visible
+                setTimeout(() => {
+                    addUserModal.classList.remove('open');
+                    formFeedback.textContent = '';
+                }, 1200);
             } else {
                 formFeedback.textContent = data.message || 'Fout bij het aanmaken van gebruiker.';
                 formFeedback.style.color = '#832D2C';

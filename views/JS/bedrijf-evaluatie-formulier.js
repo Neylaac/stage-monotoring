@@ -10,14 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Set page headers
-    const formTitleEl = document.getElementById("form-title");
     const isMidterm = evaluationType === "TUSSENTIJDS";
-    if (formTitleEl) {
-        formTitleEl.textContent = isMidterm 
-            ? "Tussentijdse evaluatie invullen" 
-            : "Eindevaluatie invullen";
-    }
 
     // Fetch and display user profile details in the topbar
     fetch("/api/user/profile")
@@ -40,6 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Evaluatiegegevens konden niet worden opgehaald.");
                 window.location.href = "/bedrijf/evaluatie";
                 return;
+            }
+
+            // Set page headers containing student's name
+            const formTitleEl = document.getElementById("form-title");
+            if (formTitleEl) {
+                formTitleEl.textContent = isMidterm 
+                    ? `Tussentijdse evaluatie voor ${data.studentName}` 
+                    : `Eindevaluatie voor ${data.studentName}`;
             }
 
             const selfReflection = data.zelfreflectie;

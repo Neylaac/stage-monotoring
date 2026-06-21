@@ -257,16 +257,22 @@ const getBedrijfEvaluatieDetails = async (req, res) => {
         // Map to corresponding self-reflection type
         const selfType = type === 'TUSSENTIJDS' ? 'ZELF_TUSSENTIJDS' : 'ZELF_EIND';
 
-        // 1. Fetch student's self-reflection
+        // 1. Fetch student name
+        const userQuery = 'SELECT voornaam, achternaam FROM users WHERE id = ?';
+        const [userRows] = await connection.promise().query(userQuery, [studentId]);
+        const studentName = userRows[0] ? `${userRows[0].voornaam} ${userRows[0].achternaam}` : 'Stagiair';
+
+        // 2. Fetch student's self-reflection
         const selfQuery = 'SELECT * FROM evaluaties WHERE student_id = ? AND type = ?';
         const [selfRows] = await connection.promise().query(selfQuery, [studentId, selfType]);
 
-        // 2. Fetch company's review
+        // 3. Fetch company's review
         const companyQuery = 'SELECT * FROM evaluaties WHERE student_id = ? AND type = ?';
         const [compRows] = await connection.promise().query(companyQuery, [studentId, type]);
 
         res.json({
             status: 'success',
+            studentName: studentName,
             zelfreflectie: selfRows[0] || null,
             evaluatie: compRows[0] || null
         });

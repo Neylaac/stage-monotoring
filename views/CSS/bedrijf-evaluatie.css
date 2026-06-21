@@ -6,12 +6,32 @@
 }
 
 /* Status cell badges */
-.trainees-card td .status-badge {
+.status-badge {
     display: inline-block;
-    padding: 5px 12px;
-    border-radius: 15px;
+    padding: 6px 12px;
+    border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
+}
+
+.status-badge.green {
+    background: #d8f8df;
+    color: #26803b;
+}
+
+.status-badge.grey {
+    background: #f3f3f3;
+    color: #777;
+}
+
+.status-badge.red {
+    background: #ffdede;
+    color: #c62828;
+}
+
+.status-badge.orange {
+    background: #fff0d8;
+    color: #c47a00;
 }
 
 /* Action links / buttons in tables */
