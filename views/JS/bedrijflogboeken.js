@@ -76,3 +76,67 @@ daglogboeken.forEach(dag => {
 }
 
 laadDaglogboeken();
+const goedkeurBtn =
+    document.getElementById(
+        'goedkeurBtn'
+    );
+
+if (goedkeurBtn) {
+
+    goedkeurBtn.addEventListener(
+        'click',
+        () => {
+
+            const weeklogboekId =
+                getWeeklogboekId();
+
+            const feedback =
+                document
+                    .getElementById(
+                        'feedback'
+                    )
+                    .value;
+
+            fetch(
+                '/api/weeklogboeken/' +
+                weeklogboekId +
+                '/goedkeuren',
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        feedback
+                    })
+                }
+            )
+                .then(response =>
+                    response.json()
+                )
+                .then(data => {
+
+                    alert(
+                        'Weeklogboek goedgekeurd'
+                    );
+
+                })
+                .catch(error => {
+
+                    console.error(
+                        error
+                    );
+
+                    alert(
+                        'Goedkeuren mislukt'
+                    );
+
+                });
+
+        }
+    );
+
+}
