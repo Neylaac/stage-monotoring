@@ -934,6 +934,88 @@ router.get('/docent/daglogboek', requireAuth, (req, res) => {
         )
     );
 });
+router.get(
+    '/api/docent/student/:id',
+    requireAuth,
+    (req, res) => {
+
+        const aanvraagId = req.params.id;
+
+        const query = `
+            SELECT
+                stageaanvragen.id,
+
+                users.voornaam,
+                users.achternaam,
+                users.email,
+
+                student_profiles.studentnummer,
+                student_profiles.opleiding,
+
+                stageaanvragen.bedrijfsnaam,
+                stageaanvragen.startdatum,
+                stageaanvragen.einddatum
+
+            FROM stageaanvragen
+
+            JOIN users
+                ON users.id = stageaanvragen.student_id
+
+            JOIN student_profiles
+                ON student_profiles.user_id = users.id
+
+            WHERE stageaanvragen.id = ?
+        `;
+
+        connection.query(
+            query,
+            [aanvraagId],
+            (error, results) => {
+
+                if (error) {
+                    return res.status(500).json(error);
+                }
+
+                res.json(results[0]);
+            }
+        );
+    }
+);
+router.get(
+    '/api/docent/student/:id/logboeken',
+    requireAuth,
+    (req, res) => {
+
+        const aanvraagId = req.params.id;
+
+        const query = `
+            SELECT
+                weeklogboeken.*
+            FROM weeklogboeken
+
+            JOIN stageovereenkomsten
+                ON stageovereenkomsten.id =
+                   weeklogboeken.stageovereenkomst_id
+
+            WHERE stageovereenkomsten.stageaanvraag_id = ?
+
+            ORDER BY weeknummer
+        `;
+
+        connection.query(
+            query,
+            [aanvraagId],
+            (error, results) => {
+
+                if (error) {
+                    return res.status(500).json(error);
+                }
+
+                res.json(results);
+            }
+        );
+    }
+);
 // -------------------------- BEDRIJF PAGINA'S --------------------------
 
 
