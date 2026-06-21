@@ -1,181 +1,102 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logboeken</title>
 
-    <link rel="stylesheet" href="../CSS/logboeken.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../CSS/stageaanvraag.css">
+<link rel="stylesheet" href="../CSS/home.css">
+<link rel="stylesheet" href="../CSS/logboeken.css">
+<link rel="stylesheet" href="../CSS/bedrijfhome.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
-<aside class="sidebar">
+    <aside class="sidebar">
 
-    <div>
+        <div>
 
-        <div class="sidebar-title">Bedrijf</div>
+            <div class="sidebar-title">Bedrijf</div>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
+            <a href="/bedrijf/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Stagiers</span>
-        </a>
+            <a href="/bedrijf-stageovereenkomst-overzicht" class="menu-item"> <i class="fa-solid fa-users"></i>
+                <span>Stagiairs</span>
+            </a>
 
-        <a href="bedrijflogboeken.html" class="menu-item active">
-            <i class="fa-solid fa-book"></i>
-            <span>Logboeken</span>
-        </a>
+            <a href="/bedrijf/logboeken" class="menu-item active">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <span>Evaluatie</span>
-        </a>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-
-    </div>
-
-    <a href="#" class="logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
-    </a>
-
-</aside>
-
-<main class="main-content">
-
-    <header class="topbar">
-
-        <i class="fa-regular fa-bell"></i>
-
-        <div class="user-circle">
-            IM
-        </div>
-
-        <span class="ehb-logo">
-            ebsc
-        </span>
-
-    </header>
-
-    <section class="content">
-
-        <h1>Logboeken</h1>
-
-        <div class="logboek-table-card">
-
-            <table class="logboek-table">
-
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Opleiding</th>
-                        <th>Stageperiode</th>
-                        <th>Actie</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>
-                            [Naam student]
-                        </td>
-
-                        <td>
-                            [Opleiding]
-                        </td>
-
-                        <td>
-                            [Startdatum] - [Einddatum]
-                        </td>
-
-                        <td>
-
-                            <a href="bedrijfstudentlogboeken.html"
-   class="logboek-btn">
-
-                                Logboeken bekijken
-
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            [Naam student]
-                        </td>
-
-                        <td>
-                            [Opleiding]
-                        </td>
-
-                        <td>
-                            [Startdatum] - [Einddatum]
-                        </td>
-
-                        <td>
-
-                            <a href="bedrijfstudentlogboeken.html"
-                               class="logboek-btn">
-
-                                Logboeken bekijken
-
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            [Naam student]
-                        </td>
-
-                        <td>
-                            [Opleiding]
-                        </td>
-
-                        <td>
-                            [Startdatum] - [Einddatum]
-                        </td>
-
-                        <td>
-
-                            <a href="bedrijfstudentlogboeken.html"
-                               class="logboek-btn">
-
-                                Logboeken bekijken
-
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profiel</span>
+            </a>
 
         </div>
 
-    </section>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Uitloggen
+        </a>
 
-</main>
+    </aside>
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <i class="fa-regular fa-bell"></i>
+
+            <div class="user-circle">
+                IM
+            </div>
+
+            <span class="ehb-logo">
+                ebsc
+            </span>
+
+        </header>
+
+        <section class="content">
+
+            <h1>Logboeken</h1>
+
+            <div class="logboek-table-card">
+
+                <table class="logboek-table">
+
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Opleiding</th>
+                            <th>Stageperiode</th>
+                            <th>Actie</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="stagiairsTabel"></tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="/JS/bedrijf-logboeken-overzicht.js"></script>
 
 </body>
+
 </html>

@@ -431,9 +431,22 @@ const getWeeklogboekOpId = (req, res) => {
     const id = req.params.id;
 
     const query = `
-        SELECT *
+        SELECT
+            weeklogboeken.*,
+            stageaanvragen.contact_voornaam,
+            stageaanvragen.contact_naam
+
         FROM weeklogboeken
-        WHERE id = ?
+
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.id =
+               weeklogboeken.stageovereenkomst_id
+
+        JOIN stageaanvragen
+            ON stageaanvragen.id =
+               stageovereenkomsten.stageaanvraag_id
+
+        WHERE weeklogboeken.id = ?
     `;
 
     connection.query(query, [id], (error, rows) => {
@@ -618,37 +631,44 @@ const dienWeeklogboekIn = (req, res) => {
 
 const keurWeeklogboekGoed = (req, res) => {
     const weeklogboekId = req.params.id;
+    const feedback = req.body.feedback || '';
 
     const query = `
         UPDATE weeklogboeken
         SET
+            mentor_feedback = ?,
             afgetekend = TRUE,
             afgetekend_op = NOW()
         WHERE id = ?
+        AND ingediend = TRUE
     `;
 
-    connection.query(query, [weeklogboekId], (error, result) => {
-        if (error) {
-            console.error(error);
+    connection.query(
+        query,
+        [feedback, weeklogboekId],
+        (error, result) => {
+            if (error) {
+                console.error(error);
 
-            return res.status(500).json({
-                status: 'error',
-                message: 'Weeklogboek kon niet worden goedgekeurd'
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Weeklogboek kon niet worden goedgekeurd'
+                });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Alleen ingediende weeklogboeken kunnen worden goedgekeurd'
+                });
+            }
+
+            res.json({
+                status: 'success',
+                message: 'Weeklogboek goedgekeurd'
             });
         }
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Weeklogboek niet gevonden'
-            });
-        }
-
-        res.json({
-            status: 'success',
-            message: 'Weeklogboek goedgekeurd'
-        });
-    });
+    );
 };
 
 module.exports = {

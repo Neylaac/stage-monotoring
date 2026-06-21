@@ -28,20 +28,28 @@ window.onload = () => {
     }
 
     function toonWeekStatus(week) {
-        if (!isWeekBeschikbaar(week)) {
-            return `
+    if (!isWeekBeschikbaar(week)) {
+        return `
             <span class="logboek-status niet-gestart">
                 Niet beschikbaar
             </span>
         `;
-        }
+    }
 
+    if (week.ingediend === 1 || week.ingediend === true) {
         return `
+            <span class="logboek-status ingediend">
+                Ingediend
+            </span>
+        `;
+    }
+
+    return `
         <span class="logboek-status ingediend">
             Beschikbaar
         </span>
     `;
-    }
+}
 
     function toonActieKnop(week) {
     if (!isWeekBeschikbaar(week)) {

@@ -788,6 +788,62 @@ router.patch('/api/bedrijf/stageovereenkomst/:id/ondertekenen', requireAuth, (re
     );
 }
 );
+
+
+router.get('/api/bedrijf/stagiairs/:id/weeklogboeken', requireAuth, (req, res) => {
+    const aanvraagId = req.params.id;
+    const email = req.user.email;
+
+    const query = `
+        SELECT
+            weeklogboeken.id,
+            weeklogboeken.weeknummer,
+            weeklogboeken.startdatum,
+            weeklogboeken.einddatum,
+            weeklogboeken.ingediend,
+            weeklogboeken.ingediend_op,
+            weeklogboeken.afgetekend,
+            weeklogboeken.afgetekend_op,
+            weeklogboeken.mentor_feedback
+
+        FROM stageaanvragen
+
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id =
+               stageaanvragen.id
+
+        JOIN weeklogboeken
+            ON weeklogboeken.stageovereenkomst_id =
+               stageovereenkomsten.id
+
+        WHERE stageaanvragen.id = ?
+        AND stageaanvragen.email_bedrijf = ?
+        AND stageaanvragen.status = 'GOEDGEKEURD'
+        AND stageovereenkomsten.student_ondertekend = 1
+        AND stageovereenkomsten.bedrijf_ondertekend = 1
+        AND weeklogboeken.ingediend = TRUE
+
+        ORDER BY weeklogboeken.weeknummer
+    `;
+
+    connection.query(query, [aanvraagId, email], (error, weken) => {
+        if (error) {
+            console.error(error);
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Weeklogboeken konden niet worden opgehaald'
+            });
+        }
+
+        res.json({
+            status: 'success',
+            weken: weken
+        });
+    });
+});
+
+
 // -------------------------- STUDENT PAGINA'S --------------------------
 
 router.get('/student/stageaanvraag', requireAuth, (req, res) => {

@@ -46,44 +46,61 @@ window.onload = () => {
     let weekIngediend = false;
 
     function toonWeekControle(week) {
-        const weekControle = document.getElementById('weekControle');
+    const weekControle = document.getElementById('weekControle');
 
-        if (!weekControle) {
-            return;
+    if (!weekControle) {
+        return;
+    }
+
+    if (week.ingediend !== 1 && week.ingediend !== true) {
+        weekControle.innerHTML = '';
+        return;
+    }
+
+    let statusTekst = 'Ingediend';
+    let statusClass = 'status-badge';
+    let mentorTekst = 'Nog niet nagekeken';
+    let feedbackTekst = 'Nog geen feedback';
+
+    if (week.afgetekend === 1 || week.afgetekend === true) {
+        statusTekst = 'Afgecheckt';
+        statusClass = 'status-badge ingediend';
+
+        mentorTekst =
+            week.contact_voornaam +
+            ' ' +
+            week.contact_naam;
+
+        if (week.mentor_feedback) {
+            feedbackTekst = week.mentor_feedback;
         }
+    }
 
-        if (week.ingediend !== 1 &&
-            week.ingediend !== true) {
-            weekControle.innerHTML = '';
-            return;
-        }
-
-        weekControle.innerHTML = `
+    weekControle.innerHTML = `
         <div class="mentor-card">
             <h2>Weekcontrole door stagementor</h2>
 
             <div class="mentor-grid">
                 <div>
                     <span>Status</span>
-                    <p class="status-badge">
-                        Ingediend
+                    <p class="${statusClass}">
+                        ${statusTekst}
                     </p>
                 </div>
 
                 <div>
                     <span>Mentor</span>
-                    <p>Nog niet nagekeken</p>
+                    <p>${mentorTekst}</p>
                 </div>
 
                 <div>
                     <span>Feedback</span>
-                    <p>Nog geen feedback</p>
+                    <p>${feedbackTekst}</p>
                 </div>
             </div>
         </div>
     `;
-    }
-
+}
 
     function laadWeekInfo() {
         const weeklogboekId = getWeeklogboekId();

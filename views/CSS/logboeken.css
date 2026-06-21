@@ -407,3 +407,9 @@ body {
     text-decoration: none;
     box-sizing: border-box;
 }
+
+
+.status-badge.ingediend {
+    background-color: #d9f7c7;
+    color: #2e7d32;
+}
