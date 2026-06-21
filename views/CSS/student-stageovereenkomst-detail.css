@@ -88,34 +88,34 @@ body {
 /* TOPBAR */
 
 .topbar {
+    height: 70px;
+
     display: flex;
     justify-content: flex-end;
     align-items: center;
 
-    border-bottom: 1px solid #d3d3d3;
+    gap: 20px;
 
-    padding-bottom: 15px;
+    padding-right: 30px;
+
+    border-bottom: 1px solid #ececec;
     margin-bottom: 35px;
 }
 
-.topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 25px;
+.topbar i.fa-bell {
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
 }
 
-.notification-icon {
-    font-size: 28px;
-}
-
-.user-avatar-top {
-    width: 55px;
-    height: 55px;
-
-    background-color: #922b2b;
-    color: white;
+.user-circle {
+    width: 38px;
+    height: 38px;
 
     border-radius: 50%;
+
+    background-color: #832D2C;
+    color: white;
 
     display: flex;
     justify-content: center;
@@ -124,9 +124,11 @@ body {
     font-weight: bold;
 }
 
-.logo {
-    color: #243247;
-    font-size: 22px;
+.ehb-logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: #832D2C;
+    letter-spacing: 1px;
 }
 
 /* STUDENT INFO */

@@ -45,6 +45,20 @@ window.addEventListener('load', () => {
                 if (profielLink) {
                     profielLink.href = '/student/profiel';
                 }
+
+                const quickLogboekenLink =
+                    document.getElementById('quickLogboekenLink');
+
+                const quickEvaluatieLink =
+                    document.getElementById('quickEvaluatieLink');
+
+                if (quickLogboekenLink) {
+                    quickLogboekenLink.href = '/student/logboeken';
+                }
+
+                if (quickEvaluatieLink) {
+                    quickEvaluatieLink.href = '/student/evaluatie';
+                }
             }
         })
         .catch(error => {

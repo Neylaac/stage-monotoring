@@ -23,7 +23,7 @@
                 <span>Stageaanvraag</span>
             </a>
 
-            <a href="/student/home" class="menu-item active">
+            <a href="/student/home" id="homeLink" class="menu-item active">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
             </a>
@@ -32,14 +32,16 @@
             <a href="/student/logboeken" class="menu-item">
                 <i class="fa-solid fa-book"></i>
                 <span>Logboeken</span>
+                <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="#" id="evaluatieLink" class="menu-item">
                 <i class="fa-solid fa-clipboard-check"></i>
                 <span>Evaluatie</span>
+                <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="/student/profiel" id="profielLink" class="menu-item">
                 <i class="fa-solid fa-user"></i>
                 <span>Profiel</span>
             </a>
@@ -132,14 +134,16 @@
                     <h2>Snelle toegang</h2>
 
                     <div class="quick-grid">
-                        <a href="/student/logboeken" class="quick-item">
+                        <a href="/student/logboeken" id="quickLogboekenLink" class="quick-item" style="position: relative;">
                             <i class="fa-solid fa-book"></i>
                             <span>Logboeken</span>
+                            <i class="fa-solid fa-lock lock" style="position: absolute; top: 10px; right: 10px; font-size: 14px;"></i>
                         </a>
 
-                        <a href="#" class="quick-item">
+                        <a href="#" id="quickEvaluatieLink" class="quick-item" style="position: relative;">
                             <i class="fa-solid fa-star"></i>
                             <span>Evaluatie</span>
+                            <i class="fa-solid fa-lock lock" style="position: absolute; top: 10px; right: 10px; font-size: 14px;"></i>
                         </a>
 
                         <a href="/student/stageaanvraag" class="quick-item">
@@ -147,7 +151,7 @@
                             <span>Stageaanvraag</span>
                         </a>
 
-                        <a href="#" class="quick-item">
+                        <a href="/student/profiel" class="quick-item">
                             <i class="fa-solid fa-user"></i>
                             <span>Profiel</span>
                         </a>
@@ -170,6 +174,7 @@
     </main>
 
     <script src="../JS/studenthome.js"></script>
+    <script src="/JS/student-toegang.js"></script>
 
 </body>
 

@@ -197,3 +197,16 @@ CREATE TABLE daglogboek_competenties (
         ON DELETE CASCADE
 );
 
+
+
+
+
+CREATE TABLE koppelingen (
+  koppeling_id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  docent_id INT NOT NULL,
+  gekoppeld_op DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (student_id) REFERENCES users(id),
+  FOREIGN KEY (docent_id) REFERENCES users(id)
+);

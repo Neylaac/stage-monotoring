@@ -118,6 +118,24 @@ PATCH  = een deel van bestaande gegevens aanpassen
 DELETE = gegevens verwijderen */
 
 
+router.get('/api/user/profile', requireAuth, (req, res) => {
+    const userId = req.user?.id || req.session?.userId;
+    if (!userId) {
+        return res.status(401).json({ status: 'error', message: 'Niet ingelogd' });
+    }
+    const query = 'SELECT id, voornaam, achternaam, email, role FROM users WHERE id = ?';
+    connection.query(query, [userId], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen profiel' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ status: 'error', message: 'Gebruiker niet gevonden' });
+        }
+        res.json({ status: 'success', user: results[0] });
+    });
+});
+
 router.get('/api/student/profile', requireAuth, getStudentProfile);
 router.get('/api/student/home', requireAuth, getStudentHome);
 router.get('/api/student/stageovereenkomst', requireAuth, (req, res) => {
@@ -602,6 +620,28 @@ router.patch('/api/stagecommissie/stageovereenkomsten/:id/ondertekenen', require
 
 // -------------------------- BEDRIJF API --------------------------
 
+router.get('/api/bedrijf/begeleiders', requireAuth, (req, res) => {
+    const email = req.user.email;
+    const query = `
+        SELECT DISTINCT
+            ud.voornaam,
+            ud.achternaam,
+            ud.email
+        FROM stageaanvragen sa
+        JOIN koppelingen k ON sa.student_id = k.student_id
+        JOIN users ud ON k.docent_id = ud.id
+        WHERE sa.email_bedrijf = ?
+        AND sa.status = 'GOEDGEKEURD'
+    `;
+    connection.query(query, [email], (error, results) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen begeleiders' });
+        }
+        res.json({ status: 'success', begeleiders: results });
+    });
+});
+
 router.get('/api/bedrijf/stagiairs', requireAuth, (req, res) => {
     const email = req.user.email;
 
@@ -938,6 +978,52 @@ router.get('/student/daglogboek', requireAuth, (req, res) => {
 });
 // -------------------------- DOCENT PAGINA'S --------------------------
 
+router.get('/docent/home', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docenthome.html'));
+});
+
+router.get('/api/docent/home', requireAuth, (req, res) => {
+    const docentId = req.user.id;
+    const query = `
+        SELECT 
+            u.voornaam, 
+            u.achternaam, 
+            u.email,
+            sp.studentnummer,
+            sp.opleiding,
+            sa.bedrijfsnaam,
+            sa.status AS aanvraag_status,
+            so.student_ondertekend,
+            so.bedrijf_ondertekend,
+            so.school_ondertekend,
+            sa.id AS aanvraag_id
+        FROM koppelingen k
+        JOIN users u ON k.student_id = u.id
+        LEFT JOIN student_profiles sp ON u.id = sp.user_id
+        LEFT JOIN stageaanvragen sa ON u.id = sa.student_id
+        LEFT JOIN stageovereenkomsten so ON sa.id = so.stageaanvraag_id
+        WHERE k.docent_id = ?
+    `;
+    
+    connection.query(query, [docentId], (error, results) => {
+        if (error) {
+            console.error('Fout bij ophalen docent home data:', error);
+            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen data' });
+        }
+        
+        const totaalStudenten = results.length;
+        const actieveStages = results.filter(r => r.aanvraag_status === 'GOEDGEKEURD').length;
+        const openEvaluaties = 0;
+        
+        res.json({
+            status: 'success',
+            totaalStudenten,
+            actieveStages,
+            openEvaluaties,
+            studenten: results
+        });
+    });
+});
 
 router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));
@@ -1171,11 +1257,311 @@ router.get('/stagecommissie-stageovereenkomst-detail', requireAuth, (req, res) =
     res.sendFile(path.join(__dirname, 'views', 'html', 'stagecommissie-stageovereenkomst-detail.html'));
 });
 
+
+// -------------------------- ADMIN KOPPELINGEN --------------------------
+
+router.get('/api/admin/studenten', requireAuth, (req, res) => {
+
+    const query = `
+        SELECT
+            id,
+            voornaam,
+            achternaam,
+            email
+        FROM users
+        WHERE role = 'STUDENT'
+        ORDER BY voornaam
+    `;
+
+    connection.query(query, (error, results) => {
+
+        if (error) {
+            return res.status(500).json({
+                status: 'error'
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+
+router.get('/api/admin/docenten', requireAuth, (req, res) => {
+
+    const query = `
+        SELECT
+            id,
+            voornaam,
+            achternaam,
+            email
+        FROM users
+        WHERE role = 'DOCENT'
+        ORDER BY voornaam
+    `;
+
+    connection.query(query, (error, results) => {
+
+        if (error) {
+            return res.status(500).json({
+                status: 'error'
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+
+router.get('/api/admin/koppelingen', requireAuth, (req, res) => {
+    const query = `
+        SELECT 
+            k.koppeling_id,
+            k.student_id,
+            us.voornaam AS student_voornaam,
+            us.achternaam AS student_achternaam,
+            us.email AS student_email,
+            sp.studentnummer,
+            sp.opleiding,
+            k.docent_id,
+            ut.voornaam AS docent_voornaam,
+            ut.achternaam AS docent_achternaam,
+            ut.email AS docent_email,
+            k.gekoppeld_op
+        FROM koppelingen k
+        JOIN users us ON k.student_id = us.id
+        LEFT JOIN student_profiles sp ON us.id = sp.user_id
+        JOIN users ut ON k.docent_id = ut.id
+        ORDER BY k.gekoppeld_op DESC
+    `;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            console.error('Fout bij ophalen koppelingen:', error);
+            return res.status(500).json({
+                status: 'error',
+                message: 'Fout bij ophalen koppelingen'
+            });
+        }
+        res.json(results);
+    });
+});
+
+
+router.post('/api/admin/koppelingen', requireAuth, (req, res) => {
+
+    const { student_id, docent_id } = req.body;
+
+    const query = `
+        INSERT INTO koppelingen (
+            student_id,
+            docent_id
+        )
+        VALUES (?, ?)
+    `;
+
+    connection.query(
+        query,
+        [student_id, docent_id],
+        (error) => {
+
+            if (error) {
+
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Koppeling mislukt'
+                });
+            }
+
+            res.json({
+                status: 'success',
+                message: 'Student gekoppeld aan docent'
+            });
+        }
+    );
+});
+
+
+router.delete('/api/admin/koppelingen/:id', requireAuth, (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM koppelingen WHERE koppeling_id = ?';
+
+    connection.query(query, [id], (error, result) => {
+        if (error) {
+            console.error('Fout bij verwijderen koppeling:', error);
+            return res.status(500).json({
+                status: 'error',
+                message: 'Fout bij verwijderen koppeling'
+            });
+        }
+        res.json({
+            status: 'success',
+            message: 'Koppeling succesvol verwijderd'
+        });
+    });
+});
+
+
+router.get('/api/admin/stats', requireAuth, (req, res) => {
+    const qStudents = "SELECT COUNT(*) AS count FROM users WHERE role = 'STUDENT'";
+    const qDocenten = "SELECT COUNT(*) AS count FROM users WHERE role = 'DOCENT'";
+    const qStages = "SELECT COUNT(*) AS count FROM stageaanvragen";
+
+    connection.query(qStudents, (errStudents, rStudents) => {
+        if (errStudents) {
+            console.error(errStudents);
+            return res.status(500).json({ status: 'error' });
+        }
+        connection.query(qDocenten, (errDocenten, rDocenten) => {
+            if (errDocenten) {
+                console.error(errDocenten);
+                return res.status(500).json({ status: 'error' });
+            }
+            connection.query(qStages, (errStages, rStages) => {
+                if (errStages) {
+                    console.error(errStages);
+                    return res.status(500).json({ status: 'error' });
+                }
+                res.json({
+                    totaalStudenten: rStudents[0].count,
+                    totaalDocenten: rDocenten[0].count,
+                    totaalStageplaatsen: rStages[0].count
+                });
+            });
+        });
+    });
+});
+
+
 // -------------------------- ADMIN --------------------------
 
 router.get('/admin/home', requireAuth, (req, res) => {
-    res.send('Welkom admin');
+  res.sendFile(path.join(__dirname, 'views', 'html', 'administratiehome.html'));
 });
 
+router.get('/admin/stageaanvragen', requireAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvragenadministratie.html'));
+});
+
+router.get('/admin/koppelingen', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(__dirname, 'views', 'html', 'admin-koppelingen.html')
+    );
+});
+
+
+router.get('/admin/gebruikers', requireAuth, (req, res) => {
+    console.log('ADMIN GEBRUIKERS PAGE');
+
+    res.sendFile(
+        path.join(__dirname, 'views', 'html', 'admin-gebruikers.html')
+    );
+});
+
+
+// -------------------------- ADMIN GEBRUIKERS TOEVOEGEN --------------------------
+
+router.post('/api/admin/studenten', requireAuth, (req, res) => {
+    const {
+        voornaam,
+        achternaam,
+        email,
+        wachtwoord,
+        studentnummer,
+        opleiding
+    } = req.body;
+
+    const userQuery = `
+        INSERT INTO users (
+            voornaam,
+            achternaam,
+            email,
+            wachtwoord,
+            role
+        )
+        VALUES (?, ?, ?, ?, 'STUDENT')
+    `;
+
+    connection.query(
+        userQuery,
+        [voornaam, achternaam, email, wachtwoord],
+        (error, result) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Student kon niet worden aangemaakt'
+                });
+            }
+
+            const studentQuery = `
+                INSERT INTO student_profiles (
+                    user_id,
+                    studentnummer,
+                    opleiding
+                )
+                VALUES (?, ?, ?)
+            `;
+
+            connection.query(
+                studentQuery,
+                [result.insertId, studentnummer, opleiding],
+                (error) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).json({
+                            status: 'error',
+                            message: 'Studentprofiel kon niet worden aangemaakt'
+                        });
+                    }
+
+                    res.json({
+                        status: 'success',
+                        message: 'Student aangemaakt'
+                    });
+                }
+            );
+        }
+    );
+});
+
+
+router.post('/api/admin/docenten', requireAuth, (req, res) => {
+    const {
+        voornaam,
+        achternaam,
+        email,
+        wachtwoord
+    } = req.body;
+
+    const query = `
+        INSERT INTO users (
+            voornaam,
+            achternaam,
+            email,
+            wachtwoord,
+            role
+        )
+        VALUES (?, ?, ?, ?, 'DOCENT')
+    `;
+
+    connection.query(
+        query,
+        [voornaam, achternaam, email, wachtwoord],
+        (error) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Docent kon niet worden aangemaakt'
+                });
+            }
+
+            res.json({
+                status: 'success',
+                message: 'Docent aangemaakt'
+            });
+        }
+    );
+});
 
 module.exports = router;

@@ -110,6 +110,19 @@ function laadStageovereenkomsten() {
                 error
             );
         });
-}
-
 laadStageovereenkomsten();
+
+// Ophalen van ingelogde Stagecommissie-gebruiker profiel
+fetch("/api/user/profile")
+    .then(response => response.json())
+    .then(data => {
+        if (data.status !== "success") return;
+        const user = data.user;
+        const userCircle = document.querySelector(".user-circle");
+        if (userCircle) {
+            userCircle.textContent = (user.voornaam.charAt(0) + user.achternaam.charAt(0)).toUpperCase();
+        }
+    })
+    .catch(error => {
+        console.error("Fout bij ophalen profiel:", error);
+    });
