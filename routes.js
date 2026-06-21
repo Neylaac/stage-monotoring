@@ -891,7 +891,49 @@ router.get('/stageovereenkomst-detail', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-detail.html'));
 });
 
+router.get('/docent/logboeken', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'docentlogboeken.html'
+        )
+    );
+});
 
+router.get('/docent/studentdetails', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'docentstudentdetails.html'
+        )
+    );
+});
+
+router.get('/docent/weeklogboek', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'docentweeklogboek.html'
+        )
+    );
+});
+
+router.get('/docent/daglogboek', requireAuth, (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'views',
+            'html',
+            'docentdaglogboek.html'
+        )
+    );
+});
 // -------------------------- BEDRIJF PAGINA'S --------------------------
 
 
