@@ -399,3 +399,11 @@ body {
     opacity: 1;
     cursor: default;
 }
+
+.form-actions a.concept-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-sizing: border-box;
+}

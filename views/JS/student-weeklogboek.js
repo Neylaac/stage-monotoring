@@ -8,45 +8,113 @@ window.onload = () => {
     function toonDagStatus(dag) {
         if (dag.status === 'INGEVULD') {
             return `
-                <span class="logboek-status ingediend">
-                    Ingevuld
-                </span>
-            `;
+            <span class="logboek-status ingediend">
+                Ingevuld
+            </span>
+        `;
         }
 
         return `
-            <span class="logboek-status niet-ingediend">
-                Niet ingevuld
-            </span>
-        `;
+        <span class="logboek-status niet-ingediend">
+            Niet ingevuld
+        </span>
+    `;
     }
 
     function toonDagActie(dag) {
         if (dag.status === 'INGEVULD') {
             return `
-                <a
-                    href="/student/daglogboek?id=${dag.id}"
-                    class="logboek-btn"
-                >
-                    Bekijken
-                </a>
-            `;
+            <a
+                href="/student/daglogboek?id=${dag.id}&week=${getWeeklogboekId()}"
+                class="logboek-btn"
+            >
+                Bekijken
+            </a>
+        `;
         }
 
         return `
-            <a
-                href="/student/daglogboek?id=${dag.id}"
-                class="logboek-btn"
-            >
-                Invullen
-            </a>
-        `;
+        <a
+            href="/student/daglogboek?id=${dag.id}&week=${getWeeklogboekId()}"
+            class="logboek-btn"
+        >
+            Invullen
+        </a>
+    `;
     }
+
+    let weekIngediend = false;
+
+    function toonWeekControle(week) {
+        const weekControle = document.getElementById('weekControle');
+
+        if (!weekControle) {
+            return;
+        }
+
+        if (week.ingediend !== 1 &&
+            week.ingediend !== true) {
+            weekControle.innerHTML = '';
+            return;
+        }
+
+        weekControle.innerHTML = `
+        <div class="mentor-card">
+            <h2>Weekcontrole door stagementor</h2>
+
+            <div class="mentor-grid">
+                <div>
+                    <span>Status</span>
+                    <p class="status-badge">
+                        Ingediend
+                    </p>
+                </div>
+
+                <div>
+                    <span>Mentor</span>
+                    <p>Nog niet nagekeken</p>
+                </div>
+
+                <div>
+                    <span>Feedback</span>
+                    <p>Nog geen feedback</p>
+                </div>
+            </div>
+        </div>
+    `;
+    }
+
+
+    function laadWeekInfo() {
+        const weeklogboekId = getWeeklogboekId();
+
+        return fetch('/api/weeklogboeken/' + weeklogboekId)
+            .then(response => response.json())
+            .then(week => {
+                weekIngediend =
+                    week.ingediend === 1 ||
+                    week.ingediend === true;
+
+                toonWeekControle(week);
+            })
+            .catch(error => {
+                console.error(
+                    'Fout bij ophalen weeklogboek:',
+                    error
+                );
+            });
+    }
+
 
     function toonWeekIndienenKnop(dagen) {
         const weekActies = document.getElementById('weekActies');
 
         if (!weekActies) {
+            return;
+        }
+
+        if (weekIngediend) {
+            weekActies.innerHTML = '';
             return;
         }
 
@@ -60,10 +128,40 @@ window.onload = () => {
         }
 
         weekActies.innerHTML = `
-            <button class="submit-btn">
-                Week indienen
-            </button>
-        `;
+        <button id="weekIndienenKnop" class="submit-btn">
+            Week indienen
+        </button>
+    `;
+
+        document
+            .getElementById('weekIndienenKnop')
+            .addEventListener('click', () => {
+                dienWeekIn();
+            });
+    }
+
+    function dienWeekIn() {
+        const weeklogboekId = getWeeklogboekId();
+
+        fetch('/api/weeklogboeken/' + weeklogboekId + '/indienen', {
+            method: 'PUT'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== 'success') {
+                    alert(data.message);
+                    return;
+                }
+                weekIngediend = true;
+
+                laadWeekInfo().then(() => {
+                    laadDagen();
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Week indienen mislukt');
+            });
     }
 
     function laadDagen() {
@@ -142,5 +240,7 @@ window.onload = () => {
             });
     }
 
-    laadDagen();
+    laadWeekInfo().then(() => {
+        laadDagen();
+    });
 };

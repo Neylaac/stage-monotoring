@@ -31,8 +31,10 @@ const {
     getWeeklogboekOpId,
     getDaglogboekOpId,
     keurWeeklogboekGoed,
-    getDaglogboekenVanWeek
+    getDaglogboekenVanWeek,
+    dienWeeklogboekIn
 } = require('./controllers/logboekController');
+
 // get gebruik je om een pagina op te vragen
 
 // -------------------------- ALGEMEEN --------------------------
@@ -307,6 +309,12 @@ router.put(
     '/api/weeklogboeken/:id/goedkeuren',
     requireAuth,
     keurWeeklogboekGoed
+);
+
+router.put(
+    '/api/weeklogboeken/:id/indienen',
+    requireAuth,
+    dienWeeklogboekIn
 );
 
 // -------------------------- STUDENT START --------------------------

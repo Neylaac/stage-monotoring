@@ -9,12 +9,24 @@ function formatDatumVoorDatabase(datum) {
     return jaar + '-' + maand + '-' + dag;
 }
 
+function isWerkdag(datum) {
+    const dag = datum.getDay();
+
+    return dag !== 0 && dag !== 6;
+}
+
 function maakDagenVoorWeek(weeklogboekId, startDatum, eindDatum, klaar) {
     let huidigeDag = new Date(startDatum);
 
     function maakVolgendeDag() {
         if (huidigeDag > eindDatum) {
             klaar();
+            return;
+        }
+
+        if (!isWerkdag(huidigeDag)) {
+            huidigeDag.setDate(huidigeDag.getDate() + 1);
+            maakVolgendeDag();
             return;
         }
 
@@ -281,16 +293,17 @@ const getAlleWeeklogboeken = (req, res) => {
 
 const maakDaglogboek = (req, res) => {
     const {
-        weeklogboekId,
+        daglogboekId,
         datum,
         aantalUren,
         taken,
         geleerd,
-        problemen
+        problemen,
+        competenties
     } = req.body;
 
     if (
-        !weeklogboekId ||
+        !daglogboekId ||
         !datum ||
         !aantalUren ||
         !taken ||
@@ -302,48 +315,32 @@ const maakDaglogboek = (req, res) => {
         });
     }
 
-    const dagNaam = new Date(datum).toLocaleDateString('nl-BE', {
-        weekday: 'long'
-    });
+    const gekozenCompetenties = Array.isArray(competenties)
+        ? competenties
+        : [];
 
-    const query = `
-        INSERT INTO daglogboeken (
-            weeklogboek_id,
-            datum,
-            dag_naam,
-            aantal_uren,
-            taken,
-            geleerd,
-            problemen,
-            status,
-            ingevuld_op
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'INGEVULD', NOW())
-
-        ON DUPLICATE KEY UPDATE
+    const updateDaglogboekQuery = `
+        UPDATE daglogboeken
+        SET
+            datum = ?,
             aantal_uren = ?,
             taken = ?,
             geleerd = ?,
             problemen = ?,
             status = 'INGEVULD',
             ingevuld_op = NOW()
+        WHERE id = ?
     `;
 
     connection.query(
-        query,
+        updateDaglogboekQuery,
         [
-            weeklogboekId,
             datum,
-            dagNaam,
             aantalUren,
             taken,
             geleerd,
-            problemen,
-
-            aantalUren,
-            taken,
-            geleerd,
-            problemen
+            problemen || '',
+            daglogboekId
         ],
         (error, result) => {
             if (error) {
@@ -355,14 +352,80 @@ const maakDaglogboek = (req, res) => {
                 });
             }
 
-            res.json({
-                status: 'success',
-                message: 'Daglogboek opgeslagen',
-                id: result.insertId
-            });
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: 'Daglogboek niet gevonden'
+                });
+            }
+
+            const deleteCompetentiesQuery = `
+                DELETE FROM daglogboek_competenties
+                WHERE daglogboek_id = ?
+            `;
+
+            connection.query(
+                deleteCompetentiesQuery,
+                [daglogboekId],
+                (error) => {
+                    if (error) {
+                        console.error(error);
+
+                        return res.status(500).json({
+                            status: 'error',
+                            message: 'Competenties konden niet worden verwijderd'
+                        });
+                    }
+
+                    if (gekozenCompetenties.length === 0) {
+                        return res.json({
+                            status: 'success',
+                            message: 'Daglogboek opgeslagen',
+                            id: daglogboekId
+                        });
+                    }
+
+                    const insertCompetentiesQuery = `
+                        INSERT INTO daglogboek_competenties (
+                            daglogboek_id,
+                            competentie
+                        )
+                        VALUES ?
+                    `;
+
+                    const values = gekozenCompetenties.map(
+                        competentie => [
+                            daglogboekId,
+                            competentie
+                        ]
+                    );
+
+                    connection.query(
+                        insertCompetentiesQuery,
+                        [values],
+                        (error) => {
+                            if (error) {
+                                console.error(error);
+
+                                return res.status(500).json({
+                                    status: 'error',
+                                    message: 'Competenties konden niet worden opgeslagen'
+                                });
+                            }
+
+                            res.json({
+                                status: 'success',
+                                message: 'Daglogboek opgeslagen',
+                                id: daglogboekId
+                            });
+                        }
+                    );
+                }
+            );
         }
     );
 };
+
 
 const getWeeklogboekOpId = (req, res) => {
     const id = req.params.id;
@@ -395,13 +458,13 @@ const getWeeklogboekOpId = (req, res) => {
 const getDaglogboekOpId = (req, res) => {
     const id = req.params.id;
 
-    const query = `
+    const queryDaglogboek = `
         SELECT *
         FROM daglogboeken
         WHERE id = ?
     `;
 
-    connection.query(query, [id], (error, rows) => {
+    connection.query(queryDaglogboek, [id], (error, rows) => {
         if (error) {
             console.error(error);
 
@@ -416,10 +479,35 @@ const getDaglogboekOpId = (req, res) => {
             });
         }
 
-        res.json(rows[0]);
+        const daglogboek = rows[0];
+
+        const queryCompetenties = `
+            SELECT competentie
+            FROM daglogboek_competenties
+            WHERE daglogboek_id = ?
+        `;
+
+        connection.query(
+            queryCompetenties,
+            [id],
+            (error, competentieRows) => {
+                if (error) {
+                    console.error(error);
+
+                    return res.status(500).json({
+                        message: 'Competenties konden niet worden opgehaald'
+                    });
+                }
+
+                daglogboek.competenties = JSON.stringify(
+                    competentieRows.map(row => row.competentie)
+                );
+
+                res.json(daglogboek);
+            }
+        );
     });
 };
-
 
 const getDaglogboekenVanWeek = (req, res) => {
     const weeklogboekId = req.params.id;
@@ -447,6 +535,86 @@ const getDaglogboekenVanWeek = (req, res) => {
         });
     });
 };
+
+
+const dienWeeklogboekIn = (req, res) => {
+    const weeklogboekId = req.params.id;
+
+    const controleQuery = `
+        SELECT *
+        FROM daglogboeken
+        WHERE weeklogboek_id = ?
+    `;
+
+    connection.query(
+        controleQuery,
+        [weeklogboekId],
+        (error, dagen) => {
+            if (error) {
+                console.error(error);
+
+                return res.status(500).json({
+                    status: 'error',
+                    message: 'Dagen konden niet worden gecontroleerd'
+                });
+            }
+
+            if (dagen.length === 0) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Deze week heeft geen dagen'
+                });
+            }
+
+            const alleDagenIngevuld = dagen.every(dag => {
+                return dag.status === 'INGEVULD';
+            });
+
+            if (!alleDagenIngevuld) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Vul eerst alle dagen in'
+                });
+            }
+
+            const updateQuery = `
+                UPDATE weeklogboeken
+                SET
+                    ingediend = TRUE,
+                    ingediend_op = NOW()
+                WHERE id = ?
+            `;
+
+            connection.query(
+                updateQuery,
+                [weeklogboekId],
+                (error, result) => {
+                    if (error) {
+                        console.error(error);
+
+                        return res.status(500).json({
+                            status: 'error',
+                            message: 'Weeklogboek kon niet worden ingediend'
+                        });
+                    }
+
+                    if (result.affectedRows === 0) {
+                        return res.status(404).json({
+                            status: 'error',
+                            message: 'Weeklogboek niet gevonden'
+                        });
+                    }
+
+                    res.json({
+                        status: 'success',
+                        message: 'Weeklogboek ingediend'
+                    });
+                }
+            );
+        }
+    );
+};
+
 
 const keurWeeklogboekGoed = (req, res) => {
     const weeklogboekId = req.params.id;
@@ -490,5 +658,6 @@ module.exports = {
     getWeeklogboekOpId,
     getDaglogboekOpId,
     keurWeeklogboekGoed,
-    getDaglogboekenVanWeek
+    getDaglogboekenVanWeek,
+    dienWeeklogboekIn
 };
