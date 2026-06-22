@@ -1,21 +1,4 @@
-CREATE DATABASE IF NOT EXISTS stage_monitoring;
-USE stage_monitoring;
 
-DROP TABLE IF EXISTS stageaanvragen;
-DROP TABLE IF EXISTS bedrijf_profiles;
-DROP TABLE IF EXISTS student_profiles;
-DROP TABLE IF EXISTS users;
-
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    voornaam VARCHAR(100) NOT NULL,
-    achternaam VARCHAR(100) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    wachtwoord VARCHAR(255) NOT NULL,
-    role ENUM('STUDENT', 'DOCENT', 'BEDRIJF', 'STAGECOMMISSIE', 'ADMIN') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 CREATE DATABASE IF NOT EXISTS stage_monitoring;
 USE stage_monitoring;
 

@@ -10,21 +10,21 @@ function formatteerDatum(datum) {
     });
 }
 
-    function toonStatusSchool(overeenkomst) {
-        if (overeenkomst.school_ondertekend === 1) {
-            return `
+function toonStatusSchool(overeenkomst) {
+    if (overeenkomst.school_ondertekend === 1) {
+        return `
             <span class="status-badge signed">
                 Volledig ondertekend
             </span>
         `;
-        }
+    }
 
-        return `
+    return `
         <span class="status-badge waiting">
             Wacht op school
         </span>
     `;
-    }
+}
 
 function laadStageovereenkomsten() {
     fetch('/api/stagecommissie/stageovereenkomsten')
@@ -43,12 +43,11 @@ function laadStageovereenkomsten() {
             if (data.stageovereenkomsten.length === 0) {
                 overeenkomstenTabel.innerHTML = `
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             Geen stageovereenkomsten gevonden.
                         </td>
                     </tr>
                 `;
-
                 return;
             }
 
@@ -61,9 +60,7 @@ function laadStageovereenkomsten() {
 
                 overeenkomstenTabel.innerHTML += `
                     <tr>
-
                         <td class="student-cell">
-
                             <div class="student-avatar">
                                 ${initialen}
                             </div>
@@ -72,34 +69,31 @@ function laadStageovereenkomsten() {
                                 ${overeenkomst.voornaam}
                                 ${overeenkomst.achternaam}
                             </div>
-
                         </td>
 
                         <td>
                             ${overeenkomst.opleiding}
                         </td>
 
-                      <td>
-    ${formatteerDatum(overeenkomst.startdatum)}
-    <br>
-    -
-    ${formatteerDatum(overeenkomst.einddatum)}
-</td>
-
-<td>
-    ${toonStatusSchool(overeenkomst)}
-</td>
-
-<td>
-    <button
-        class="view-button"
-        onclick="window.location.href='/stagecommissie-stageovereenkomst-detail?id=${overeenkomst.id}'"
-    >
-        Bekijken
-    </button>
-</td>
+                        <td>
+                            ${formatteerDatum(overeenkomst.startdatum)}
+                            <br>
+                            -
+                            ${formatteerDatum(overeenkomst.einddatum)}
                         </td>
 
+                        <td>
+                            ${toonStatusSchool(overeenkomst)}
+                        </td>
+
+                        <td>
+                            <button
+                                class="view-button"
+                                onclick="window.location.href='/stagecommissie-stageovereenkomst-detail?id=${overeenkomst.id}'"
+                            >
+                                Bekijken
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
@@ -110,19 +104,26 @@ function laadStageovereenkomsten() {
                 error
             );
         });
+}
+
 laadStageovereenkomsten();
 
-// Ophalen van ingelogde Stagecommissie-gebruiker profiel
-fetch("/api/user/profile")
+fetch('/api/user/profile')
     .then(response => response.json())
     .then(data => {
-        if (data.status !== "success") return;
+        if (data.status !== 'success') return;
+
         const user = data.user;
-        const userCircle = document.querySelector(".user-circle");
+        const userCircle = document.querySelector('.user-circle');
+
         if (userCircle) {
-            userCircle.textContent = (user.voornaam.charAt(0) + user.achternaam.charAt(0)).toUpperCase();
+            userCircle.textContent =
+                (
+                    user.voornaam.charAt(0) +
+                    user.achternaam.charAt(0)
+                ).toUpperCase();
         }
     })
     .catch(error => {
-        console.error("Fout bij ophalen profiel:", error);
+        console.error('Fout bij ophalen profiel:', error);
     });
