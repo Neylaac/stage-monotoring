@@ -13,6 +13,7 @@
 <body>
 
     <aside class="sidebar">
+
         <div>
             <div class="sidebar-title">Student</div>
 
@@ -21,28 +22,38 @@
                 <span>Stageaanvraag</span>
             </a>
 
-            <a href="/student/home" class="menu-item">
+            <a href="/student/home" id="homeLink" class="menu-item">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
             </a>
 
+
             <a href="/student/logboeken" class="menu-item active">
                 <i class="fa-solid fa-book"></i>
                 <span>Logboeken</span>
+                <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="#" class="menu-item">
+            <a href="#" id="evaluatieLink" class="menu-item">
                 <i class="fa-solid fa-clipboard-check"></i>
                 <span>Evaluatie</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
             </a>
 
         </div>
 
         <a href="/logout" class="logout">
             <i class="fa-solid fa-right-from-bracket"></i>
-            Uitloggen
+            <span>Uitloggen</span>
         </a>
+
     </aside>
+
 
     <main class="main-content">
         <div id="successMessage" class="success-message"></div>
@@ -92,7 +103,7 @@
         </section>
 
     </main>
-
+    <script src="/JS/student-toegang.js"></script>
     <script src="/JS/student-weeklogboek.js"></script>
 
 </body>

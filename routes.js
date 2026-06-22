@@ -1041,7 +1041,7 @@ router.get('/rubriek', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'rubriek.html'));
 });
 
-router.get('/student/logboeken', requireAuth, (req, res) => {
+router.get('/student/logboeken', requireAuth, checkStudentToegang, (req, res) => {
     res.sendFile(
         path.join(
             __dirname,
@@ -1052,7 +1052,7 @@ router.get('/student/logboeken', requireAuth, (req, res) => {
     );
 });
 
-router.get('/student/weeklogboek', requireAuth, (req, res) => {
+router.get('/student/weeklogboek', requireAuth, checkStudentToegang, (req, res) => {
     res.sendFile(
         path.join(
             __dirname,
@@ -1063,7 +1063,7 @@ router.get('/student/weeklogboek', requireAuth, (req, res) => {
     );
 });
 
-router.get('/student/daglogboek', requireAuth, (req, res) => {
+router.get('/student/daglogboek', requireAuth, checkStudentToegang, (req, res) => {
     res.sendFile(
         path.join(
             __dirname,
