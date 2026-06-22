@@ -1002,6 +1002,10 @@ router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));
 });
 
+router.get('/docent/studenten', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docent-studenten.html'));
+});
+
 router.get('/docent/evaluaties', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-evaluaties.html'));
 });
