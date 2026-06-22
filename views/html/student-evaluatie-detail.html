@@ -37,10 +37,11 @@
                 <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="/student/profiel" id="profielLink" class="menu-item">
-                <i class="fa-solid fa-user"></i>
-                <span>Profiel</span>
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
             </a>
+
         </div>
 
         <a href="/logout" class="logout">
@@ -119,6 +120,29 @@
                     <p class="criterion-desc">Proactief handelen, tonen van eigen initiatief, ethische beroepshouding en de mate waarin je geleerd hebt van voorgaande ervaringen.</p>
                     <div class="scores-display-grid" id="grid-groei">
                         <!-- Will be populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Summary Card -->
+                <div id="summary-card-container" style="display: none; margin-top: 25px;">
+                    <div class="detail-card" style="border-left: 4px solid #832D2C; background-color: #fdfafa;">
+                        <div class="detail-card-header">
+                            <h3>Evaluatie Samenvatting</h3>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 10px 0;">
+                            <div style="text-align: center; border-right: 1px solid #eee; padding: 10px;">
+                                <span style="font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Mijn Gemiddelde</span>
+                                <div style="font-size: 24px; font-weight: bold; color: #4a90e2; margin-top: 8px;" id="avg_student_score">-</div>
+                            </div>
+                            <div style="text-align: center; border-right: 1px solid #eee; padding: 10px;">
+                                <span style="font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Gemiddelde Mentor</span>
+                                <div style="font-size: 24px; font-weight: bold; color: #f5a623; margin-top: 8px;" id="avg_mentor_score">-</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px;">
+                                <span style="font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Gemiddelde Docent</span>
+                                <div style="font-size: 24px; font-weight: bold; color: #832D2C; margin-top: 8px;" id="avg_docent_score">-</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

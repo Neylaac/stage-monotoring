@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!box) return;
 
         if (selfReflectionObj && selfReflectionObj[scoreKey]) {
+            const scoreVal = selfReflectionObj[scoreKey];
             box.innerHTML = `
-                <h4>ZELFREFLECTIE STAGIAIR <span class="student-score-badge">${selfReflectionObj[scoreKey]}</span></h4>
-                <p>${selfReflectionObj[feedbackKey] || "Geen toelichting ingevuld door stagiair."}</p>
+                <h4>ZELFREFLECTIE STAGIAIR <span class="student-score-badge">${scoreVal} / 5</span></h4>
             `;
         } else {
             box.innerHTML = `

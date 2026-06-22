@@ -8,7 +8,7 @@ const getStudentEvaluatiesStatus = async (req, res) => {
             return res.status(401).json({ status: 'error', message: 'Niet ingelogd' });
         }
 
-        const query = 'SELECT id, type FROM evaluaties WHERE student_id = ?';
+        const query = 'SELECT id, type, planning_score_docent FROM evaluaties WHERE student_id = ?';
         const [rows] = await connection.promise().query(query, [studentId]);
 
         // Map database rows to statuses
@@ -21,8 +21,15 @@ const getStudentEvaluatiesStatus = async (req, res) => {
 
         rows.forEach(row => {
             if (statusMap[row.type]) {
-                statusMap[row.type].status = 'Ingevuld';
-                statusMap[row.type].id = row.id;
+                if (row.type === 'TUSSENTIJDS' || row.type === 'EIND') {
+                    if (row.planning_score_docent !== null) {
+                        statusMap[row.type].status = 'Ingevuld';
+                        statusMap[row.type].id = row.id;
+                    }
+                } else {
+                    statusMap[row.type].status = 'Ingevuld';
+                    statusMap[row.type].id = row.id;
+                }
             }
         });
 
@@ -64,9 +71,26 @@ const getEvaluatieDetails = async (req, res) => {
             });
         }
 
+        // Block viewing if docent has not graded the midterm/final yet
+        if ((type === 'TUSSENTIJDS' || type === 'EIND') && rows[0].planning_score_docent === null) {
+            return res.status(403).json({
+                status: 'error',
+                message: 'Deze evaluatie is nog in behandeling en kan pas worden bekeken nadat de docent deze heeft beoordeeld.'
+            });
+        }
+
+        let selfRef = null;
+        if (type === 'TUSSENTIJDS' || type === 'EIND') {
+            const selfType = type === 'TUSSENTIJDS' ? 'ZELF_TUSSENTIJDS' : 'ZELF_EIND';
+            const selfQuery = 'SELECT * FROM evaluaties WHERE student_id = ? AND type = ?';
+            const [selfRows] = await connection.promise().query(selfQuery, [studentId, selfType]);
+            selfRef = selfRows[0] || null;
+        }
+
         res.json({
             status: 'success',
-            evaluatie: rows[0]
+            evaluatie: rows[0],
+            zelfreflectie: selfRef
         });
     } catch (error) {
         console.error('Fout bij ophalen evaluatiedetails:', error);
@@ -373,11 +397,185 @@ const submitBedrijfEvaluatie = async (req, res) => {
     }
 };
 
+// Fetch all linked students for a docent and their evaluation statuses
+const getDocentStudentenEvaluaties = async (req, res) => {
+    try {
+        const docentId = req.user?.id;
+        if (!docentId) {
+            return res.status(401).json({ status: 'error', message: 'Niet ingelogd' });
+        }
+
+        const query = `
+            SELECT 
+                u.id AS student_id,
+                u.voornaam,
+                u.achternaam,
+                u.email,
+                sp.studentnummer,
+                sp.opleiding,
+                (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'ZELF_TUSSENTIJDS') AS zelf_tussentijds_exists,
+                (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'TUSSENTIJDS') AS mentor_tussentijds_exists,
+                (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'TUSSENTIJDS' AND planning_score_docent IS NOT NULL) AS docent_tussentijds_beoordeeld,
+                
+                (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'ZELF_EIND') AS zelf_eind_exists,
+                (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'EIND') AS mentor_eind_exists,
+                (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'EIND' AND planning_score_docent IS NOT NULL) AS docent_eind_beoordeeld
+            FROM koppelingen k
+            JOIN users u ON k.student_id = u.id
+            LEFT JOIN student_profiles sp ON u.id = sp.user_id
+            WHERE k.docent_id = ?
+            ORDER BY u.voornaam
+        `;
+
+        const [rows] = await connection.promise().query(query, [docentId]);
+        res.json({ status: 'success', studenten: rows });
+    } catch (error) {
+        console.error('Fout bij ophalen docent studenten evaluaties:', error);
+        res.status(500).json({ status: 'error', message: 'Interne fout bij het ophalen van gegevens' });
+    }
+};
+
+// Fetch student self-reflection and company review comparison details for docent
+const getDocentEvaluatieDetails = async (req, res) => {
+    try {
+        const docentId = req.user?.id;
+        if (!docentId) {
+            return res.status(401).json({ status: 'error', message: 'Niet ingelogd' });
+        }
+
+        const { studentId, type } = req.params;
+        const allowedTypes = ['TUSSENTIJDS', 'EIND'];
+        if (!allowedTypes.includes(type)) {
+            return res.status(400).json({ status: 'error', message: 'Ongeldig type' });
+        }
+
+        const selfType = type === 'TUSSENTIJDS' ? 'ZELF_TUSSENTIJDS' : 'ZELF_EIND';
+
+        // Fetch student info
+        const userQuery = 'SELECT voornaam, achternaam FROM users WHERE id = ?';
+        const [userRows] = await connection.promise().query(userQuery, [studentId]);
+        if (userRows.length === 0) {
+            return res.status(404).json({ status: 'error', message: 'Student niet gevonden' });
+        }
+        const studentName = `${userRows[0].voornaam} ${userRows[0].achternaam}`;
+
+        // Fetch student's self-reflection
+        const selfQuery = 'SELECT * FROM evaluaties WHERE student_id = ? AND type = ?';
+        const [selfRows] = await connection.promise().query(selfQuery, [studentId, selfType]);
+
+        // Fetch company's review
+        const companyQuery = 'SELECT * FROM evaluaties WHERE student_id = ? AND type = ?';
+        const [compRows] = await connection.promise().query(companyQuery, [studentId, type]);
+
+        res.json({
+            status: 'success',
+            studentName,
+            zelfreflectie: selfRows[0] || null,
+            evaluatie: compRows[0] || null
+        });
+    } catch (error) {
+        console.error('Fout bij ophalen vergelijkende docent evaluatiegegevens:', error);
+        res.status(500).json({ status: 'error', message: 'Interne fout bij het ophalen van details' });
+    }
+};
+
+// Submit docent scores/feedback
+const submitDocentEvaluatie = async (req, res) => {
+    try {
+        const docentId = req.user?.id;
+        if (!docentId) {
+            return res.status(401).json({ status: 'error', message: 'Niet ingelogd' });
+        }
+
+        const { studentId, type } = req.params;
+        const allowedTypes = ['TUSSENTIJDS', 'EIND'];
+        if (!allowedTypes.includes(type)) {
+            return res.status(400).json({ status: 'error', message: 'Ongeldig type' });
+        }
+
+        const selfType = type === 'TUSSENTIJDS' ? 'ZELF_TUSSENTIJDS' : 'ZELF_EIND';
+        
+        // Ensure both student's self-reflection and mentor's evaluation are submitted
+        const selfQuery = 'SELECT id FROM evaluaties WHERE student_id = ? AND type = ?';
+        const [selfRows] = await connection.promise().query(selfQuery, [studentId, selfType]);
+
+        const companyQuery = 'SELECT id FROM evaluaties WHERE student_id = ? AND type = ?';
+        const [compRows] = await connection.promise().query(companyQuery, [studentId, type]);
+
+        if (selfRows.length === 0 || compRows.length === 0) {
+            return res.status(400).json({
+                status: 'error',
+                message: 'De student en de mentor moeten allebei hun evaluatie hebben ingediend voordat u kunt beoordelen.'
+            });
+        }
+
+        const {
+            planning_score,
+            technisch_score,
+            onderzoek_score,
+            communicatie_score,
+            groei_score
+        } = req.body;
+
+        const query = `
+            INSERT INTO evaluaties (
+                student_id,
+                type,
+                planning_score_docent,
+                planning_feedback_docent,
+                technisch_score_docent,
+                technisch_feedback_docent,
+                onderzoek_score_docent,
+                onderzoek_feedback_docent,
+                communicatie_score_docent,
+                communicatie_feedback_docent,
+                groei_score_docent,
+                groei_feedback_docent
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                planning_score_docent = VALUES(planning_score_docent),
+                planning_feedback_docent = VALUES(planning_feedback_docent),
+                technisch_score_docent = VALUES(technisch_score_docent),
+                technisch_feedback_docent = VALUES(technisch_feedback_docent),
+                onderzoek_score_docent = VALUES(onderzoek_score_docent),
+                onderzoek_feedback_docent = VALUES(onderzoek_feedback_docent),
+                communicatie_score_docent = VALUES(communicatie_score_docent),
+                communicatie_feedback_docent = VALUES(communicatie_feedback_docent),
+                groei_score_docent = VALUES(groei_score_docent),
+                groei_feedback_docent = VALUES(groei_feedback_docent)
+        `;
+
+        await connection.promise().query(query, [
+            studentId,
+            type,
+            planning_score,
+            "",
+            technisch_score,
+            "",
+            onderzoek_score,
+            "",
+            communicatie_score,
+            "",
+            groei_score,
+            ""
+        ]);
+
+        res.json({ status: 'success', message: 'Evaluatie succesvol ingediend!' });
+    } catch (error) {
+        console.error('Fout bij indienen docent evaluatie:', error);
+        res.status(500).json({ status: 'error', message: 'Interne fout bij het opslaan' });
+    }
+};
+
 module.exports = {
     getStudentEvaluatiesStatus,
     getEvaluatieDetails,
     submitZelfreflectie,
     getBedrijfStagiairsEvaluaties,
     getBedrijfEvaluatieDetails,
-    submitBedrijfEvaluatie
+    submitBedrijfEvaluatie,
+    getDocentStudentenEvaluaties,
+    getDocentEvaluatieDetails,
+    submitDocentEvaluatie
 };

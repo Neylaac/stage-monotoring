@@ -37,10 +37,11 @@
                 <i class="fa-solid fa-lock lock"></i>
             </a>
 
-            <a href="/student/profiel" id="profielLink" class="menu-item">
-                <i class="fa-solid fa-user"></i>
-                <span>Profiel</span>
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
             </a>
+
         </div>
 
         <a href="/logout" class="logout">
@@ -64,7 +65,7 @@
             <a href="/student/evaluatie" class="back-link"><i class="fa-solid fa-arrow-left"></i> Terug naar overzicht</a>
             
             <h1 id="form-title">Mijn Zelfreflectie</h1>
-            <p class="subtitle">Vul je score en toelichting in voor elk van de onderstaande criteria om je eigen voortgang te beoordelen.</p>
+            <p class="subtitle">Vul je score in voor elk van de onderstaande criteria om je eigen voortgang te beoordelen.</p>
 
             <form id="zelfreflectieForm" class="evaluation-form">
                 
@@ -75,16 +76,16 @@
                         <div class="score-selector">
                             <label for="planning_score">Score:</label>
                             <select id="planning_score" name="planning_score" required>
-                                <option value="" disabled selected>Kies een score</option>
-                                <option value="A">A - Zeer goed</option>
-                                <option value="B">B - Goed</option>
-                                <option value="C">C - Voldoende</option>
-                                <option value="D">D - Onvoldoende</option>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
                             </select>
                         </div>
                     </div>
                     <p class="criterion-desc">Het plannen en organiseren van taken, respecteren van deadlines en hanteren van een gestructureerde, methodische werkwijze.</p>
-                    <textarea id="planning_feedback" name="planning_feedback" placeholder="Geef een toelichting op je score..." required></textarea>
                 </div>
 
                 <!-- Technische Uitwerking -->
@@ -94,16 +95,16 @@
                         <div class="score-selector">
                             <label for="technisch_score">Score:</label>
                             <select id="technisch_score" name="technisch_score" required>
-                                <option value="" disabled selected>Kies een score</option>
-                                <option value="A">A - Zeer goed</option>
-                                <option value="B">B - Goed</option>
-                                <option value="C">C - Voldoende</option>
-                                <option value="D">D - Onvoldoende</option>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
                             </select>
                         </div>
                     </div>
                     <p class="criterion-desc">Kwaliteit van het geleverde werk/de code, begrip van technische tools en frameworks, nauwkeurigheid en testen van oplossingen.</p>
-                    <textarea id="technisch_feedback" name="technisch_feedback" placeholder="Geef een toelichting op je score..." required></textarea>
                 </div>
 
                 <!-- Onderzoek & Probleemoplossing -->
@@ -113,16 +114,16 @@
                         <div class="score-selector">
                             <label for="onderzoek_score">Score:</label>
                             <select id="onderzoek_score" name="onderzoek_score" required>
-                                <option value="" disabled selected>Kies een score</option>
-                                <option value="A">A - Zeer goed</option>
-                                <option value="B">B - Goed</option>
-                                <option value="C">C - Voldoende</option>
-                                <option value="D">D - Onvoldoende</option>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
                             </select>
                         </div>
                     </div>
                     <p class="criterion-desc">Analytisch vermogen, het zelfstandig analyseren en oplossen van problemen, opzoeken van de nodige documentatie en stellen van de juiste vragen.</p>
-                    <textarea id="onderzoek_feedback" name="onderzoek_feedback" placeholder="Geef een toelichting op je score..." required></textarea>
                 </div>
 
                 <!-- Communicatie & Houding -->
@@ -132,16 +133,16 @@
                         <div class="score-selector">
                             <label for="communicatie_score">Score:</label>
                             <select id="communicatie_score" name="communicatie_score" required>
-                                <option value="" disabled selected>Kies een score</option>
-                                <option value="A">A - Zeer goed</option>
-                                <option value="B">B - Goed</option>
-                                <option value="C">C - Voldoende</option>
-                                <option value="D">D - Onvoldoende</option>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
                             </select>
                         </div>
                     </div>
                     <p class="criterion-desc">Actieve en open communicatie met het team en begeleiders, stiptheid, respecteren van bedrijfscultuur en openstaan voor opbouwende feedback.</p>
-                    <textarea id="communicatie_feedback" name="communicatie_feedback" placeholder="Geef een toelichting op je score..." required></textarea>
                 </div>
 
                 <!-- Groei, Initiatief & Ethiek -->
@@ -151,22 +152,24 @@
                         <div class="score-selector">
                             <label for="groei_score">Score:</label>
                             <select id="groei_score" name="groei_score" required>
-                                <option value="" disabled selected>Kies een score</option>
-                                <option value="A">A - Zeer goed</option>
-                                <option value="B">B - Goed</option>
-                                <option value="C">C - Voldoende</option>
-                                <option value="D">D - Onvoldoende</option>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
                             </select>
                         </div>
                     </div>
                     <p class="criterion-desc">Proactief handelen, tonen van eigen initiatief, ethische beroepshouding en de mate waarin je geleerd hebt van voorgaande ervaringen.</p>
-                    <textarea id="groei_feedback" name="groei_feedback" placeholder="Geef een toelichting op je score..." required></textarea>
                 </div>
 
                 <div class="form-actions">
                     <button type="submit" class="submit-btn">Zelfreflectie indienen</button>
                 </div>
             </form>
+
+
         </section>
     </main>
 

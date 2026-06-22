@@ -81,15 +81,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = {
             type: evaluationType,
             planning_score: document.getElementById("planning_score").value,
-            planning_feedback: document.getElementById("planning_feedback").value,
+            planning_feedback: "",
             technisch_score: document.getElementById("technisch_score").value,
-            technisch_feedback: document.getElementById("technisch_feedback").value,
+            technisch_feedback: "",
             onderzoek_score: document.getElementById("onderzoek_score").value,
-            onderzoek_feedback: document.getElementById("onderzoek_feedback").value,
+            onderzoek_feedback: "",
             communicatie_score: document.getElementById("communicatie_score").value,
-            communicatie_feedback: document.getElementById("communicatie_feedback").value,
+            communicatie_feedback: "",
             groei_score: document.getElementById("groei_score").value,
-            groei_feedback: document.getElementById("groei_feedback").value
+            groei_feedback: ""
         };
 
         fetch("/api/student/evaluatie/zelfreflectie", {

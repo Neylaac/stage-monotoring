@@ -31,7 +31,10 @@ const {
     submitZelfreflectie,
     getBedrijfStagiairsEvaluaties,
     getBedrijfEvaluatieDetails,
-    submitBedrijfEvaluatie
+    submitBedrijfEvaluatie,
+    getDocentStudentenEvaluaties,
+    getDocentEvaluatieDetails,
+    submitDocentEvaluatie
 } = require('./controllers/evaluatieController');
 
 // get gebruik je om een pagina op te vragen
@@ -418,6 +421,11 @@ router.post('/api/student/evaluatie/zelfreflectie', requireAuth, submitZelfrefle
 router.get('/api/bedrijf/evaluaties', requireAuth, getBedrijfStagiairsEvaluaties);
 router.get('/api/bedrijf/evaluaties/:studentId/:type', requireAuth, getBedrijfEvaluatieDetails);
 router.post('/api/bedrijf/evaluatie/indienen', requireAuth, submitBedrijfEvaluatie);
+
+// -------------------------- DOCENT EVALUATIES API --------------------------
+router.get('/api/docent/evaluaties', requireAuth, getDocentStudentenEvaluaties);
+router.get('/api/docent/evaluaties/:studentId/:type', requireAuth, getDocentEvaluatieDetails);
+router.post('/api/docent/evaluaties/:studentId/:type/indienen', requireAuth, submitDocentEvaluatie);
 
 
 
@@ -923,6 +931,11 @@ router.get('/student/evaluatie/detail', requireAuth, checkStudentToegang, (req, 
 });
 
 
+router.get('/rubriek', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'rubriek.html'));
+});
+
+
 // -------------------------- DOCENT PAGINA'S --------------------------
 
 router.get('/docent/home', requireAuth, (req, res) => {
@@ -943,7 +956,10 @@ router.get('/api/docent/home', requireAuth, (req, res) => {
             so.student_ondertekend,
             so.bedrijf_ondertekend,
             so.school_ondertekend,
-            sa.id AS aanvraag_id
+            sa.id AS aanvraag_id,
+            (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'ZELF_EIND') AS zelf_eind_exists,
+            (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'EIND') AS mentor_eind_exists,
+            (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'EIND' AND planning_score_docent IS NOT NULL) AS docent_beoordeeld
         FROM koppelingen k
         JOIN users u ON k.student_id = u.id
         LEFT JOIN student_profiles sp ON u.id = sp.user_id
@@ -960,7 +976,17 @@ router.get('/api/docent/home', requireAuth, (req, res) => {
         
         const totaalStudenten = results.length;
         const actieveStages = results.filter(r => r.aanvraag_status === 'GOEDGEKEURD').length;
-        const openEvaluaties = 0;
+        
+        const uniqueStudentEmails = new Set();
+        let openEvaluaties = 0;
+        results.forEach(r => {
+            if (!uniqueStudentEmails.has(r.email)) {
+                uniqueStudentEmails.add(r.email);
+                if (r.zelf_eind_exists > 0 && r.mentor_eind_exists > 0 && !r.docent_beoordeeld) {
+                    openEvaluaties++;
+                }
+            }
+        });
         
         res.json({
             status: 'success',
@@ -975,6 +1001,16 @@ router.get('/api/docent/home', requireAuth, (req, res) => {
 router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));
 });
+
+router.get('/docent/evaluaties', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docent-evaluaties.html'));
+});
+
+router.get('/docent/evaluaties/beoordelen', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docent-evaluatie-formulier.html'));
+});
+
+
 
 router.get('/stageovereenkomst-detail', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-detail.html'));
