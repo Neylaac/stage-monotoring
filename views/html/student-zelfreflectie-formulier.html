@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zelfreflectie Invullen - Student</title>
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/home.css">
+    <link rel="stylesheet" href="/CSS/student-evaluatie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Student</div>
+
+            <a href="/student/stageaanvraag" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvraag</span>
+            </a>
+
+            <a href="/student/home" id="homeLink" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="#" id="logboekenLink" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/student/evaluatie" id="evaluatieLink" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
+            </a>
+
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">
+                ST
+            </div>
+            <span class="ehb-logo">
+                ehbc
+            </span>
+        </header>
+
+        <section class="content">
+            <a href="/student/evaluatie" class="back-link"><i class="fa-solid fa-arrow-left"></i> Terug naar overzicht</a>
+            
+            <h1 id="form-title">Mijn Zelfreflectie</h1>
+            <p class="subtitle">Vul je score in voor elk van de onderstaande criteria om je eigen voortgang te beoordelen.</p>
+
+            <form id="zelfreflectieForm" class="evaluation-form">
+                
+                <!-- Planning & Organisatie -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>1. Planning & Organisatie</h3>
+                        <div class="score-selector">
+                            <label for="planning_score">Score:</label>
+                            <select id="planning_score" name="planning_score" required>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="criterion-desc">Het plannen en organiseren van taken, respecteren van deadlines en hanteren van een gestructureerde, methodische werkwijze.</p>
+                </div>
+
+                <!-- Technische Uitwerking -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>2. Technische Uitwerking</h3>
+                        <div class="score-selector">
+                            <label for="technisch_score">Score:</label>
+                            <select id="technisch_score" name="technisch_score" required>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="criterion-desc">Kwaliteit van het geleverde werk/de code, begrip van technische tools en frameworks, nauwkeurigheid en testen van oplossingen.</p>
+                </div>
+
+                <!-- Onderzoek & Probleemoplossing -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>3. Onderzoek & Probleemoplossing</h3>
+                        <div class="score-selector">
+                            <label for="onderzoek_score">Score:</label>
+                            <select id="onderzoek_score" name="onderzoek_score" required>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="criterion-desc">Analytisch vermogen, het zelfstandig analyseren en oplossen van problemen, opzoeken van de nodige documentatie en stellen van de juiste vragen.</p>
+                </div>
+
+                <!-- Communicatie & Houding -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>4. Communicatie & Professionele Houding</h3>
+                        <div class="score-selector">
+                            <label for="communicatie_score">Score:</label>
+                            <select id="communicatie_score" name="communicatie_score" required>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="criterion-desc">Actieve en open communicatie met het team en begeleiders, stiptheid, respecteren van bedrijfscultuur en openstaan voor opbouwende feedback.</p>
+                </div>
+
+                <!-- Groei, Initiatief & Ethiek -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>5. Groei, Initiatief & Ethiek</h3>
+                        <div class="score-selector">
+                            <label for="groei_score">Score:</label>
+                            <select id="groei_score" name="groei_score" required>
+                                <option value="" disabled selected>Kies score</option>
+                                <option value="1">1 / 5</option>
+                                <option value="2">2 / 5</option>
+                                <option value="3">3 / 5</option>
+                                <option value="4">4 / 5</option>
+                                <option value="5">5 / 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="criterion-desc">Proactief handelen, tonen van eigen initiatief, ethische beroepshouding en de mate waarin je geleerd hebt van voorgaande ervaringen.</p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Zelfreflectie indienen</button>
+                </div>
+            </form>
+
+
+        </section>
+    </main>
+
+    <script src="/JS/student-zelfreflectie-formulier.js"></script>
+    <script src="/JS/student-toegang.js"></script>
+</body>
+</html>

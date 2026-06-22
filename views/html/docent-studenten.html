@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="nl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Docent Home</title>
-
+    <title>Docent - Studentenoverzicht</title>
     <link rel="stylesheet" href="../CSS/stageaanvraag.css">
     <link rel="stylesheet" href="../CSS/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<body style="display: flex; min-height: 100vh; background-color: #eef1f8;">
 
-<body>
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-
         <div>
             <div class="sidebar-title">Docent</div>
 
-            <a href="/docent/home" class="menu-item active">
+            <a href="/docent/home" class="menu-item">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
             </a>
@@ -28,84 +25,52 @@
                 <span>Stageovereenkomst</span>
             </a>
 
-        <a href="/docent/evaluaties" class="menu-item">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <span>Evaluaties</span>
-        </a>
-
-        <a href="/docent/studenten" class="menu-item">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Studenten</span>
-        </a>
-
-        <a href="/rubriek" class="menu-item">
-            <i class="fa-solid fa-table"></i>
-            <span>Rubriek</span>
-        </a>
-
-    </div>
-
-            <a href="/logout" class="logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Uitloggen</span>
+            <a href="/docent/evaluaties" class="menu-item">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluaties</span>
             </a>
 
+            <a href="/docent/studenten" class="menu-item active">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Studenten</span>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
+            </a>
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
     </aside>
 
-    <main class="main-content">
-
+    <main class="main-content" style="flex: 1; background: white; min-height: 100vh;">
+        <!-- TOPBAR -->
         <header class="topbar">
             <i class="fa-regular fa-bell"></i>
-
-            <div class="user-circle">
-                DO
-            </div>
-
-            <span class="ehb-logo">
-                ehbc
-            </span>
+            <div class="user-circle" id="userCircle">DO</div>
+            <span class="ehb-logo">ehbc</span>
         </header>
 
         <section class="content">
-
-            <h1 id="docentWelkom">Welkom terug, Docent!</h1>
-
-            <p class="subtitle">
-                Hier kan je je studenten en stageovereenkomsten opvolgen.
-            </p>
+            <h1>Mijn Studenten</h1>
+            <p class="subtitle" style="margin-bottom: 30px;">Hier vind je een overzicht van alle studenten die aan jou gekoppeld zijn en de ondertekenstatus van hun stageovereenkomsten.</p>
 
             <div class="stats-grid">
-
                 <div class="stat-card">
-                    <h3>Mijn studenten</h3>
+                    <h3>Gekoppelde studenten</h3>
                     <p id="aantalDocentStudenten">0</p>
                 </div>
-
                 <div class="stat-card">
                     <h3>Open evaluaties</h3>
                     <p id="aantalOpenEvaluaties">0</p>
                 </div>
-
                 <div class="stat-card">
                     <h3>Actieve stages</h3>
                     <p id="aantalActieveStages">0</p>
-                </div>
-
-            </div>
-
-            <div class="student-quick-card admin-actions-card">
-                <h2>Snelle toegang</h2>
-
-                <div class="quick-grid">
-                    <a href="/docent/studenten" class="menu-item">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                        <span>Studenten</span>
-                    </a>
-
-                    <a href="/docent/stageovereenkomsten" class="quick-item">
-                        <i class="fa-solid fa-file-signature"></i>
-                        <span>Stageovereenkomst</span>
-                    </a>
                 </div>
             </div>
 
@@ -126,20 +91,16 @@
                         <tbody id="docentStudentenBody">
                             <tr>
                                 <td colspan="5" class="empty-table">
-                                    Er zijn momenteel geen studenten aan jou gekoppeld.
+                                    Laden...
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </section>
-
     </main>
 
-    <script src="../JS/docenthome.js"></script>
-
+    <script src="../JS/docent-studenten.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubriek - Stage Monitoring</title>
+    
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body, table, input, select, button, textarea {
+            font-family: 'Outfit', sans-serif !important;
+        }
+
+        .rubriek-container {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .rubriek-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #832D2C;
+            margin-bottom: 25px;
+        }
+
+        .rubriek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .rubriek-table th {
+            background-color: #eaeaea;
+            color: #333;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .rubriek-table td {
+            padding: 16px;
+            border: 1px solid #e0e0e0;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: #444;
+            vertical-align: top;
+        }
+
+        .rubriek-table tbody tr:hover {
+            background-color: #fafafa;
+        }
+
+        .criterion-cell {
+            font-weight: bold;
+            color: #832D2C;
+            width: 22%;
+        }
+
+        .criterion-subtext {
+            display: block;
+            font-weight: normal;
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .score-col-5 {
+            width: 25%;
+            border-left: 3px solid #26803b !important;
+        }
+
+        .score-col-3 {
+            width: 25%;
+            border-left: 3px solid #f5a623 !important;
+        }
+
+        .score-col-0 {
+            width: 20%;
+            border-left: 3px solid #c62828 !important;
+        }
+
+        .points-cell {
+            text-align: center;
+            vertical-align: middle;
+            font-weight: 700;
+            font-size: 16px;
+            color: #333;
+            width: 8%;
+        }
+
+        .terug-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .terug-btn {
+            background-color: #832D2C;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .terug-btn:hover {
+            background-color: #a84e4e;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar placeholder (will be filled dynamically via JS) -->
+    <aside class="sidebar" id="dynamicSidebar">
+        <div>
+            <div class="sidebar-title" id="sidebarTitle">Laden...</div>
+            <div id="sidebarMenuItems"></div>
+        </div>
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle" id="userCircle">U</div>
+            <span class="ehb-logo">ehbc</span>
+        </header>
+
+        <section class="content">
+            <div class="rubriek-title">Rubriek</div>
+            
+            <div class="rubriek-container">
+                <table class="rubriek-table">
+                    <thead>
+                        <tr>
+                            <th>Criteria</th>
+                            <th>Volledige score<br>5PTN</th>
+                            <th>Goede score<br>3PTN</th>
+                            <th>Geen score<br>0PTN</th>
+                            <th style="text-align: center;">Punten</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 1. Planning & Organisatie -->
+                        <tr>
+                            <td class="criterion-cell">
+                                Projectplanning en procesbeheersing
+                                <span class="criterion-subtext">Dit criterium is aan een leerresultaat gekoppeld</span>
+                            </td>
+                            <td class="score-col-5">
+                                De student beheerst het project - of operationeel planningsproces volledig. De aanpak is gestructureerd, doordacht en efficiënt. Er is zichtbaar aandacht voor kwaliteitsvol werken, professionele houding en eigen ontwikkeling.
+                            </td>
+                            <td class="score-col-3">
+                                De student toont een goede beheersing van het planningsproces. De aanpak is voldoende gestructureerd, maar kan nog verfijnd worden op vlak van opvolging, kwaliteit of zelfstandigheid.
+                            </td>
+                            <td class="score-col-0">
+                                De student toont onvoldoende beheersing van het planningsproces. De aanpak is onsamenhangend, onduidelijk of onvoldoende professioneel uitgewerkt.
+                            </td>
+                            <td class="points-cell">/5</td>
+                        </tr>
+
+                        <!-- 2. Technische Uitwerking -->
+                        <tr>
+                            <td class="criterion-cell">
+                                Ontwerp, implementatie en integratie van IT-oplossingen
+                                <span class="criterion-subtext">Dit criterium is aan een leerresultaat gekoppeld</span>
+                            </td>
+                            <td class="score-col-5">
+                                De student ontwerpt, implementeert en integreert IT-oplossingen op een professionele manier en volgens industriestandaarden. De oplossing is technisch correct, samenhangend en passend binnen de professionele context.
+                            </td>
+                            <td class="score-col-3">
+                                De student ontwerpt en realiseert een bruikbare IT-oplossing. De implementatie en integratie zijn grotendeels correct, maar vertonen nog enkele tekortkomingen of onvolledigheden.
+                            </td>
+                            <td class="score-col-0">
+                                De student toont onvoldoende inzicht in ontwerp, implementatie of integratie van IT-oplossingen. De uitwerking is foutief, onvolledig of niet toepasbaar in een professionele context.
+                            </td>
+                            <td class="points-cell">/5</td>
+                        </tr>
+
+                        <!-- 3. Onderzoek & Probleemoplossing -->
+                        <tr>
+                            <td class="criterion-cell">
+                                Onderzoekende houding en probleemoplossend denken
+                                <span class="criterion-subtext">Dit criterium is aan een leerresultaat gekoppeld</span>
+                            </td>
+                            <td class="score-col-5">
+                                De student toont een sterke onderzoekende houding en analyseert problemen kritisch. Er worden doordachte, innovatieve en efficiënte oplossingen voorgesteld en onderbouwd.
+                            </td>
+                            <td class="score-col-3">
+                                De student toont een voldoende onderzoekende houding en denkt kritisch na over problemen. De gekozen oplossingen zijn bruikbaar, maar kunnen nog dieper onderbouwd of innovatiever uitgewerkt worden.
+                            </td>
+                            <td class="score-col-0">
+                                De student toont weinig tot geen onderzoekende houding. Problemen worden onvoldoende geanalyseerd en oplossingen ontbreken, zijn inefficiënt of niet onderbouwd.
+                            </td>
+                            <td class="points-cell">/5</td>
+                        </tr>
+
+                        <!-- 4. Communicatie & Samenwerking -->
+                        <tr>
+                            <td class="criterion-cell">
+                                Communicatie en samenwerking in een professionele context
+                                <span class="criterion-subtext">Dit criterium is aan een leerresultaat gekoppeld</span>
+                            </td>
+                            <td class="score-col-5">
+                                De student communiceert helder, transparant en professioneel. Samenwerking verloopt vlot en doelgericht, met respect voor afspraken, feedback en teamwerking.
+                            </td>
+                            <td class="score-col-3">
+                                De student communiceert over het algemeen duidelijk en werkt behoorlijk samen in teamverband. Er is nog ruimte voor verbetering in afstemming, duidelijkheid of professionele communicatie.
+                            </td>
+                            <td class="score-col-0">
+                                De student communiceert onduidelijk of onprofessioneel. Samenwerking verloopt moeizaam of onvoldoende transparant.
+                            </td>
+                            <td class="points-cell">/5</td>
+                        </tr>
+
+                        <!-- 5. Professionele Ontwikkeling -->
+                        <tr>
+                            <td class="criterion-cell">
+                                Professionele ontwikkeling, ondernemerschap en ethisch handelen
+                                <span class="criterion-subtext">Dit criterium is aan een leerresultaat gekoppeld</span>
+                            </td>
+                            <td class="score-col-5">
+                                De student toont een sterke professionele attitude, neemt initiatief, creëert waarde en handelt consequent ethisch en deontologisch. De student reflecteert over de eigen groei en gebruikt die actief als basis voor verdere professionele ontwikkeling.
+                            </td>
+                            <td class="score-col-3">
+                                De student toont een voldoende professionele houding en enig ondernemend gedrag. Er is aandacht voor ethisch handelen en persoonlijke ontwikkeling, maar nog niet altijd consequent of diepgaand.
+                            </td>
+                            <td class="score-col-0">
+                                De student toont een onvoldoende professionele houding, weinig initiatief en/of handelt niet voldoende ethisch of deontologisch. Reflectie over persoonlijke groei ontbreekt of is zeer beperkt.
+                            </td>
+                            <td class="points-cell">/5</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="terug-btn-container">
+                    <a href="#" id="terugKnop" class="terug-btn">Terug</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/JS/rubriek.js"></script>
+</body>
+</html>

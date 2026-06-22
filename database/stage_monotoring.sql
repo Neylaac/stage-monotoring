@@ -210,3 +210,45 @@ CREATE TABLE koppelingen (
   FOREIGN KEY (student_id) REFERENCES users(id),
   FOREIGN KEY (docent_id) REFERENCES users(id)
 );
+
+CREATE TABLE IF NOT EXISTS evaluaties (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  type ENUM('ZELF_TUSSENTIJDS', 'ZELF_EIND', 'TUSSENTIJDS', 'EIND') NOT NULL,
+  
+  -- Planning & Organisatie
+  planning_score VARCHAR(50) NULL,
+  planning_feedback TEXT NULL,
+  planning_score_docent VARCHAR(50) NULL,
+  planning_feedback_docent TEXT NULL,
+
+  -- Technische Uitwerking
+  technisch_score VARCHAR(50) NULL,
+  technisch_feedback TEXT NULL,
+  technisch_score_docent VARCHAR(50) NULL,
+  technisch_feedback_docent TEXT NULL,
+
+  -- Onderzoek & Probleemoplossing
+  onderzoek_score VARCHAR(50) NULL,
+  onderzoek_feedback TEXT NULL,
+  onderzoek_score_docent VARCHAR(50) NULL,
+  onderzoek_feedback_docent TEXT NULL,
+
+  -- Communicatie & Professionele Houding
+  communicatie_score VARCHAR(50) NULL,
+  communicatie_feedback TEXT NULL,
+  communicatie_score_docent VARCHAR(50) NULL,
+  communicatie_feedback_docent TEXT NULL,
+
+  -- Groei, Initiatief & Ethiek
+  groei_score VARCHAR(50) NULL,
+  groei_feedback TEXT NULL,
+  groei_score_docent VARCHAR(50) NULL,
+  groei_feedback_docent TEXT NULL,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_student_type (student_id, type)
+);

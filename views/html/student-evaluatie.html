@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluaties - Student</title>
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/home.css">
+    <link rel="stylesheet" href="/CSS/student-evaluatie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Student</div>
+
+            <a href="/student/stageaanvraag" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvraag</span>
+            </a>
+
+            <a href="/student/home" id="homeLink" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="#" id="logboekenLink" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/student/evaluatie" id="evaluatieLink" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
+            </a>
+
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">
+                ST
+            </div>
+            <span class="ehb-logo">
+                ehbc
+            </span>
+        </header>
+
+        <section class="content">
+            <h1>Evaluaties</h1>
+            <p class="subtitle">Hier vind je een overzicht van je zelfreflecties en de evaluaties door je stagebegeleider en docent.</p>
+
+            <div class="evaluatie-grid">
+                <!-- Zelfreflectie - Tussentijdse -->
+                <div class="evaluatie-card">
+                    <div class="evaluatie-card-header">
+                        <div class="icon-container border-red">
+                            <i class="fa-solid fa-user-pen card-icon"></i>
+                        </div>
+                        <span class="status-badge red" id="status-zelf-tussentijds">Laden...</span>
+                    </div>
+                    <h2>Zelfreflectie - Tussentijdse</h2>
+                    <p>Beoordeel je eigen functioneren en voortgang halverwege je stageperiode.</p>
+                    <div class="evaluatie-card-actions">
+                        <a href="#" id="btn-zelf-tussentijds" class="btn btn-red disabled">Laden...</a>
+                    </div>
+                </div>
+
+                <!-- Tussentijdse evaluatie -->
+                <div class="evaluatie-card">
+                    <div class="evaluatie-card-header">
+                        <div class="icon-container border-orange">
+                            <i class="fa-solid fa-clipboard-list card-icon"></i>
+                        </div>
+                        <span class="status-badge orange" id="status-tussentijds">Laden...</span>
+                    </div>
+                    <h2>Tussentijdse evaluatie</h2>
+                    <p>Bekijk de tussentijdse beoordeling en feedback van je stagementor en docent.</p>
+                    <div class="evaluatie-card-actions">
+                        <a href="#" id="btn-tussentijds" class="btn btn-red disabled">Laden...</a>
+                    </div>
+                </div>
+
+                <!-- Zelfreflectie - Eindevaluatie -->
+                <div class="evaluatie-card">
+                    <div class="evaluatie-card-header">
+                        <div class="icon-container border-red">
+                            <i class="fa-solid fa-user-check card-icon"></i>
+                        </div>
+                        <span class="status-badge red" id="status-zelf-eind">Laden...</span>
+                    </div>
+                    <h2>Zelfreflectie - Eindevaluatie</h2>
+                    <p>Evalueer je eigen groei, prestaties en leerdoelen aan het einde van je stage.</p>
+                    <div class="evaluatie-card-actions">
+                        <a href="#" id="btn-zelf-eind" class="btn btn-red disabled">Laden...</a>
+                    </div>
+                </div>
+
+                <!-- Eindevaluatie -->
+                <div class="evaluatie-card">
+                    <div class="evaluatie-card-header">
+                        <div class="icon-container border-green">
+                            <i class="fa-solid fa-graduation-cap card-icon"></i>
+                        </div>
+                        <span class="status-badge green" id="status-eind">Laden...</span>
+                    </div>
+                    <h2>Eindevaluatie</h2>
+                    <p>Bekijk de definitieve eindbeoordeling en feedback van je stagementor en docent.</p>
+                    <div class="evaluatie-card-actions">
+                        <a href="#" id="btn-eind" class="btn btn-red disabled">Laden...</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/JS/student-evaluatie.js"></script>
+    <script src="/JS/student-toegang.js"></script>
+</body>
+</html>

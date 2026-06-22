@@ -1,8 +1,285 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administratie - Gebruikersbeheer</title>
+    <link rel="stylesheet" href="../CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            color: #666;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: inherit;
+            position: relative;
+            outline: none;
+            transition: color 0.2s ease;
+        }
+        .tab-btn:hover {
+            color: #832D2C;
+        }
+        .tab-btn.active {
+            color: #832D2C;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #832D2C;
+            border-radius: 3px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            background: white;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #832D2C;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+        .search-input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: #832D2C;
+        }
+        
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+            transition: color 0.2s;
+        }
+        .close-modal:hover {
+            color: #333;
+        }
+    </style>
+</head>
 <body>
 
-<h1 style="color:red;">TEST ADMIN GEBRUIKERS</h1>
+<!-- Sidebar voor administratie -->
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Administratie</div>
 
+        <a href="/admin/home" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="/admin/gebruikers" class="menu-item active">
+            <i class="fa-solid fa-users"></i>
+            <span>Gebruikers</span>
+        </a>
+
+        <a href="/admin/koppelingen" class="menu-item">
+            <i class="fa-solid fa-link"></i>
+            <span>Koppeling</span>
+        </a>
+    </div>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Uitloggen
+    </a>
+</aside>
+
+<main class="main-content">
+    <!-- Bovenbalk voor administratie -->
+    <header class="topbar admin-topbar">
+        <div class="page-label">
+            <i class="fa-solid fa-users"></i>
+            <span>Gebruikers</span>
+        </div>
+
+        <div class="topbar-right">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">AD</div>
+            <div>
+                <strong>Admin</strong>
+                <p>Beheerder</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="content admin-content">
+        <h1>Gebruikersbeheer</h1>
+        <p class="subtitle">Beheer bestaande studenten en docenten accounts of voeg nieuwe toe</p>
+
+        <div class="form-card" style="margin-top: 25px; width: 100%;">
+            <div class="filter-tabs">
+                <button id="tabStudenten" class="tab-btn active">Studenten</button>
+                <button id="tabDocenten" class="tab-btn">Docenten</button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                <div class="search-container">
+                    <input type="text" id="userSearch" class="search-input" placeholder="Zoek op naam of e-mailadres...">
+                </div>
+                <button id="openAddUserModal" class="submit-btn" style="height: 40px; margin: 0; padding: 0 20px; width: auto; font-family: inherit; font-weight: bold; background-color: #832D2C; color: white; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-user-plus"></i> Gebruiker toevoegen
+                </button>
+            </div>
+
+            <div class="aanvragen-table">
+                <table style="width: 100%; table-layout: fixed;">
+                    <thead id="tableHead">
+                        <!-- Dynamic headers depending on current active tab -->
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="5" class="empty-table">Gebruikers laden...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Modal Overlay for adding a user -->
+<div id="addUserModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" id="closeAddUserModal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="card-title" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <div class="icon-circle"><i class="fa-solid fa-user-plus"></i></div>
+            <h2 style="margin: 0; font-size: 18px;">Gebruiker Toevoegen</h2>
+        </div>
+
+        <form id="gebruikerForm">
+            <div class="form-group">
+                <label for="roleSelect">Rol</label>
+                <select id="roleSelect" required>
+                    <option value="STUDENT">Student</option>
+                    <option value="DOCENT">Docent</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="voornaam">Voornaam</label>
+                <input type="text" id="voornaam" placeholder="Bijv. Jan" required>
+            </div>
+
+            <div class="form-group">
+                <label for="achternaam">Achternaam</label>
+                <input type="text" id="achternaam" placeholder="Bijv. Janssens" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mailadres</label>
+                <input type="email" id="email" placeholder="Bijv. jan.janssens@ehb.be" required>
+            </div>
+
+            <div class="form-group">
+                <label for="wachtwoord">Wachtwoord</label>
+                <input type="password" id="wachtwoord" placeholder="Wachtwoord invoeren" required>
+            </div>
+
+            <!-- Studenten specifieke velden -->
+            <div id="studentFields">
+                <div class="form-group">
+                    <label for="studentnummer">Studentnummer</label>
+                    <input type="text" id="studentnummer" placeholder="Bijv. 123456" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="opleiding">Opleiding</label>
+                    <input type="text" id="opleiding" placeholder="Bijv. PBA Toegepaste Informatica" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" style="height: 42px; width: 100%; border: none; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; font-family: inherit; border-radius: 6px; font-weight: bold; background-color: #832D2C; color: white; margin-top: 20px;">
+                Gebruiker opslaan
+            </button>
+        </form>
+
+        <p id="formFeedback" style="margin-top: 15px; font-weight: bold; font-size: 14px; text-align: center;"></p>
+    </div>
+</div>
+
+<script src="../JS/admin-gebruikers.js"></script>
 </body>
 </html>

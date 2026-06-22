@@ -2,6 +2,7 @@ const express = require('express'); // we gaan eerst express importeren, je gebr
 const router = express.Router(); // hiermme maak je een router object
 const path = require('path');// dit helpt om coorecte bestandspaden te maken.
 const connection = require('./config/db_connection');//importeert de databaseverbinding
+const bcrypt = require('bcrypt');
 
 const { loginGebruiker } = require('./controllers/authController');// haalt de functie logingebruiker uit authcontroller.js
 const { registreerGebruiker } = require('./controllers/registerController');
@@ -34,6 +35,18 @@ const {
     getDaglogboekenVanWeek,
     dienWeeklogboekIn
 } = require('./controllers/logboekController');
+
+const {
+    getStudentEvaluatiesStatus,
+    getEvaluatieDetails,
+    submitZelfreflectie,
+    getBedrijfStagiairsEvaluaties,
+    getBedrijfEvaluatieDetails,
+    submitBedrijfEvaluatie,
+    getDocentStudentenEvaluaties,
+    getDocentEvaluatieDetails,
+    submitDocentEvaluatie
+} = require('./controllers/evaluatieController');
 
 // get gebruik je om een pagina op te vragen
 
@@ -448,6 +461,21 @@ router.get('/api/student/toegang', requireAuth, (req, res) => {
         });
     });
 });
+
+// -------------------------- EVALUATIES API --------------------------
+router.get('/api/student/evaluaties', requireAuth, getStudentEvaluatiesStatus);
+router.get('/api/student/evaluaties/:type', requireAuth, getEvaluatieDetails);
+router.post('/api/student/evaluatie/zelfreflectie', requireAuth, submitZelfreflectie);
+
+// -------------------------- BEDRIJF EVALUATIES API --------------------------
+router.get('/api/bedrijf/evaluaties', requireAuth, getBedrijfStagiairsEvaluaties);
+router.get('/api/bedrijf/evaluaties/:studentId/:type', requireAuth, getBedrijfEvaluatieDetails);
+router.post('/api/bedrijf/evaluatie/indienen', requireAuth, submitBedrijfEvaluatie);
+
+// -------------------------- DOCENT EVALUATIES API --------------------------
+router.get('/api/docent/evaluaties', requireAuth, getDocentStudentenEvaluaties);
+router.get('/api/docent/evaluaties/:studentId/:type', requireAuth, getDocentEvaluatieDetails);
+router.post('/api/docent/evaluaties/:studentId/:type/indienen', requireAuth, submitDocentEvaluatie);
 
 
 
@@ -944,6 +972,75 @@ router.get("/student-stageovereenkomst-detail", requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, "views", "html", "student-stageovereenkomst-detail.html"));
 });
 
+// Middleware to check if the student has access to evaluations (contract must be signed by all parties)
+const checkStudentToegang = (req, res, next) => {
+    const studentId = req.user?.id || req.session?.userId;
+    if (!studentId) {
+        return res.redirect('/login');
+    }
+
+    const query = `
+        SELECT
+            stageovereenkomsten.student_ondertekend,
+            stageovereenkomsten.bedrijf_ondertekend,
+            stageovereenkomsten.school_ondertekend
+        FROM stageaanvragen
+        JOIN stageovereenkomsten
+            ON stageovereenkomsten.stageaanvraag_id = stageaanvragen.id
+        WHERE stageaanvragen.student_id = ?
+        AND stageaanvragen.status = 'GOEDGEKEURD'
+        ORDER BY stageaanvragen.created_at DESC
+        LIMIT 1
+    `;
+
+    connection.query(query, [studentId], (error, results) => {
+        if (error || results.length === 0) {
+            return res.redirect('/student/home');
+        }
+
+        const overeenkomst = results[0];
+        const toegang =
+            overeenkomst.student_ondertekend === 1 &&
+            overeenkomst.bedrijf_ondertekend === 1 &&
+            overeenkomst.school_ondertekend === 1;
+
+        if (toegang) {
+            next();
+        } else {
+            res.redirect('/student/home');
+        }
+    });
+};
+
+router.get('/student/evaluatie', requireAuth, checkStudentToegang, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'student-evaluatie.html'));
+});
+
+router.get('/student/zelfreflectie/invullen', requireAuth, checkStudentToegang, (req, res) => {
+    const { type } = req.query;
+    if (type === 'ZELF_EIND') {
+        const studentId = req.user?.id || req.session?.userId;
+        const query = 'SELECT id FROM evaluaties WHERE student_id = ? AND type = ?';
+        connection.query(query, [studentId, 'ZELF_TUSSENTIJDS'], (err, results) => {
+            if (err || results.length === 0) {
+                return res.redirect('/student/evaluatie');
+            }
+            res.sendFile(path.join(__dirname, 'views', 'html', 'student-zelfreflectie-formulier.html'));
+        });
+    } else {
+        res.sendFile(path.join(__dirname, 'views', 'html', 'student-zelfreflectie-formulier.html'));
+    }
+});
+
+router.get('/student/evaluatie/detail', requireAuth, checkStudentToegang, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'student-evaluatie-detail.html'));
+});
+
+
+router.get('/rubriek', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'rubriek.html'));
+});
+
 router.get('/student/logboeken', requireAuth, (req, res) => {
     res.sendFile(
         path.join(
@@ -976,6 +1073,8 @@ router.get('/student/daglogboek', requireAuth, (req, res) => {
         )
     );
 });
+
+
 // -------------------------- DOCENT PAGINA'S --------------------------
 
 router.get('/docent/home', requireAuth, (req, res) => {
@@ -1002,8 +1101,11 @@ router.get('/api/docent/home', requireAuth, (req, res) => {
 
             so.student_ondertekend,
             so.bedrijf_ondertekend,
-            so.school_ondertekend
-
+            so.school_ondertekend,
+            sa.id AS aanvraag_id,
+            (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'ZELF_EIND') AS zelf_eind_exists,
+            (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'EIND') AS mentor_eind_exists,
+            (SELECT COUNT(*) FROM evaluaties WHERE student_id = u.id AND type = 'EIND' AND planning_score_docent IS NOT NULL) AS docent_beoordeeld
         FROM koppelingen k
 
         JOIN users u
@@ -1032,11 +1134,19 @@ router.get('/api/docent/home', requireAuth, (req, res) => {
         }
 
         const totaalStudenten = results.length;
-
-        const actieveStages = results.filter(student => {
-            return student.aanvraag_status === 'GOEDGEKEURD';
-        }).length;
-
+        const actieveStages = results.filter(r => r.aanvraag_status === 'GOEDGEKEURD').length;
+        
+        const uniqueStudentEmails = new Set();
+        let openEvaluaties = 0;
+        results.forEach(r => {
+            if (!uniqueStudentEmails.has(r.email)) {
+                uniqueStudentEmails.add(r.email);
+                if (r.zelf_eind_exists > 0 && r.mentor_eind_exists > 0 && !r.docent_beoordeeld) {
+                    openEvaluaties++;
+                }
+            }
+        });
+        
         res.json({
             status: 'success',
             totaalStudenten: totaalStudenten,
@@ -1055,6 +1165,20 @@ router.get('/docent/studenten', requireAuth, (req, res) => {
 router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));
 });
+
+router.get('/docent/studenten', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docent-studenten.html'));
+});
+
+router.get('/docent/evaluaties', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docent-evaluaties.html'));
+});
+
+router.get('/docent/evaluaties/beoordelen', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docent-evaluatie-formulier.html'));
+});
+
+
 
 router.get('/stageovereenkomst-detail', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-detail.html'));
@@ -1265,6 +1389,22 @@ router.get('/bedrijf-stageovereenkomst-detail', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijf-stageovereenkomst-detail.html'));
 });
 
+router.get('/bedrijf/evaluatie', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijf-evaluatie-overzicht.html'));
+});
+
+router.get('/bedrijf/evaluatie/invullen', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijf-evaluatie-formulier.html'));
+});
+
+router.get('/bedrijf/evaluatie', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijf-evaluatie-overzicht.html'));
+});
+
+router.get('/bedrijf/evaluatie/invullen', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'bedrijf-evaluatie-formulier.html'));
+});
+
 router.get('/bedrijf/logboeken', requireAuth, (req, res) => {
     res.sendFile(
         path.join(
@@ -1275,6 +1415,7 @@ router.get('/bedrijf/logboeken', requireAuth, (req, res) => {
         )
     );
 });
+
 console.log('BEDRIJF ROUTES GELADEN');
 router.get('/bedrijf/studentlogboeken', requireAuth, (req, res) => {
     res.sendFile(
@@ -1308,6 +1449,7 @@ router.get('/bedrijf/daglogboek', requireAuth, (req, res) => {
         )
     );
 });
+
 
 // -------------------------- STAGECOMMISSIE PAGINA'S --------------------------
 
@@ -1350,13 +1492,16 @@ router.get('/api/admin/studenten', requireAuth, (req, res) => {
 
     const query = `
         SELECT
-            id,
-            voornaam,
-            achternaam,
-            email
-        FROM users
-        WHERE role = 'STUDENT'
-        ORDER BY voornaam
+            u.id,
+            u.voornaam,
+            u.achternaam,
+            u.email,
+            sp.studentnummer,
+            sp.opleiding
+        FROM users u
+        LEFT JOIN student_profiles sp ON u.id = sp.user_id
+        WHERE u.role = 'STUDENT'
+        ORDER BY u.voornaam
     `;
 
     connection.query(query, (error, results) => {
@@ -1490,7 +1635,6 @@ router.delete('/api/admin/koppelingen/:id', requireAuth, (req, res) => {
 router.get('/api/admin/stats', requireAuth, (req, res) => {
     const qStudents = "SELECT COUNT(*) AS count FROM users WHERE role = 'STUDENT'";
     const qDocenten = "SELECT COUNT(*) AS count FROM users WHERE role = 'DOCENT'";
-    const qStages = "SELECT COUNT(*) AS count FROM stageaanvragen";
 
     connection.query(qStudents, (errStudents, rStudents) => {
         if (errStudents) {
@@ -1502,16 +1646,9 @@ router.get('/api/admin/stats', requireAuth, (req, res) => {
                 console.error(errDocenten);
                 return res.status(500).json({ status: 'error' });
             }
-            connection.query(qStages, (errStages, rStages) => {
-                if (errStages) {
-                    console.error(errStages);
-                    return res.status(500).json({ status: 'error' });
-                }
-                res.json({
-                    totaalStudenten: rStudents[0].count,
-                    totaalDocenten: rDocenten[0].count,
-                    totaalStageplaatsen: rStages[0].count
-                });
+            res.json({
+                totaalStudenten: rStudents[0].count,
+                totaalDocenten: rDocenten[0].count
             });
         });
     });
@@ -1546,7 +1683,7 @@ router.get('/admin/gebruikers', requireAuth, (req, res) => {
 
 // -------------------------- ADMIN GEBRUIKERS TOEVOEGEN --------------------------
 
-router.post('/api/admin/studenten', requireAuth, (req, res) => {
+router.post('/api/admin/studenten', requireAuth, async (req, res) => {
     const {
         voornaam,
         achternaam,
@@ -1556,62 +1693,79 @@ router.post('/api/admin/studenten', requireAuth, (req, res) => {
         opleiding
     } = req.body;
 
-    const userQuery = `
-        INSERT INTO users (
-            voornaam,
-            achternaam,
-            email,
-            wachtwoord,
-            role
-        )
-        VALUES (?, ?, ?, ?, 'STUDENT')
-    `;
+    if (!voornaam || !achternaam || !email || !wachtwoord || !studentnummer || !opleiding) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'Alle velden zijn verplicht'
+        });
+    }
 
-    connection.query(
-        userQuery,
-        [voornaam, achternaam, email, wachtwoord],
-        (error, result) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({
-                    status: 'error',
-                    message: 'Student kon niet worden aangemaakt'
-                });
-            }
+    try {
+        const hashedWachtwoord = await bcrypt.hash(wachtwoord, 10);
 
-            const studentQuery = `
-                INSERT INTO student_profiles (
-                    user_id,
-                    studentnummer,
-                    opleiding
-                )
-                VALUES (?, ?, ?)
-            `;
+        const userQuery = `
+            INSERT INTO users (
+                voornaam,
+                achternaam,
+                email,
+                wachtwoord,
+                role
+            )
+            VALUES (?, ?, ?, ?, 'STUDENT')
+        `;
 
-            connection.query(
-                studentQuery,
-                [result.insertId, studentnummer, opleiding],
-                (error) => {
-                    if (error) {
-                        console.error(error);
-                        return res.status(500).json({
-                            status: 'error',
-                            message: 'Studentprofiel kon niet worden aangemaakt'
-                        });
-                    }
-
-                    res.json({
-                        status: 'success',
-                        message: 'Student aangemaakt'
+        connection.query(
+            userQuery,
+            [voornaam, achternaam, email, hashedWachtwoord],
+            (error, result) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({
+                        status: 'error',
+                        message: 'Student kon niet worden aangemaakt. E-mailadres bestaat mogelijk al.'
                     });
                 }
-            );
-        }
-    );
+
+                const studentQuery = `
+                    INSERT INTO student_profiles (
+                        user_id,
+                        studentnummer,
+                        opleiding
+                    )
+                    VALUES (?, ?, ?)
+                `;
+
+                connection.query(
+                    studentQuery,
+                    [result.insertId, studentnummer, opleiding],
+                    (error) => {
+                        if (error) {
+                            console.error(error);
+                            return res.status(500).json({
+                                status: 'error',
+                                message: 'Studentprofiel kon niet worden aangemaakt'
+                            });
+                        }
+
+                        res.json({
+                            status: 'success',
+                            message: 'Student aangemaakt'
+                        });
+                    }
+                );
+            }
+        );
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            status: 'error',
+            message: 'Interne fout bij het aanmaken van de student'
+        });
+    }
 });
 
 
-router.post('/api/admin/docenten', requireAuth, (req, res) => {
+router.post('/api/admin/docenten', requireAuth, async (req, res) => {
     const {
         voornaam,
         achternaam,
@@ -1619,35 +1773,52 @@ router.post('/api/admin/docenten', requireAuth, (req, res) => {
         wachtwoord
     } = req.body;
 
-    const query = `
-        INSERT INTO users (
-            voornaam,
-            achternaam,
-            email,
-            wachtwoord,
-            role
-        )
-        VALUES (?, ?, ?, ?, 'DOCENT')
-    `;
+    if (!voornaam || !achternaam || !email || !wachtwoord) {
+        return res.status(400).json({
+            status: 'error',
+            message: 'Alle velden zijn verplicht'
+        });
+    }
 
-    connection.query(
-        query,
-        [voornaam, achternaam, email, wachtwoord],
-        (error) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({
-                    status: 'error',
-                    message: 'Docent kon niet worden aangemaakt'
+    try {
+        const hashedWachtwoord = await bcrypt.hash(wachtwoord, 10);
+
+        const query = `
+            INSERT INTO users (
+                voornaam,
+                achternaam,
+                email,
+                wachtwoord,
+                role
+            )
+            VALUES (?, ?, ?, ?, 'DOCENT')
+        `;
+
+        connection.query(
+            query,
+            [voornaam, achternaam, email, hashedWachtwoord],
+            (error) => {
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({
+                        status: 'error',
+                        message: 'Docent kon niet worden aangemaakt. E-mailadres bestaat mogelijk al.'
+                    });
+                }
+
+                res.json({
+                    status: 'success',
+                    message: 'Docent aangemaakt'
                 });
             }
-
-            res.json({
-                status: 'success',
-                message: 'Docent aangemaakt'
-            });
-        }
-    );
+        );
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            status: 'error',
+            message: 'Interne fout bij het aanmaken van de docent'
+        });
+    }
 });
 
 module.exports = router;

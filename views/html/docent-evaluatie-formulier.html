@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docent - Evalueer Stagiair</title>
+
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/home.css">
+    <link rel="stylesheet" href="/CSS/student-evaluatie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body, table, input, select, button, textarea {
+            font-family: 'Outfit', sans-serif !important;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 992px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-col {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .comparison-col.student {
+            border-left: 4px solid #4a90e2;
+        }
+
+        .comparison-col.mentor {
+            border-left: 4px solid #f5a623;
+        }
+
+        .comparison-col.docent {
+            border-left: 4px solid #832D2C;
+            background-color: #fdfafa;
+        }
+
+        .col-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .readonly-score-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .readonly-feedback-box {
+            background-color: #f9fafb;
+            border: 1px solid #eaecf0;
+            border-radius: 6px;
+            padding: 12px 14px;
+            font-size: 13.5px;
+            color: #344054;
+            line-height: 1.5;
+            min-height: 90px;
+            white-space: pre-wrap;
+            flex: 1;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-badge.A { background-color: #d8f8df; color: #26803b; }
+        .status-badge.B { background-color: #e2efff; color: #276fc2; }
+        .status-badge.C { background-color: #fff0d8; color: #c47a00; }
+        .status-badge.D { background-color: #ffdede; color: #c62828; }
+        .status-badge.none { background-color: #f1f1f1; color: #777; }
+
+        .form-card {
+            max-width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .submit-btn {
+            background-color: #832D2C;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #a84e4e;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            font-size: 20px;
+            font-weight: bold;
+            color: #832D2C;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Docent</div>
+
+            <a href="/docent/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="/docent/stageovereenkomsten" class="menu-item">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Stageovereenkomst</span>
+            </a>
+
+            <a href="/docent/evaluaties" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluaties</span>
+            </a>
+
+            <a href="/docent/studenten" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Studenten</span>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
+            </a>
+
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle" id="userCircle">DO</div>
+            <span class="ehb-logo">ehbc</span>
+        </header>
+
+        <section class="content">
+            <a href="/docent/evaluaties" class="back-link"><i class="fa-solid fa-arrow-left"></i> Terug naar overzicht</a>
+
+            <h1 id="docentFormTitle">Eindevaluatie Beoordelen</h1>
+            <p class="subtitle" id="docentFormSubtitle">
+                Gelieve de zelfreflectie van de student en de beoordeling van de mentor te vergelijken en uw eindoordeel in te voeren.
+            </p>
+
+            <form id="docentEvaluatieForm" class="evaluation-form" style="max-width: 1000px; display: none;">
+                
+                <!-- 1. Planning & Organisatie -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>1. Planning & Organisatie</h3>
+                    </div>
+                    <p class="criterion-desc">Het plannen en organiseren van taken, respecteren van deadlines en hanteren van een gestructureerde, methodische werkwijze.</p>
+                    
+                    <div class="comparison-grid">
+                        <!-- Student -->
+                        <div class="comparison-col student">
+                            <span class="col-title"><i class="fa-solid fa-user"></i> Stagiair Zelfreflectie</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="student_planning_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="student_planning_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Mentor -->
+                        <div class="comparison-col mentor">
+                            <span class="col-title"><i class="fa-solid fa-building"></i> Mentor Beoordeling</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="mentor_planning_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="mentor_planning_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Docent -->
+                        <div class="comparison-col docent">
+                            <span class="col-title"><i class="fa-solid fa-gavel"></i> Finale Beoordeling</span>
+                            <div class="score-selector" style="margin-bottom: 12px; margin-top: 0;">
+                                <label for="planning_score">Score:</label>
+                                <select id="planning_score" name="planning_score" required>
+                                    <option value="" disabled selected>Kies finale score</option>
+                                    <option value="1">1 / 5</option>
+                                    <option value="2">2 / 5</option>
+                                    <option value="3">3 / 5</option>
+                                    <option value="4">4 / 5</option>
+                                    <option value="5">5 / 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Technische Uitwerking -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>2. Technische Uitwerking</h3>
+                    </div>
+                    <p class="criterion-desc">Kwaliteit van het geleverde werk/de code, begrip van technische tools en frameworks, nauwkeurigheid en testen van oplossingen.</p>
+                    
+                    <div class="comparison-grid">
+                        <!-- Student -->
+                        <div class="comparison-col student">
+                            <span class="col-title"><i class="fa-solid fa-user"></i> Stagiair Zelfreflectie</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="student_technisch_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="student_technisch_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Mentor -->
+                        <div class="comparison-col mentor">
+                            <span class="col-title"><i class="fa-solid fa-building"></i> Mentor Beoordeling</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="mentor_technisch_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="mentor_technisch_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Docent -->
+                        <div class="comparison-col docent">
+                            <span class="col-title"><i class="fa-solid fa-gavel"></i> Finale Beoordeling</span>
+                            <div class="score-selector" style="margin-bottom: 12px; margin-top: 0;">
+                                <label for="technisch_score">Score:</label>
+                                <select id="technisch_score" name="technisch_score" required>
+                                    <option value="" disabled selected>Kies finale score</option>
+                                    <option value="1">1 / 5</option>
+                                    <option value="2">2 / 5</option>
+                                    <option value="3">3 / 5</option>
+                                    <option value="4">4 / 5</option>
+                                    <option value="5">5 / 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Onderzoek & Probleemoplossing -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>3. Onderzoek & Probleemoplossing</h3>
+                    </div>
+                    <p class="criterion-desc">Analytisch vermogen, het zelfstandig analyseren en oplossen van problemen, opzoeken van de nodige documentatie en stellen van de juiste vragen.</p>
+                    
+                    <div class="comparison-grid">
+                        <!-- Student -->
+                        <div class="comparison-col student">
+                            <span class="col-title"><i class="fa-solid fa-user"></i> Stagiair Zelfreflectie</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="student_onderzoek_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="student_onderzoek_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Mentor -->
+                        <div class="comparison-col mentor">
+                            <span class="col-title"><i class="fa-solid fa-building"></i> Mentor Beoordeling</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="mentor_onderzoek_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="mentor_onderzoek_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Docent -->
+                        <div class="comparison-col docent">
+                            <span class="col-title"><i class="fa-solid fa-gavel"></i> Finale Beoordeling</span>
+                            <div class="score-selector" style="margin-bottom: 12px; margin-top: 0;">
+                                <label for="onderzoek_score">Score:</label>
+                                <select id="onderzoek_score" name="onderzoek_score" required>
+                                    <option value="" disabled selected>Kies finale score</option>
+                                    <option value="1">1 / 5</option>
+                                    <option value="2">2 / 5</option>
+                                    <option value="3">3 / 5</option>
+                                    <option value="4">4 / 5</option>
+                                    <option value="5">5 / 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Communicatie & Houding -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>4. Communicatie & Professionele Houding</h3>
+                    </div>
+                    <p class="criterion-desc">Actieve en open communicatie met het team en begeleiders, stiptheid, respecteren van bedrijfscultuur en openstaan voor opbouwende feedback.</p>
+                    
+                    <div class="comparison-grid">
+                        <!-- Student -->
+                        <div class="comparison-col student">
+                            <span class="col-title"><i class="fa-solid fa-user"></i> Stagiair Zelfreflectie</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="student_communicatie_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="student_communicatie_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Mentor -->
+                        <div class="comparison-col mentor">
+                            <span class="col-title"><i class="fa-solid fa-building"></i> Mentor Beoordeling</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="mentor_communicatie_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="mentor_communicatie_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Docent -->
+                        <div class="comparison-col docent">
+                            <span class="col-title"><i class="fa-solid fa-gavel"></i> Finale Beoordeling</span>
+                            <div class="score-selector" style="margin-bottom: 12px; margin-top: 0;">
+                                <label for="communicatie_score">Score:</label>
+                                <select id="communicatie_score" name="communicatie_score" required>
+                                    <option value="" disabled selected>Kies finale score</option>
+                                    <option value="1">1 / 5</option>
+                                    <option value="2">2 / 5</option>
+                                    <option value="3">3 / 5</option>
+                                    <option value="4">4 / 5</option>
+                                    <option value="5">5 / 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Groei, Initiatief & Ethiek -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>5. Groei, Initiatief & Ethiek</h3>
+                    </div>
+                    <p class="criterion-desc">Proactief handelen, tonen van eigen initiatief, ethische beroepshouding en de mate waarin je geleerd hebt van voorgaande ervaringen.</p>
+                    
+                    <div class="comparison-grid">
+                        <!-- Student -->
+                        <div class="comparison-col student">
+                            <span class="col-title"><i class="fa-solid fa-user"></i> Stagiair Zelfreflectie</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="student_groei_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="student_groei_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Mentor -->
+                        <div class="comparison-col mentor">
+                            <span class="col-title"><i class="fa-solid fa-building"></i> Mentor Beoordeling</span>
+                            <div class="readonly-score-container">
+                                <strong>Score:</strong> <span id="mentor_groei_badge" class="status-badge none">-</span>
+                            </div>
+                            <div id="mentor_groei_feedback" class="readonly-feedback-box">-</div>
+                        </div>
+
+                        <!-- Docent -->
+                        <div class="comparison-col docent">
+                            <span class="col-title"><i class="fa-solid fa-gavel"></i> Finale Beoordeling</span>
+                            <div class="score-selector" style="margin-bottom: 12px; margin-top: 0;">
+                                <label for="groei_score">Score:</label>
+                                <select id="groei_score" name="groei_score" required>
+                                    <option value="" disabled selected>Kies finale score</option>
+                                    <option value="1">1 / 5</option>
+                                    <option value="2">2 / 5</option>
+                                    <option value="3">3 / 5</option>
+                                    <option value="4">4 / 5</option>
+                                    <option value="5">5 / 5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Summary Card -->
+                <div class="form-card" style="border-left: 4px solid #832D2C; background-color: #fdfafa;">
+                    <div class="form-card-header">
+                        <h3>Eindbeoordeling Samenvatting</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 10px 0;">
+                        <div style="text-align: center; border-right: 1px solid #eee; padding: 10px;">
+                            <span style="font-size: 13px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Gemiddelde Stagiair</span>
+                            <div style="font-size: 24px; font-weight: bold; color: #4a90e2; margin-top: 8px;" id="avg_student_score">-</div>
+                        </div>
+                        <div style="text-align: center; border-right: 1px solid #eee; padding: 10px;">
+                            <span style="font-size: 13px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Gemiddelde Mentor</span>
+                            <div style="font-size: 24px; font-weight: bold; color: #f5a623; margin-top: 8px;" id="avg_mentor_score">-</div>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <span style="font-size: 13px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Jouw Eindscore</span>
+                            <div style="font-size: 28px; font-weight: bold; color: #832D2C; margin-top: 6px;" id="avg_docent_score">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submitDocentBtn">Eindbeoordeling Indienen</button>
+                </div>
+            </form>
+
+            <div id="loadingIndicator" class="loading-overlay">
+                <div style="text-align: center;">
+                    <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+                    <p style="margin-top: 15px; font-size: 16px;">Gegevens ophalen...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/JS/docent-evaluatie-formulier.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedrijf - Evaluatie Overzicht</title>
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/bedrijfhome.css">
+    <link rel="stylesheet" href="/CSS/bedrijf-evaluatie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Bedrijf</div>
+
+            <a href="/bedrijf/home" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="/bedrijf-stageovereenkomst-overzicht" class="menu-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Stagiairs</span>
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+            </a>
+
+            <a href="/bedrijf/evaluatie" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
+            </a>
+
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-right">
+                <div class="notification-icon">🔔</div>
+                <div class="user-avatar-top">IM</div>
+                <div class="logo">EBSC</div>
+            </div>
+        </header>
+
+        <section class="content">
+            <h1>Evaluaties</h1>
+            <p class="subtitle">Beoordeel de voortgang en prestaties van je actieve stagiairs.</p>
+
+            <div class="section-card" style="margin-top: 30px;">
+                <div class="card-header" style="margin-bottom: 20px;">
+                    <h2><i class="fa-solid fa-clipboard-check"></i> Stagiair Evaluaties</h2>
+                </div>
+                <div class="trainees-table-wrapper">
+                    <table class="trainees-table">
+                        <thead>
+                            <tr>
+                                <th>Stagiair</th>
+                                <th>Opleiding</th>
+                                <th>Tussentijdse evaluatie</th>
+                                <th>Eindevaluatie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="traineesEvaluatieBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 30px; color: #888;">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Gegevens laden...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/JS/bedrijf-evaluatie-overzicht.js"></script>
+</body>
+</html>

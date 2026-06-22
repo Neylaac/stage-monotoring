@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluatie Details - Student</title>
+    <link rel="stylesheet" href="/CSS/stageaanvraag.css">
+    <link rel="stylesheet" href="/CSS/home.css">
+    <link rel="stylesheet" href="/CSS/student-evaluatie.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-title">Student</div>
+
+            <a href="/student/stageaanvraag" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Stageaanvraag</span>
+            </a>
+
+            <a href="/student/home" id="homeLink" class="menu-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="#" id="logboekenLink" class="menu-item">
+                <i class="fa-solid fa-book"></i>
+                <span>Logboeken</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/student/evaluatie" id="evaluatieLink" class="menu-item active">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Evaluatie</span>
+                <i class="fa-solid fa-lock lock"></i>
+            </a>
+
+            <a href="/rubriek" class="menu-item">
+                <i class="fa-solid fa-table"></i>
+                <span>Rubriek</span>
+            </a>
+
+        </div>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Uitloggen</span>
+        </a>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user-circle">
+                ST
+            </div>
+            <span class="ehb-logo">
+                ehbc
+            </span>
+        </header>
+
+        <section class="content">
+            <a href="/student/evaluatie" class="back-link"><i class="fa-solid fa-arrow-left"></i> Terug naar overzicht</a>
+            
+            <h1 id="detail-title">Evaluatie Details</h1>
+            <p class="subtitle" id="detail-subtitle">Ingezonden antwoorden en beoordelingen voor deze evaluatie.</p>
+
+            <div id="evaluation-details-container" class="evaluation-details">
+                <!-- Planning & Organisatie -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <h3>1. Planning & Organisatie</h3>
+                    </div>
+                    <p class="criterion-desc">Het plannen en organiseren van taken, respecteren van deadlines en hanteren van een gestructureerde, methodische werkwijze.</p>
+                    <div class="scores-display-grid" id="grid-planning">
+                        <!-- Will be populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Technische Uitwerking -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <h3>2. Technische Uitwerking</h3>
+                    </div>
+                    <p class="criterion-desc">Kwaliteit van het geleverde werk/de code, begrip van technische tools en frameworks, nauwkeurigheid en testen van oplossingen.</p>
+                    <div class="scores-display-grid" id="grid-technisch">
+                        <!-- Will be populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Onderzoek & Probleemoplossing -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <h3>3. Onderzoek & Probleemoplossing</h3>
+                    </div>
+                    <p class="criterion-desc">Analytisch vermogen, het zelfstandig analyseren en oplossen van problemen, opzoeken van de nodige documentatie en stellen van de juiste vragen.</p>
+                    <div class="scores-display-grid" id="grid-onderzoek">
+                        <!-- Will be populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Communicatie & Houding -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <h3>4. Communicatie & Professionele Houding</h3>
+                    </div>
+                    <p class="criterion-desc">Actieve en open communicatie met het team en begeleiders, stiptheid, respecteren van bedrijfscultuur en openstaan voor opbouwende feedback.</p>
+                    <div class="scores-display-grid" id="grid-communicatie">
+                        <!-- Will be populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Groei, Initiatief & Ethiek -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <h3>5. Groei, Initiatief & Ethiek</h3>
+                    </div>
+                    <p class="criterion-desc">Proactief handelen, tonen van eigen initiatief, ethische beroepshouding en de mate waarin je geleerd hebt van voorgaande ervaringen.</p>
+                    <div class="scores-display-grid" id="grid-groei">
+                        <!-- Will be populated dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Summary Card -->
+                <div id="summary-card-container" style="display: none; margin-top: 25px;">
+                    <div class="detail-card" style="border-left: 4px solid #832D2C; background-color: #fdfafa;">
+                        <div class="detail-card-header">
+                            <h3>Evaluatie Samenvatting</h3>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 10px 0;">
+                            <div style="text-align: center; border-right: 1px solid #eee; padding: 10px;">
+                                <span style="font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Mijn Gemiddelde</span>
+                                <div style="font-size: 24px; font-weight: bold; color: #4a90e2; margin-top: 8px;" id="avg_student_score">-</div>
+                            </div>
+                            <div style="text-align: center; border-right: 1px solid #eee; padding: 10px;">
+                                <span style="font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Gemiddelde Mentor</span>
+                                <div style="font-size: 24px; font-weight: bold; color: #f5a623; margin-top: 8px;" id="avg_mentor_score">-</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px;">
+                                <span style="font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 0.5px;">Gemiddelde Docent</span>
+                                <div style="font-size: 24px; font-weight: bold; color: #832D2C; margin-top: 8px;" id="avg_docent_score">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/JS/student-evaluatie-detail.js"></script>
+    <script src="/JS/student-toegang.js"></script>
+</body>
+</html>
