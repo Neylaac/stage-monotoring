@@ -1,25 +1,80 @@
+function getAanvraagId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('id');
+}
+
+function formatteerDatum(datum) {
+    const datumObject = new Date(datum);
+
+    return datumObject.toLocaleDateString('nl-BE', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+}
+
+function toonWeekStatus(week) {
+    if (week.afgetekend === 1 || week.afgetekend === true) {
+        return `
+            <span class="logboek-status ingediend">
+                Goedgekeurd
+            </span>
+        `;
+    }
+
+    return `
+        <span class="logboek-status niet-ingediend">
+            Ingediend
+        </span>
+    `;
+}
+
 function laadWeeklogboeken() {
+    const wekenTabel =
+        document.getElementById('weeklogboekenTabel');
 
-    fetch('/api/weeklogboeken')
+    const aanvraagId =
+        getAanvraagId();
+
+    if (!wekenTabel || !aanvraagId) {
+        return;
+    }
+
+    fetch('/api/docent/student/' + aanvraagId + '/logboeken')
         .then(response => response.json())
-        .then(weeklogboeken => {
+        .then(data => {
 
-            const tabel =
-                document.getElementById(
-                    'weeklogboekenTabel'
-                );
+            console.log(data);
 
-            if (!tabel) {
+            if (data.status !== 'success') {
+                wekenTabel.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            ${data.message}
+                        </td>
+                    </tr>
+                `;
+
                 return;
             }
 
-            tabel.innerHTML = '';
-
-            weeklogboeken.forEach(week => {
-
-                tabel.innerHTML += `
+            if (data.weken.length === 0) {
+                wekenTabel.innerHTML = `
                     <tr>
+                        <td colspan="4">
+                            Geen ingediende weeklogboeken gevonden.
+                        </td>
+                    </tr>
+                `;
 
+                return;
+            }
+
+            wekenTabel.innerHTML = '';
+
+            data.weken.forEach(week => {
+                wekenTabel.innerHTML += `
+                    <tr>
                         <td>
                             <strong>
                                 Week ${week.weeknummer}
@@ -27,45 +82,41 @@ function laadWeeklogboeken() {
                         </td>
 
                         <td>
-                            ${week.startdatum}
+                            ${formatteerDatum(week.startdatum)}
                             -
-                            ${week.einddatum}
+                            ${formatteerDatum(week.einddatum)}
                         </td>
 
                         <td>
-
-                            <span class="logboek-status ingediend">
-
-                                Ingediend
-
-                            </span>
-
+                            ${toonWeekStatus(week)}
                         </td>
 
                         <td>
-
                             <a
-                                href="docentweeklogboek.html?id=${week.id}"
-                                class="logboek-btn">
-
+                                href="/docent/weeklogboek?id=${week.id}&student=${aanvraagId}"
+                                class="logboek-btn"
+                            >
                                 Bekijken
-
                             </a>
-
                         </td>
-
                     </tr>
                 `;
-
             });
-
         })
         .catch(error => {
-
-            console.error(error);
-
+            console.error(
+                'Fout bij ophalen weeklogboeken:',
+                error
+            );
         });
+}
 
+const terugKnop =
+    document.querySelector('.form-actions a');
+
+if (terugKnop) {
+    terugKnop.href =
+        '/docent/studentdetails?id=' + getAanvraagId();
 }
 
 laadWeeklogboeken();

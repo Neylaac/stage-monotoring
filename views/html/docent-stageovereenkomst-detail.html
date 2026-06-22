@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../CSS/stagecommissie-stageovereenkomst-detail.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body style="display: flex; min-height: 100vh; background-color: #eef1f8;">
 
     <!-- SIDEBAR -->
@@ -26,16 +28,10 @@
                 <span>Stageovereenkomst</span>
             </a>
 
-            <a href="/docent/home" class="menu-item">
+            <a href="/docent/studenten" class="menu-item">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>Studenten</span>
             </a>
-        </div>
-
-        <a href="/logout" class="logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Uitloggen</span>
-        </a>
     </aside>
 
     <!-- CONTENT -->
@@ -61,7 +57,8 @@
             </div>
 
             <!-- STATUS -->
-            <div class="status-box" style="margin-top: 30px; background: white; padding: 20px; border-radius: 6px; border: 1px solid #ddd;">
+            <div class="status-box"
+                style="margin-top: 30px; background: white; padding: 20px; border-radius: 6px; border: 1px solid #ddd;">
                 <h2>Ondertekenstatus</h2>
                 <div class="status-row">
                     <span>Student</span>
@@ -78,9 +75,10 @@
             </div>
 
             <!-- CONTRACT -->
-            <div class="contract-container" style="margin-top: 30px; background: white; padding: 40px; border-radius: 6px; border: 1px solid #ddd;">
+            <div class="contract-container"
+                style="margin-top: 30px; background: white; padding: 40px; border-radius: 6px; border: 1px solid #ddd;">
                 <h1>STAGEOVEREENKOMST</h1>
-                
+
                 <p style="margin-top: 20px;"><strong>Student:</strong> <span id="contractStudentNaam">-</span></p>
                 <p><strong>Opleiding:</strong> <span id="contractOpleiding">-</span></p>
                 <p><strong>Bedrijf:</strong> <span id="contractBedrijf">-</span></p>
@@ -89,49 +87,62 @@
 
                 <div class="article" style="margin-top: 25px;">
                     <h3>Artikel 1 - Doel van de stage</h3>
-                    <p>De student voert een stage uit bij het vermelde bedrijf met als doel praktijkervaring op te doen binnen de opleiding en professionele competenties verder te ontwikkelen.</p>
+                    <p>De student voert een stage uit bij het vermelde bedrijf met als doel praktijkervaring op te doen
+                        binnen de opleiding en professionele competenties verder te ontwikkelen.</p>
                 </div>
 
                 <div class="article" style="margin-top: 20px;">
                     <h3>Artikel 2 - Stageperiode</h3>
-                    <p>De stage loopt gedurende de afgesproken periode zoals vermeld in deze overeenkomst. Wijzigingen aan de stageperiode moeten door alle partijen worden goedgekeurd.</p>
+                    <p>De stage loopt gedurende de afgesproken periode zoals vermeld in deze overeenkomst. Wijzigingen
+                        aan de stageperiode moeten door alle partijen worden goedgekeurd.</p>
                 </div>
 
                 <div class="article" style="margin-top: 20px;">
                     <h3>Artikel 3 - Verantwoordelijkheden student</h3>
-                    <p>De student engageert zich om de stageopdracht zorgvuldig uit te voeren, de bedrijfsregels na te leven en vertrouwelijke informatie niet te verspreiden.</p>
+                    <p>De student engageert zich om de stageopdracht zorgvuldig uit te voeren, de bedrijfsregels na te
+                        leven en vertrouwelijke informatie niet te verspreiden.</p>
                 </div>
 
                 <div class="article" style="margin-top: 20px;">
                     <h3>Artikel 4 - Verantwoordelijkheden bedrijf</h3>
-                    <p>Het bedrijf voorziet een geschikte werkplek, begeleiding tijdens de stage en een contactpersoon die de voortgang van de student opvolgt.</p>
+                    <p>Het bedrijf voorziet een geschikte werkplek, begeleiding tijdens de stage en een contactpersoon
+                        die de voortgang van de student opvolgt.</p>
                 </div>
 
                 <div class="article" style="margin-top: 20px;">
                     <h3>Artikel 5 - Verantwoordelijkheden school</h3>
-                    <p>De onderwijsinstelling volgt het stageproces op, ondersteunt de student waar nodig en evalueert de stage in samenwerking met het bedrijf.</p>
+                    <p>De onderwijsinstelling volgt het stageproces op, ondersteunt de student waar nodig en evalueert
+                        de stage in samenwerking met het bedrijf.</p>
                 </div>
 
                 <div class="article" style="margin-top: 20px;">
                     <h3>Artikel 6 - Evaluatie</h3>
-                    <p>De stage wordt geëvalueerd op basis van de uitgevoerte opdrachten, feedback van het bedrijf, het logboek en de behaalde leerdoelen.</p>
+                    <p>De stage wordt geëvalueerd op basis van de uitgevoerte opdrachten, feedback van het bedrijf, het
+                        logboek en de behaalde leerdoelen.</p>
                 </div>
 
                 <!-- HANDTEKENINGEN -->
-                <div class="signature-section" style="margin-top: 40px; display: flex; justify-content: space-between; gap: 20px;">
+                <div class="signature-section"
+                    style="margin-top: 40px; display: flex; justify-content: space-between; gap: 20px;">
                     <div class="signature-block" style="flex: 1; text-align: center;">
                         <h4>Handtekening student</h4>
-                        <div id="studentHandtekening" class="signature-placeholder" style="margin-top: 10px; padding: 15px; border: 1px dashed #ccc; border-radius: 4px; font-style: italic;">Nog niet ondertekend</div>
+                        <div id="studentHandtekening" class="signature-placeholder"
+                            style="margin-top: 10px; padding: 15px; border: 1px dashed #ccc; border-radius: 4px; font-style: italic;">
+                            Nog niet ondertekend</div>
                     </div>
 
                     <div class="signature-block" style="flex: 1; text-align: center;">
                         <h4>Handtekening bedrijf</h4>
-                        <div id="bedrijfHandtekening" class="signature-placeholder" style="margin-top: 10px; padding: 15px; border: 1px dashed #ccc; border-radius: 4px; font-style: italic;">Nog niet ondertekend</div>
+                        <div id="bedrijfHandtekening" class="signature-placeholder"
+                            style="margin-top: 10px; padding: 15px; border: 1px dashed #ccc; border-radius: 4px; font-style: italic;">
+                            Nog niet ondertekend</div>
                     </div>
 
                     <div class="signature-block" style="flex: 1; text-align: center;">
                         <h4>Handtekening school</h4>
-                        <div id="schoolHandtekening" class="signature-placeholder" style="margin-top: 10px; padding: 15px; border: 1px dashed #ccc; border-radius: 4px; font-style: italic;">Nog niet ondertekend</div>
+                        <div id="schoolHandtekening" class="signature-placeholder"
+                            style="margin-top: 10px; padding: 15px; border: 1px dashed #ccc; border-radius: 4px; font-style: italic;">
+                            Nog niet ondertekend</div>
                     </div>
                 </div>
             </div>
@@ -170,11 +181,11 @@
                     // Header vullen
                     document.getElementById('studentNaam').textContent = `${o.voornaam} ${o.achternaam}`;
                     document.getElementById('studentOpleiding').textContent = o.opleiding;
-                    
+
                     const start = new Date(o.startdatum).toLocaleDateString("nl-BE");
                     const einde = new Date(o.einddatum).toLocaleDateString("nl-BE");
                     document.getElementById('studentStageperiode').textContent = `${start} - ${einde}`;
-                    
+
                     document.getElementById('studentInitialen').textContent = o.voornaam.charAt(0) + o.achternaam.charAt(0);
 
                     // Contract vullen
@@ -189,7 +200,7 @@
                         const bad = document.getElementById('studentStatus');
                         bad.textContent = 'Ondertekend';
                         bad.className = 'status goedgekeurd';
-                        
+
                         const sig = document.getElementById('studentHandtekening');
                         sig.innerHTML = `<img src="${o.student_handtekening}" style="max-height: 80px; max-width: 100%;" />`;
                     }
@@ -214,4 +225,5 @@
         }
     </script>
 </body>
+
 </html>

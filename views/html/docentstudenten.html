@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docent - Studenten</title>
+
+    <link rel="stylesheet" href="../CSS/docentstudenten.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div>
+        <div class="sidebar-title">Docent</div>
+
+        <a href="/docent/home" class="menu-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="/docent/stageovereenkomsten" class="menu-item">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Stageovereenkomst</span>
+        </a>
+
+        <a href="/docent/studenten" class="menu-item active">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Studenten</span>
+        </a>
+    </div>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Uitloggen</span>
+    </a>
+</aside>
+
+<div class="content">
+
+    <div class="topbar">
+        <div class="topbar-right">
+            <i class="fa-regular fa-bell notification-icon"></i>
+
+            <div class="user-avatar-top" id="docentInitialen">
+                DO
+            </div>
+
+            <div class="logo">
+                EBSC
+            </div>
+        </div>
+    </div>
+
+    <h1>Mijn studenten</h1>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Opleiding</th>
+                    <th>Stageperiode</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="docentStudentenTabel">
+                <tr>
+                    <td colspan="4">
+                        Studenten worden geladen.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="/JS/docentstudenten.js"></script>
+
+</body>
+
+</html>

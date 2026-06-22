@@ -61,23 +61,39 @@ fetch("/api/docent/home")
             const tr = document.createElement("tr");
 
             // Status badges voor handtekeningen
-            const studentBadge = s.student_ondertekend === 1 
-                ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+            const studentBadge = s.student_ondertekend === 1
+                ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>'
                 : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
 
-            const bedrijfBadge = s.bedrijf_ondertekend === 1 
-                ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+            const bedrijfBadge = s.bedrijf_ondertekend === 1
+                ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>'
                 : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
 
-            const schoolBadge = s.school_ondertekend === 1 
-                ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+            const schoolBadge = s.school_ondertekend === 1
+                ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>'
                 : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
 
             const statusTekst = `<div style="display: flex; gap: 5px;">S: ${studentBadge} B: ${bedrijfBadge} D: ${schoolBadge}</div>`;
 
             // Action button (redirect naar docent detailpagina)
-            const actieKnop = s.aanvraag_id 
-                ? `<a href="/stageovereenkomst-detail?id=${s.aanvraag_id}" class="view-btn" style="font-size: 12px; padding: 6px 12px; display: inline-block;">Bekijken</a>`
+            const actieKnop = s.aanvraag_id
+                ? `
+        <a
+            href="/stageovereenkomst-detail?id=${s.aanvraag_id}"
+            class="view-btn"
+            style="font-size: 12px; padding: 6px 12px; display: inline-block;"
+        >
+            Overeenkomst
+        </a>
+
+        <a
+            href="/docent/logboeken?id=${s.aanvraag_id}"
+            class="view-btn"
+            style="font-size: 12px; padding: 6px 12px; display: inline-block; margin-left: 6px;"
+        >
+            Logboeken
+        </a>
+    `
                 : `<span style="color: #999; font-style: italic;">Geen aanvraag</span>`;
 
             tr.innerHTML = `

@@ -13,126 +13,121 @@
 
 <body>
 
-<aside class="sidebar">
+    <aside class="sidebar">
 
-    <div>
-        <div class="sidebar-title">Docent</div>
+        <div>
+            <div class="sidebar-title">Docent</div>
 
-        <a href="/docent/home" class="menu-item active">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
+            <a href="/docent/home" class="menu-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
 
-        <a href="/docent/stageovereenkomsten" class="menu-item">
-            <i class="fa-solid fa-briefcase"></i>
-            <span>Stageovereenkomst</span>
-        </a>
+            <a href="/docent/stageovereenkomsten" class="menu-item">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Stageovereenkomst</span>
+            </a>
 
-        <a href="/docent/home" class="menu-item">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>Studenten</span>
-        </a>
+            <a href="/docent/studenten" class="menu-item">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Studenten</span>
+            </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-    </div>
 
-    <a href="/logout" class="logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        <span>Uitloggen</span>
-    </a>
+            <a href="/logout" class="logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Uitloggen</span>
+            </a>
 
-</aside>
+    </aside>
 
-<main class="main-content">
+    <main class="main-content">
 
-    <header class="topbar">
-        <i class="fa-regular fa-bell"></i>
+        <header class="topbar">
+            <i class="fa-regular fa-bell"></i>
 
-        <div class="user-circle">
-            DO
-        </div>
-
-        <span class="ehb-logo">
-            ehbc
-        </span>
-    </header>
-
-    <section class="content">
-
-        <h1 id="docentWelkom">Welkom terug, Docent!</h1>
-
-        <p class="subtitle">
-            Hier kan je je studenten en stageovereenkomsten opvolgen.
-        </p>
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-                <h3>Mijn studenten</h3>
-                <p id="aantalDocentStudenten">0</p>
+            <div class="user-circle">
+                DO
             </div>
 
-            <div class="stat-card">
-                <h3>Open evaluaties</h3>
-                <p id="aantalOpenEvaluaties">0</p>
+            <span class="ehb-logo">
+                ehbc
+            </span>
+        </header>
+
+        <section class="content">
+
+            <h1 id="docentWelkom">Welkom terug, Docent!</h1>
+
+            <p class="subtitle">
+                Hier kan je je studenten en stageovereenkomsten opvolgen.
+            </p>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <h3>Mijn studenten</h3>
+                    <p id="aantalDocentStudenten">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Open evaluaties</h3>
+                    <p id="aantalOpenEvaluaties">0</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Actieve stages</h3>
+                    <p id="aantalActieveStages">0</p>
+                </div>
+
             </div>
 
-            <div class="stat-card">
-                <h3>Actieve stages</h3>
-                <p id="aantalActieveStages">0</p>
+            <div class="student-quick-card admin-actions-card">
+                <h2>Snelle toegang</h2>
+
+                <div class="quick-grid">
+                    <a href="/docent/studenten" class="menu-item">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>Studenten</span>
+                    </a>
+
+                    <a href="/docent/stageovereenkomsten" class="quick-item">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span>Stageovereenkomst</span>
+                    </a>
+                </div>
             </div>
 
-        </div>
+            <div class="bedrijf-card" style="width: 100%; margin-top: 30px;">
+                <h2>Mijn studenten opvolgen</h2>
 
-        <div class="student-quick-card admin-actions-card">
-            <h2>Snelle toegang</h2>
-
-            <div class="quick-grid">
-                <a href="/docent/home" class="quick-item">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Studenten</span>
-                </a>
-
-                <a href="/docent/stageovereenkomsten" class="quick-item">
-                    <i class="fa-solid fa-file-signature"></i>
-                    <span>Stageovereenkomst</span>
-                </a>
+                <div class="aanvragen-table" style="margin-top: 15px; overflow-x: auto;">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Studentnummer & Opleiding</th>
+                                <th>Bedrijf</th>
+                                <th>Ondertekenstatus (Student / Bedrijf / School)</th>
+                                <th>Actie</th>
+                            </tr>
+                        </thead>
+                        <tbody id="docentStudentenBody">
+                            <tr>
+                                <td colspan="5" class="empty-table">
+                                    Er zijn momenteel geen studenten aan jou gekoppeld.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <div class="bedrijf-card" style="width: 100%; margin-top: 30px;">
-            <h2>Mijn studenten opvolgen</h2>
+        </section>
 
-            <div class="aanvragen-table" style="margin-top: 15px; overflow-x: auto;">
-                <table style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Student</th>
-                            <th>Studentnummer & Opleiding</th>
-                            <th>Bedrijf</th>
-                            <th>Ondertekenstatus (Student / Bedrijf / School)</th>
-                            <th>Actie</th>
-                        </tr>
-                    </thead>
-                    <tbody id="docentStudentenBody">
-                        <tr>
-                            <td colspan="5" class="empty-table">
-                                Er zijn momenteel geen studenten aan jou gekoppeld.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    </main>
 
-    </section>
-
-</main>
-
-<script src="../JS/docenthome.js"></script>
+    <script src="../JS/docenthome.js"></script>
 
 </body>
 

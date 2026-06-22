@@ -4,264 +4,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student details</title>
+    <title>Docent - Studentoverzicht</title>
 
-    <link rel="stylesheet" href="../CSS/logboeken.css">
+    <link rel="stylesheet" href="../CSS/docentstudenten.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
 
 <aside class="sidebar">
-
     <div>
+        <div class="sidebar-title">Docent</div>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/home" class="menu-item">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/stageovereenkomsten" class="menu-item">
             <i class="fa-solid fa-briefcase"></i>
             <span>Stageovereenkomst</span>
         </a>
 
-        <a href="#" class="menu-item active">
+        <a href="/docent/studenten" class="menu-item active">
             <i class="fa-solid fa-graduation-cap"></i>
             <span>Studenten</span>
         </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
+
+    <a href="/logout" class="logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Uitloggen</span>
+    </a>
+</aside>
+
+<div class="content">
+
+    <div class="topbar">
+        <div class="topbar-right">
+            <i class="fa-regular fa-bell notification-icon"></i>
+
+            <div class="user-avatar-top" id="docentInitialen">
+                DO
+            </div>
+
+            <div class="logo">
+                EBSC
+            </div>
+        </div>
+    </div>
+
+    <div class="student-overview-page">
+
+        <h1>Studentoverzicht</h1>
+
+        <div class="student-profile">
+            <div class="student-avatar-large" id="studentInitialen">
+                ST
+            </div>
+
+            <div class="student-info">
+                <h2 id="studentNaam">
+                    Student wordt geladen
+                </h2>
+
+                <p id="studentOpleiding">
+                    -
+                </p>
+
+                <p>
+                    Stageperiode:
+                    <span id="studentStageperiode">-</span>
+                </p>
+            </div>
+        </div>
 
     </div>
 
-    <a href="#" class="logout">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
-    </a>
+    <div class="info-cards">
 
-</aside>
+        <div class="info-card">
+            <h3>Gegevens student</h3>
 
-<main class="main-content">
-
-    <header class="topbar">
-
-        <i class="fa-regular fa-bell"></i>
-
-        <div class="user-circle">
-            IM
-        </div>
-
-        <span class="ehb-logo">
-            ebsc
-        </span>
-
-    </header>
-
-    <section class="content">
-
-        <h1>Student details</h1>
-
-        <a href="#" class="back-link">
-            ← Terug naar studenten overzicht
-        </a>
-
-        <div style="
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            gap:15px;
-            margin:30px 0;
-        ">
-
-            <div class="user-circle">
-                LS
-            </div>
-
-            <h2 style="margin:0;">
-                Lana Segers
-            </h2>
-
-        </div>
-
-        <!-- Stageinformatie -->
-
-        <div class="logboek-table-card">
-
-            <h2>Stageinformatie:</h2>
-
-            <table style="border-spacing:0 14px; margin-left:80px;">
-
-                <tr>
-                    <td style="width:220px;"><strong>Locatie:</strong></td>
-                    <td>Brussel</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Bedrijf:</strong></td>
-                    <td>Tech Solutions</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Mentor:</strong></td>
-                    <td>Samuel De Vis</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Startdatum:</strong></td>
-                    <td>01/02/2026</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Einddatum:</strong></td>
-                    <td>31/05/2026</td>
-                </tr>
-
-            </table>
-
-        </div>
-
-        <!-- Studentinformatie -->
-
-        <div class="logboek-table-card">
-
-            <h2>Studentinformatie:</h2>
-
-            <table style="border-spacing:0 14px; margin-left:80px;">
-
-                <tr>
-                    <td style="width:220px;"><strong>Studentennummer:</strong></td>
-                    <td>20250123</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Opleiding:</strong></td>
-                    <td>Toegepaste Informatica</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Email:</strong></td>
-                    <td>lana.segers@student.ehb.be</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Telefoonnummer:</strong></td>
-                    <td>0465234556</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Afstudeerrichting:</strong></td>
-                    <td>Software Engineer</td>
-                </tr>
-
-            </table>
-
-        </div>
-
-        <!-- Opvolgingsinformatie -->
-
-        <div class="logboek-table-card">
-
-            <h2>Opvolgingsinformatie:</h2>
-
-            <table style="border-spacing:0 14px; margin-left:80px;">
-
-                <tr>
-                    <td style="width:320px;">Logboeken:</td>
-                    <td>8/10 ontvangen</td>
-                </tr>
-
-                <tr>
-                    <td>Mentorfeedback:</td>
-                    <td>8/10 ontvangen</td>
-                </tr>
-
-                <tr>
-                    <td>Tussentijdse evaluatie student:</td>
-                    <td>✅ ontvangen</td>
-                </tr>
-
-                <tr>
-                    <td>Tussentijdse evaluatie mentor:</td>
-                    <td>✅ ontvangen</td>
-                </tr>
-
-                <tr>
-                    <td>Gesprek mentor-docent:</td>
-                    <td>⚠️ Nog niet geregistreerd</td>
-                </tr>
-
-                <tr>
-                    <td>Eindevaluatie student:</td>
-                    <td>❌ Nog niet beschikbaar</td>
-                </tr>
-
-                <tr>
-                    <td>Eindevaluatie mentor:</td>
-                    <td>❌ Nog niet beschikbaar</td>
-                </tr>
-
-            </table>
-
-        </div>
-
-        <!-- Stagevoortgang -->
-
-        <div class="logboek-table-card">
-
-            <h2>Stagevoortgang</h2>
-
-            <div style="
-                width:100%;
-                background:#eeeeee;
-                height:22px;
-                border-radius:4px;
-            ">
-
-                <div style="
-                    width:75%;
-                    background:#8bd49a;
-                    height:22px;
-                    border-radius:4px;
-                ">
-                </div>
-
-            </div>
-
-            <p style="
-                text-align:right;
-                margin-top:10px;
-                font-weight:bold;
-            ">
-                75%
+            <p>
+                <strong>Studentennummer</strong><br>
+                <span id="studentNummer">-</span>
             </p>
 
+            <p>
+                <strong>E-mail</strong><br>
+                <span id="studentEmail">-</span>
+            </p>
         </div>
 
-        <div class="form-actions">
+        <div class="info-card">
+            <h3>Stagegegevens</h3>
 
-            <a docentstudentdetails.html?id=12
-               class="submit-btn">
+            <p>
+                <strong>Bedrijf</strong><br>
+                <span id="stageBedrijf">-</span>
+            </p>
 
-                Logboeken
+            <p>
+                <strong>Mentor</strong><br>
+                <span id="stageMentor">-</span>
+            </p>
 
-            </a>
-
-            <a href="#"
-               class="submit-btn">
-
-                Evaluaties
-
-            </a>
-
+            <p>
+                <strong>Telefoon bedrijf</strong><br>
+                <span id="stageTelefoon">-</span>
+            </p>
         </div>
 
-    </section>
+    </div>
 
-</main>
+    <div class="agreement-card">
+        <div>
+            <h2>Logboeken</h2>
+
+            <p>
+                Bekijk de week- en daglogboeken van deze student.
+            </p>
+        </div>
+
+        <button class="view-button" id="logboekenKnop">
+            Bekijken
+        </button>
+    </div>
+
+    <div class="agreement-card">
+        <div>
+            <h2>Evaluaties</h2>
+
+            <p>
+                Bekijk of vul de evaluaties van deze student aan.
+            </p>
+        </div>
+
+        <button class="view-button" id="evaluatiesKnop">
+            Bekijken
+        </button>
+    </div>
+
+    <div class="back-container">
+        <button
+            class="back-button"
+            onclick="window.location.href='/docent/studenten'"
+        >
+            Terug
+        </button>
+    </div>
+
+</div>
+
+<script src="/JS/docentstudentdetails.js"></script>
 
 </body>
 

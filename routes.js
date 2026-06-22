@@ -77,8 +77,8 @@ router.get('/set-token', (req, res) => { //Deze route wordt gebruikt na een succ
     }
 
     if (role === 'BEDRIJF') {
-            return res.redirect('/bedrijf/home');
-        
+        return res.redirect('/bedrijf/home');
+
     }
 
 
@@ -984,46 +984,73 @@ router.get('/docent/home', requireAuth, (req, res) => {
 
 router.get('/api/docent/home', requireAuth, (req, res) => {
     const docentId = req.user.id;
+
     const query = `
         SELECT 
             u.voornaam, 
             u.achternaam, 
             u.email,
+
             sp.studentnummer,
             sp.opleiding,
+
             sa.bedrijfsnaam,
+            sa.startdatum,
+            sa.einddatum,
             sa.status AS aanvraag_status,
+            sa.id AS aanvraag_id,
+
             so.student_ondertekend,
             so.bedrijf_ondertekend,
-            so.school_ondertekend,
-            sa.id AS aanvraag_id
+            so.school_ondertekend
+
         FROM koppelingen k
-        JOIN users u ON k.student_id = u.id
-        LEFT JOIN student_profiles sp ON u.id = sp.user_id
-        LEFT JOIN stageaanvragen sa ON u.id = sa.student_id
-        LEFT JOIN stageovereenkomsten so ON sa.id = so.stageaanvraag_id
+
+        JOIN users u
+            ON k.student_id = u.id
+
+        LEFT JOIN student_profiles sp
+            ON u.id = sp.user_id
+
+        LEFT JOIN stageaanvragen sa
+            ON u.id = sa.student_id
+
+        LEFT JOIN stageovereenkomsten so
+            ON sa.id = so.stageaanvraag_id
+
         WHERE k.docent_id = ?
     `;
-    
+
     connection.query(query, [docentId], (error, results) => {
         if (error) {
             console.error('Fout bij ophalen docent home data:', error);
-            return res.status(500).json({ status: 'error', message: 'Fout bij ophalen data' });
+
+            return res.status(500).json({
+                status: 'error',
+                message: 'Fout bij ophalen data'
+            });
         }
-        
+
         const totaalStudenten = results.length;
-        const actieveStages = results.filter(r => r.aanvraag_status === 'GOEDGEKEURD').length;
-        const openEvaluaties = 0;
-        
+
+        const actieveStages = results.filter(student => {
+            return student.aanvraag_status === 'GOEDGEKEURD';
+        }).length;
+
         res.json({
             status: 'success',
-            totaalStudenten,
-            actieveStages,
-            openEvaluaties,
+            totaalStudenten: totaalStudenten,
+            actieveStages: actieveStages,
+            openEvaluaties: 0,
             studenten: results
         });
     });
 });
+
+router.get('/docent/studenten', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'html', 'docentstudenten.html'));
+});
+
 
 router.get('/docent/stageovereenkomsten', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'html', 'docent-stageovereenkomst-overzicht.html'));
@@ -1095,34 +1122,63 @@ router.get(
                 student_profiles.opleiding,
 
                 stageaanvragen.bedrijfsnaam,
+                stageaanvragen.telefoonnummer,
+                stageaanvragen.contact_voornaam,
+                stageaanvragen.contact_naam,
                 stageaanvragen.startdatum,
-                stageaanvragen.einddatum
+                stageaanvragen.einddatum,
+                stageaanvragen.opdracht,
+                stageaanvragen.omschrijving
 
             FROM stageaanvragen
 
             JOIN users
                 ON users.id = stageaanvragen.student_id
 
-            JOIN student_profiles
+            LEFT JOIN student_profiles
                 ON student_profiles.user_id = users.id
 
+            JOIN koppelingen
+                ON koppelingen.student_id = users.id
+
             WHERE stageaanvragen.id = ?
+            AND koppelingen.docent_id = ?
         `;
 
         connection.query(
             query,
-            [aanvraagId],
+            [aanvraagId, req.user.id],
             (error, results) => {
 
                 if (error) {
-                    return res.status(500).json(error);
+                    console.error(
+                        'Fout bij ophalen docent studentdetails:',
+                        error
+                    );
+
+                    return res.status(500).json({
+                        status: 'error',
+                        message: 'Fout bij ophalen studentdetails'
+                    });
                 }
 
-                res.json(results[0]);
+                if (results.length === 0) {
+                    return res.status(404).json({
+                        status: 'error',
+                        message: 'Student niet gevonden'
+                    });
+                }
+
+                res.json({
+                    status: 'success',
+                    student: results[0]
+                });
             }
         );
     }
 );
+
+
 router.get(
     '/api/docent/student/:id/logboeken',
     requireAuth,
@@ -1132,28 +1188,58 @@ router.get(
 
         const query = `
             SELECT
-                weeklogboeken.*
-            FROM weeklogboeken
+                weeklogboeken.id,
+                weeklogboeken.weeknummer,
+                weeklogboeken.startdatum,
+                weeklogboeken.einddatum,
+                weeklogboeken.ingediend,
+                weeklogboeken.ingediend_op,
+                weeklogboeken.afgetekend,
+                weeklogboeken.afgetekend_op,
+                weeklogboeken.mentor_feedback
+
+            FROM stageaanvragen
 
             JOIN stageovereenkomsten
-                ON stageovereenkomsten.id =
-                   weeklogboeken.stageovereenkomst_id
+                ON stageovereenkomsten.stageaanvraag_id =
+                   stageaanvragen.id
 
-            WHERE stageovereenkomsten.stageaanvraag_id = ?
+            JOIN weeklogboeken
+                ON weeklogboeken.stageovereenkomst_id =
+                   stageovereenkomsten.id
 
-            ORDER BY weeknummer
+            JOIN koppelingen
+                ON koppelingen.student_id =
+                   stageaanvragen.student_id
+
+            WHERE stageaanvragen.id = ?
+            AND koppelingen.docent_id = ?
+            AND weeklogboeken.ingediend = TRUE
+
+            ORDER BY weeklogboeken.weeknummer
         `;
 
         connection.query(
             query,
-            [aanvraagId],
-            (error, results) => {
+            [aanvraagId, req.user.id],
+            (error, weken) => {
 
                 if (error) {
-                    return res.status(500).json(error);
+                    console.error(
+                        'Fout bij ophalen docent weeklogboeken:',
+                        error
+                    );
+
+                    return res.status(500).json({
+                        status: 'error',
+                        message: 'Weeklogboeken konden niet worden opgehaald'
+                    });
                 }
 
-                res.json(results);
+                res.json({
+                    status: 'success',
+                    weken: weken
+                });
             }
         );
     }
@@ -1435,11 +1521,11 @@ router.get('/api/admin/stats', requireAuth, (req, res) => {
 // -------------------------- ADMIN --------------------------
 
 router.get('/admin/home', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'html', 'administratiehome.html'));
+    res.sendFile(path.join(__dirname, 'views', 'html', 'administratiehome.html'));
 });
 
 router.get('/admin/stageaanvragen', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvragenadministratie.html'));
+    res.sendFile(path.join(__dirname, 'views', 'html', 'stageaanvragenadministratie.html'));
 });
 
 router.get('/admin/koppelingen', requireAuth, (req, res) => {

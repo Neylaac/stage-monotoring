@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daglogboek</title>
+    <title>Docent - Daglogboek</title>
 
     <link rel="stylesheet" href="../CSS/logboeken.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,60 +13,48 @@
 <body>
 
 <aside class="sidebar">
-
     <div>
+        <div class="sidebar-title">Docent</div>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/home" class="menu-item">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/stageovereenkomsten" class="menu-item">
             <i class="fa-solid fa-briefcase"></i>
             <span>Stageovereenkomst</span>
         </a>
 
-        <a href="#" class="menu-item active">
+        <a href="/docent/studenten" class="menu-item active">
             <i class="fa-solid fa-graduation-cap"></i>
             <span>Studenten</span>
         </a>
-
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-
     </div>
 
-    <a href="#" class="logout">
+    <a href="/logout" class="logout">
         <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
+        <span>Uitloggen</span>
     </a>
-
 </aside>
 
 <main class="main-content">
-
     <header class="topbar">
-
         <i class="fa-regular fa-bell"></i>
 
-        <div class="user-circle">
-            IM
+        <div class="user-circle" id="docentInitialen">
+            DO
         </div>
 
         <span class="ehb-logo">
-            ebsc
+            ehbc
         </span>
-
     </header>
 
     <section class="content daglogboek-page">
-
         <h1>Daglogboek</h1>
 
         <div class="dag-form">
-
             <div class="form-row">
                 <label>Datum</label>
                 <input id="datum" type="date" readonly>
@@ -90,79 +79,35 @@
                 <label>Problemen / moeilijkheden</label>
                 <textarea id="problemen" readonly></textarea>
             </div>
-
         </div>
 
         <div class="competenties-section">
-
             <h2>Competenties</h2>
 
             <div class="competenties-grid">
-
-                <button class="competentie-btn" disabled>
-                    Planning
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Ontwerp
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Implementatie
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Integratie
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Onderzoek
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Communicatie
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Probleemoplossing
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Groei
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Professionaliteit
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Ondernemerschap
-                </button>
-
-                <button class="competentie-btn" disabled>
-                    Ethiek
-                </button>
-
+                <button class="competentie-btn" disabled>Planning</button>
+                <button class="competentie-btn" disabled>Ontwerp</button>
+                <button class="competentie-btn" disabled>Implementatie</button>
+                <button class="competentie-btn" disabled>Integratie</button>
+                <button class="competentie-btn" disabled>Onderzoek</button>
+                <button class="competentie-btn" disabled>Communicatie</button>
+                <button class="competentie-btn" disabled>Probleemoplossing</button>
+                <button class="competentie-btn" disabled>Groei</button>
+                <button class="competentie-btn" disabled>Professionaliteit</button>
+                <button class="competentie-btn" disabled>Ondernemerschap</button>
+                <button class="competentie-btn" disabled>Ethiek</button>
             </div>
-
         </div>
 
         <div class="form-actions">
-
-            <a href="docentweeklogboek.html"
-               class="submit-btn">
-
+            <a id="terugKnop" href="/docent/studenten" class="submit-btn">
                 Sluiten
-
             </a>
-
         </div>
-
     </section>
-
 </main>
 
-<script src="../JS/bedrijfDaglogboek.js"></script>
-
+<script src="/JS/docentdaglogboek.js"></script>
 </body>
+
 </html>

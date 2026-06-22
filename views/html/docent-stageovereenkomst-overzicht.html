@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="../CSS/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body style="display: flex; min-height: 100vh; background-color: #eef1f8;">
 
     <!-- SIDEBAR -->
@@ -20,21 +22,22 @@
                 <span>Home</span>
             </a>
 
-            <a href="/docent/stageovereenkomsten" class="menu-item active">
+            <a href="/docent/stageovereenkomsten" class="menu-item" smahle, .....>
                 <i class="fa-solid fa-briefcase"></i>
                 <span>Stageovereenkomst</span>
             </a>
 
-            <a href="/docent/home" class="menu-item">
+            <a href="/docent/studenten" class="menu-item">
                 <i class="fa-solid fa-graduation-cap"></i>
                 <span>Studenten</span>
             </a>
-        </div>
 
-        <a href="/logout" class="logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Uitloggen</span>
-        </a>
+            <a href="/logout" class="logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Uitloggen</span>
+            </a>
+
+
     </aside>
 
     <!-- CONTENT -->
@@ -48,7 +51,8 @@
 
         <section class="content">
             <h1>Stageovereenkomsten</h1>
-            <p class="subtitle" style="margin-bottom: 30px;">Opvolging en overzicht van alle lopende overeenkomsten van jouw studenten.</p>
+            <p class="subtitle" style="margin-bottom: 30px;">Opvolging en overzicht van alle lopende overeenkomsten van
+                jouw studenten.</p>
 
             <div class="aanvragen-table">
                 <table style="width: 100%;">
@@ -108,21 +112,21 @@
                 studenten.forEach(s => {
                     const tr = document.createElement("tr");
 
-                    const studentBadge = s.student_ondertekend === 1 
-                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+                    const studentBadge = s.student_ondertekend === 1
+                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>'
                         : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
 
-                    const bedrijfBadge = s.bedrijf_ondertekend === 1 
-                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+                    const bedrijfBadge = s.bedrijf_ondertekend === 1
+                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>'
                         : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
 
-                    const schoolBadge = s.school_ondertekend === 1 
-                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>' 
+                    const schoolBadge = s.school_ondertekend === 1
+                        ? '<span class="status goedgekeurd" style="padding: 3px 8px; font-size: 11px;">Getekend</span>'
                         : '<span class="status in_afwachting" style="padding: 3px 8px; font-size: 11px;">Open</span>';
 
                     const statusTekst = `<div style="display: flex; gap: 5px;">S: ${studentBadge} B: ${bedrijfBadge} D: ${schoolBadge}</div>`;
 
-                    const actieKnop = s.aanvraag_id 
+                    const actieKnop = s.aanvraag_id
                         ? `<a href="/stageovereenkomst-detail?id=${s.aanvraag_id}" class="view-btn">Bekijken</a>`
                         : `<span style="color: #999; font-style: italic;">Geen overeenkomst</span>`;
 
@@ -142,4 +146,5 @@
             .catch(err => console.error("Fout bij laden overeenkomsten:", err));
     </script>
 </body>
+
 </html>

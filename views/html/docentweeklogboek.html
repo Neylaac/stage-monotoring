@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logboeken</title>
+    <title>Docent - Weeklogboek</title>
 
     <link rel="stylesheet" href="../CSS/logboeken.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,168 +13,76 @@
 <body>
 
 <aside class="sidebar">
-
     <div>
+        <div class="sidebar-title">Docent</div>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/home" class="menu-item">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
 
-        <a href="#" class="menu-item">
+        <a href="/docent/stageovereenkomsten" class="menu-item">
             <i class="fa-solid fa-briefcase"></i>
             <span>Stageovereenkomst</span>
         </a>
 
-        <a href="#" class="menu-item active">
+        <a href="/docent/studenten" class="menu-item active">
             <i class="fa-solid fa-graduation-cap"></i>
             <span>Studenten</span>
         </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-user"></i>
-            <span>Profiel</span>
-        </a>
-
     </div>
 
-    <a href="#" class="logout">
+    <a href="/logout" class="logout">
         <i class="fa-solid fa-right-from-bracket"></i>
-        Uitloggen
+        <span>Uitloggen</span>
     </a>
-
 </aside>
 
 <main class="main-content">
 
     <header class="topbar">
-
         <i class="fa-regular fa-bell"></i>
 
-        <div class="user-circle">
-            IM
+        <div class="user-circle" id="docentInitialen">
+            DO
         </div>
 
         <span class="ehb-logo">
-            ebsc
+            ehbc
         </span>
-
     </header>
 
     <section class="content">
 
-        <h1>Logboeken</h1>
+        <h1 id="weekTitel">
+            Weeklogboek
+        </h1>
 
-        <a href="docentstudentdetails.html"
-           class="back-link">
-
-            ← Terug naar student details
-
+        <a id="terugKnop" href="/docent/logboeken" class="back-link">
+            Terug naar logboeken
         </a>
 
-        <div style="
-            display:flex;
-            gap:15px;
-            margin:25px 0 20px 0;
-            align-items:center;
-        ">
-
-            <select style="
-                width:360px;
-                padding:12px;
-                border:1px solid #d6d6d6;
-                border-radius:6px;
-                background:white;
-            ">
-
-                <option>
-                    Week 12 (18/05 - 24/05)
-                </option>
-
-            </select>
-
-            <button class="disabled-btn">
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-
-            <button class="disabled-btn">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
-
-        </div>
-
-        <div class="logboek-table-card"
-             style="
-                border:1px solid #b6e3be;
-                background:#f7fbf6;
-             ">
-
-            <h2>
-                Weekcontrole door stagementor
-            </h2>
-
-            <table style="
-                width:100%;
-                border-spacing:0 15px;
-            ">
-
-                <tr>
-
-                    <td style="width:25%;">
-
-                        <strong>Status</strong>
-
-                        <br><br>
-
-                        <span class="logboek-status ingediend">
-                            Afgetekend
-                        </span>
-
-                    </td>
-
-                    <td style="width:25%;">
-
-                        <strong>Mentor</strong>
-
-                        <br><br>
-
-                        Samuel De Vis
-
-                    </td>
-
-                    <td>
-
-                        <strong>Feedback</strong>
-
-                        <br><br>
-
-                        Heel goede week,
-                        vergeet niet elke dag uw logboeken in te vullen
-
-                    </td>
-
-                </tr>
-
-            </table>
-
-        </div>
+        <div id="weekControle"></div>
 
         <div class="logboek-table-card">
 
             <table class="logboek-table">
 
                 <thead>
-
                     <tr>
                         <th>Dag</th>
                         <th>Status</th>
                         <th>Actie</th>
                     </tr>
-
                 </thead>
 
                 <tbody id="daglogboekenTabel">
-
+                    <tr>
+                        <td colspan="3">
+                            Dagen worden geladen.
+                        </td>
+                    </tr>
                 </tbody>
 
             </table>
@@ -183,6 +92,9 @@
     </section>
 
 </main>
-<script src="../JS/bedrijfLogboeken.js"></script>
+
+<script src="/JS/docentweeklogboek.js"></script>
+
 </body>
+
 </html>
